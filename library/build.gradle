@@ -34,7 +34,7 @@ ext {
     siteUrl = 'https://github.com/zsavely/PatternedTextWatcher'
     gitUrl = 'https://github.com/zsavely/PatternedTextWatcher.git'
 
-    libraryVersion = '0.1'
+    libraryVersion = '0.2'
 
     developerId = 'zsavely'
     developerName = 'Savelii Zagurskii'
