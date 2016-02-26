@@ -26,7 +26,7 @@ android {
 }
 
 dependencies {
-    compile project(':library')
+    compile project(':patternedtextwatcher')
 
     // Testing-only dependencies
     // Force usage of support annotations in the test app, since it is internally used by the runner module.
