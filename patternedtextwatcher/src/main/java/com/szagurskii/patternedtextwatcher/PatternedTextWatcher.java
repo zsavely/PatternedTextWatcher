@@ -444,12 +444,12 @@ public class PatternedTextWatcher implements TextWatcher {
          */
         public Builder(String pattern) {
             this.pattern = pattern;
-            this.specialChar = DEFAULT_CHAR;
-            this.fillExtraCharactersAutomatically = true;
-            this.deleteExtraCharactersAutomatically = true;
-            this.saveInput = false;
-            this.respectPatternLength = true;
-            this.debug = false;
+            this.specialChar = getDefaultChar();
+            this.fillExtraCharactersAutomatically = getDefaultFillExtra();
+            this.deleteExtraCharactersAutomatically = getDefaultDeleteExtra();
+            this.saveInput = getDefaultSaveInput();
+            this.respectPatternLength = getDefaultRespectPatternLength();
+            this.debug = getDefaultDebug();
         }
 
         /**
