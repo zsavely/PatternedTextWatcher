@@ -319,12 +319,11 @@ public class PatternedTextWatcher implements TextWatcher {
     }
 
     /**
-     * <br>Get the full string which was accumulated during the user's symbols addition.</br>
-     * <b><br>NOTE:</br></b>
-     * <br>This works inly if you have set
-     * {@link com.szagurskii.patternedtextwatcher.PatternedTextWatcher.Builder#saveAllInput(boolean)} to {@code true}
-     * <b>AND</b></br>
-     * {@link com.szagurskii.patternedtextwatcher.PatternedTextWatcher.Builder#fillExtraCharactersAutomatically(boolean)} to {@code false}.
+     * <p>Get the full string which was accumulated during the user's symbols addition.</p>
+     * <p><b>NOTE:</b></p>
+     * This works inly if you have set {@link Builder#saveAllInput(boolean)} to {@code true}
+     * <b>AND</b>
+     * {@link Builder#fillExtraCharactersAutomatically(boolean)} to {@code false}.
      *
      * @return the full string if the above criteria was met; {@link #getFormattedString()} otherwise.
      */
@@ -452,7 +451,7 @@ public class PatternedTextWatcher implements TextWatcher {
          * Set the special char which is to be replaced instead of the user input.
          *
          * @param specialChar special char consisting of one or more
-         * @return
+         * @return {@link Builder}
          */
         public Builder specialChar(String specialChar) {
             this.specialChar = specialChar;
@@ -463,7 +462,7 @@ public class PatternedTextWatcher implements TextWatcher {
          * Set the debug param in order to see the debug log in LogCat. Default is {@code false}.
          *
          * @param debug {@code true} to see debug log messages.
-         * @return
+         * @return {@link Builder}
          */
         public Builder debug(boolean debug) {
             this.debug = debug;
@@ -471,11 +470,11 @@ public class PatternedTextWatcher implements TextWatcher {
         }
 
         /**
-         * <br>Set the pattern to follow.</br>
-         * <br>Example: <b>{@code (###-###)}</b>.</br>
+         * <p>Set the pattern to follow.</p>
+         * <p>Example: <b>{@code (###-###)}</b>.</p>
          *
-         * @param pattern
-         * @return
+         * @param pattern pattern to follow.
+         * @return {@link Builder}
          */
         public Builder pattern(String pattern) {
             this.pattern = pattern;
@@ -483,12 +482,12 @@ public class PatternedTextWatcher implements TextWatcher {
         }
 
         /**
-         * <br>Fill extra characters automatically. Default is {@code true}.</br>
-         * <br>If you have a pattern with some characters that are not a part of the special characters,
-         * then this tweak will automatically insert these characters for the user.</br>
+         * <p>Fill extra characters automatically. Default is {@code true}.</p>
+         * <p>If you have a pattern with some characters that are not a part of the special characters,
+         * then this tweak will automatically insert these characters for the user.</p>
          *
          * @param fillExtraCharactersAutomatically whether you want the extra characters to be inserted automatically.
-         * @return
+         * @return {@link Builder}
          * @see Builder#deleteExtraCharactersAutomatically(boolean)
          * @see Builder#saveAllInput(boolean)
          */
@@ -501,7 +500,7 @@ public class PatternedTextWatcher implements TextWatcher {
          * Delete extra characters automatically. Default is {@code true}.
          *
          * @param deleteExtraCharactersAutomatically whether you want the extra characters to be deleted automatically.
-         * @return
+         * @return {@link Builder}
          * @see Builder#fillExtraCharactersAutomatically(boolean)
          * @see Builder#saveAllInput(boolean)
          */
@@ -517,7 +516,7 @@ public class PatternedTextWatcher implements TextWatcher {
          * when the extra characters are inserted automatically.
          *
          * @param saveInput whether you want to save the input of characters hidden under other characters.
-         * @return
+         * @return {@link Builder}
          * @see Builder#fillExtraCharactersAutomatically(boolean)
          * @see Builder#deleteExtraCharactersAutomatically(boolean)
          */
@@ -530,7 +529,7 @@ public class PatternedTextWatcher implements TextWatcher {
          * Get the maximum string length from the pattern. Default is {@code true}.
          *
          * @param respectPatternLength whether you want to respect pattern length.
-         * @return
+         * @return {@link Builder}
          */
         public Builder respectPatternLength(boolean respectPatternLength) {
             this.respectPatternLength = respectPatternLength;
