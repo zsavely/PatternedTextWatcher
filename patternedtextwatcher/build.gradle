@@ -7,8 +7,8 @@ android {
     defaultConfig {
         minSdkVersion 9
         targetSdkVersion 23
-        versionCode 1
-        versionName "0.1"
+        versionCode 4
+        versionName "0.4"
     }
     buildTypes {
         release {
@@ -34,7 +34,7 @@ ext {
     siteUrl = 'https://github.com/zsavely/PatternedTextWatcher'
     gitUrl = 'https://github.com/zsavely/PatternedTextWatcher.git'
 
-    libraryVersion = '0.3'
+    libraryVersion = '0.4'
 
     developerId = 'zsavely'
     developerName = 'Savelii Zagurskii'

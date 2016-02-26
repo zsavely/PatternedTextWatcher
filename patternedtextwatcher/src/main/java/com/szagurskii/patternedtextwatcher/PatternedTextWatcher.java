@@ -38,11 +38,14 @@ public class PatternedTextWatcher implements TextWatcher {
     private StringBuilder savedText;
 
     /**
-     * Initialize {@link PatternedTextWatcher}.
+     * Initialize {@link PatternedTextWatcher} with {@code pattern} and default parameters. For advanced tweaking use {@link Builder}.
      *
-     * @param pattern     the pattern of the text watcher.
-     * @param specialChar special character(-s) to be replaced.
+     * @param pattern the pattern of the text watcher.
      */
+    public PatternedTextWatcher(String pattern) {
+        this(pattern, getDefaultChar(), getDefaultFillExtra(), getDefaultDeleteExtra(), getDefaultSaveInput(), getDefaultRespectPatternLength(), getDefaultDebug());
+    }
+
     private PatternedTextWatcher(String pattern,
                                  String specialChar,
                                  boolean fillExtra,
@@ -50,6 +53,8 @@ public class PatternedTextWatcher implements TextWatcher {
                                  boolean saveInput,
                                  boolean respectPatternLength,
                                  boolean debug) {
+        checkPatternInput(pattern);
+
         this.pattern = pattern;
         this.fillExtra = fillExtra;
         this.deleteExtra = deleteExtra;
@@ -77,7 +82,7 @@ public class PatternedTextWatcher implements TextWatcher {
             char c = pattern.charAt(i);
 
             // If current char is present in special characters that we must replace,
-            // we just save the first index of the special character to replace.
+            // save it.
             if (specialCharacters.contains(c)) {
                 normalCharactersByIndex.put(i, c);
             }
@@ -542,24 +547,9 @@ public class PatternedTextWatcher implements TextWatcher {
          * @return a {@link PatternedTextWatcher} which you can use for {@link android.widget.TextView}, {@link android.widget.EditText}, etc.
          */
         public PatternedTextWatcher build() {
-            if (pattern == null) {
-                throw new NullPointerException("Pattern can't be null.");
-            }
-            if (pattern.isEmpty()) {
-                throw new IllegalArgumentException("Pattern can't be empty.");
-            }
-            if (specialChar == null) {
-                throw new NullPointerException("Special char can't be null.");
-            }
-            if (specialChar.isEmpty()) {
-                throw new IllegalArgumentException("Special char can't be empty.");
-            }
-            if (specialChar.length() > 1) {
-                throw new IllegalArgumentException("Special char must be length = 1.");
-            }
-            if (saveInput && fillExtraCharactersAutomatically) {
-                throw new IllegalArgumentException("It is impossible to save input when the characters are filled automatically instead of characters.");
-            }
+            checkPatternInput(pattern);
+            checkInput(specialChar, saveInput, fillExtraCharactersAutomatically);
+
             return new PatternedTextWatcher(pattern,
                                             specialChar,
                                             fillExtraCharactersAutomatically,
@@ -568,5 +558,53 @@ public class PatternedTextWatcher implements TextWatcher {
                                             respectPatternLength,
                                             debug);
         }
+    }
+
+    private static void checkPatternInput(String pattern) {
+        if (pattern == null) {
+            throw new NullPointerException("Pattern can't be null.");
+        }
+        if (pattern.isEmpty()) {
+            throw new IllegalArgumentException("Pattern can't be empty.");
+        }
+    }
+
+    private static void checkInput(String specialChar, boolean saveInput, boolean fillExtraCharactersAutomatically) {
+        if (specialChar == null) {
+            throw new NullPointerException("Special char can't be null.");
+        }
+        if (specialChar.isEmpty()) {
+            throw new IllegalArgumentException("Special char can't be empty.");
+        }
+        if (specialChar.length() > 1) {
+            throw new IllegalArgumentException("Special char must be length = 1.");
+        }
+        if (saveInput && fillExtraCharactersAutomatically) {
+            throw new IllegalArgumentException("It is impossible to save input when the characters are filled automatically instead of characters.");
+        }
+    }
+
+    private static String getDefaultChar() {
+        return DEFAULT_CHAR;
+    }
+
+    private static boolean getDefaultFillExtra() {
+        return true;
+    }
+
+    private static boolean getDefaultDeleteExtra() {
+        return true;
+    }
+
+    private static boolean getDefaultSaveInput() {
+        return false;
+    }
+
+    private static boolean getDefaultRespectPatternLength() {
+        return true;
+    }
+
+    private static boolean getDefaultDebug() {
+        return false;
     }
 }
