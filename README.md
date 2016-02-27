@@ -3,6 +3,40 @@ PatternedTextWatcher
 
 Customizable TextWatcher for implementing different input types very quickly.
 
+[![Download](https://api.bintray.com/packages/zsavely/maven/patternedtextwatcher/images/download.svg) ](https://bintray.com/zsavely/maven/patternedtextwatcher/_latestVersion)
+
+### Dependency
+```groovy
+compile 'com.szagurskii:patternedtextwatcher:0.4.1'
+```
+
+### How to use
+
+1. Basic setup
+
+    ```java
+     // Format input string as in the pattern.
+     EditText editText = (EditText) findViewById(R.id.edittext);
+     editText.addTextChangedListener(new PatternedTextWatcher("(###) ###-##-##"));
+     
+     // Format four digits to a mask of a credit card number. 
+     TextView textView = (TextView) findViewById(R.id.textview);
+     textView.addTextChangedListener(new PatternedTextWatcher("**** **** **** ####"));
+    ```
+
+2. Advanced setup
+    ```java
+     EditText editText = (EditText) findViewById(R.id.edittext);
+     PatternedTextWatcher patternedTextWatcher = new PatternedTextWatcher.Builder("###-###")
+            .fillExtraCharactersAutomatically(true)
+            .deleteExtraCharactersAutomatically(true)
+            .specialChar("#")
+            .respectPatternLength(true)
+            .saveAllInput(false)
+            .build();
+     editText.addTextChangedListener(patternedTextWatcher);
+    ```
+    
 ### License
 
     The MIT License (MIT)
