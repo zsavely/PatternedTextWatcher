@@ -1,9 +1,9 @@
 PatternedTextWatcher
 ========
+[![Build Status](https://travis-ci.org/zsavely/PatternedTextWatcher.svg?branch=master)](https://travis-ci.org/zsavely/PatternedTextWatcher)
+[![Download](https://api.bintray.com/packages/zsavely/maven/patternedtextwatcher/images/download.svg) ](https://bintray.com/zsavely/maven/patternedtextwatcher/_latestVersion)
 
 Customizable TextWatcher for implementing different input types very quickly.
-
-[![Download](https://api.bintray.com/packages/zsavely/maven/patternedtextwatcher/images/download.svg) ](https://bintray.com/zsavely/maven/patternedtextwatcher/_latestVersion)
 
 ### Dependency
 ```groovy
