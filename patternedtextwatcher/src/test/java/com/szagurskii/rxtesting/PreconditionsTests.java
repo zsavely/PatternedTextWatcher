@@ -24,6 +24,11 @@ public class PreconditionsTests {
         PatternedTextWatcher patternedTextWatcher = new PatternedTextWatcher("");
     }
 
+    @Test(expected = IllegalStateException.class)
+    public void shouldThrowIfPatternHasNoSpecialCharacter() {
+        PatternedTextWatcher patternedTextWatcher = new PatternedTextWatcher("NoSpecialCharacter");
+    }
+
     @Test(expected = NullPointerException.class)
     public void shouldThrowIfNullInBuilder() {
         PatternedTextWatcher patternedTextWatcher = new PatternedTextWatcher.Builder(null)
@@ -33,6 +38,12 @@ public class PreconditionsTests {
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowIfEmptyInBuilder() {
         PatternedTextWatcher patternedTextWatcher = new PatternedTextWatcher.Builder("")
+                .build();
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void shouldThrowIfCharDoesntExistInPattern() {
+        PatternedTextWatcher patternedTextWatcher = new PatternedTextWatcher.Builder("(NoSpecialChar)")
                 .build();
     }
 
@@ -64,12 +75,4 @@ public class PreconditionsTests {
                 .saveAllInput(true)
                 .build();
     }
-
-    // Not yet merged.
-    //@Test(expected = IllegalStateException.class)
-    //public void shouldThrowIfCharDoesntExistInPattern() {
-    //    PatternedTextWatcher patternedTextWatcher = new PatternedTextWatcher.Builder("(NoSpecialChar)")
-    //            .build();
-    //}
-
 }
