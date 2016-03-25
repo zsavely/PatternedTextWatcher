@@ -130,10 +130,10 @@ public class PatternedTextWatcher implements TextWatcher {
                     // Delete all chars that exceed the limit.
                     sb.delete(maxLength, sb.length());
                 }
-                // Check if we need to insert characters.
-                if (!validatePattern(sb)) {
-                    insertCharactersIfNeeded(sb);
-                }
+            }
+            // Check if we need to insert characters.
+            if (!validatePattern(sb)) {
+                insertCharactersIfNeeded(sb);
             }
             // Finalize the string by replacing the old object into a new one.
             checkIfReplaceIsNeeded(s, sb);
@@ -173,9 +173,9 @@ public class PatternedTextWatcher implements TextWatcher {
             if (saveInput) {
                 savedText.append(sb.charAt(sb.length() - 1));
             }
-
-            insertCharactersIfNeeded(sb);
         }
+        if (!areThereCharsLeftToReplace(sb))
+            insertCharactersIfNeeded(sb);
     }
 
     /**
@@ -195,22 +195,17 @@ public class PatternedTextWatcher implements TextWatcher {
         if (deleteExtra) {
             // If the user deleted a pattern character.
             if (patternCharactersByIndex.get(lastText.length() - 1) != null) {
-                // If next symbols are also pattern characters,
-                // we need to delete them, too.
-                while (patternCharactersByIndex.get(sb.length() - 1) != null) {
-                    sb.deleteCharAt(sb.length() - 1);
-                }
+                deleteIfNextSymbolsArePatternCharacters(sb);
+
                 // Then we delete the symbol, which was intended to be deleted initially.
                 if (sb.length() != 0)
                     sb.deleteCharAt(sb.length() - 1);
+
+                deleteIfNextSymbolsArePatternCharacters(sb);
             }
             // If the user deleted a normal character.
             else {
-                // If next symbols are pattern characters,
-                // we need to delete them, too.
-                while (patternCharactersByIndex.get(sb.length() - 1) != null) {
-                    sb.deleteCharAt(sb.length() - 1);
-                }
+                deleteIfNextSymbolsArePatternCharacters(sb);
             }
         }
         if (saveInput) {
@@ -220,6 +215,33 @@ public class PatternedTextWatcher implements TextWatcher {
                 savedText.deleteCharAt(savedText.length() - 1);
             }
         }
+    }
+
+    /**
+     * If next symbols are also pattern characters,
+     * we need to delete them, too.
+     *
+     * @param sb current string.
+     */
+    private void deleteIfNextSymbolsArePatternCharacters(StringBuilder sb) {
+        // If next symbols are also pattern characters,
+        // we need to delete them, too.
+        while (patternCharactersByIndex.get(sb.length() - 1) != null) {
+            sb.deleteCharAt(sb.length() - 1);
+        }
+    }
+
+    /**
+     * Determine if there are chars left to replace with user input.
+     *
+     * @param sb current string.
+     * @return {@code true} if there are chars left to replace. {@code false} otherwise.
+     */
+    private boolean areThereCharsLeftToReplace(StringBuilder sb) {
+        if (normalCharactersByIndex.get(sb.length()) != null) {
+            return true;
+        }
+        return false;
     }
 
     /**
