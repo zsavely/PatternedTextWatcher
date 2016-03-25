@@ -127,7 +127,12 @@ public class PatternedTextWatcher implements TextWatcher {
             // we just delete the last symbol.
             else {
                 if (sb.length() != 0) {
-                    sb.deleteCharAt(sb.length() - 1);
+                    // Delete all chars that exceed the limit.
+                    sb.delete(maxLength, sb.length());
+                }
+                // Check if we need to insert characters.
+                if (!validatePattern(sb)) {
+                    insertCharactersIfNeeded(sb);
                 }
             }
             // Finalize the string by replacing the old object into a new one.
@@ -169,41 +174,7 @@ public class PatternedTextWatcher implements TextWatcher {
                 savedText.append(sb.charAt(sb.length() - 1));
             }
 
-            if (sb.length() >= firstIndexToCheck) {
-                int i = firstIndexToCheck;
-
-                while (i <= sb.length()) {
-                    // First check the length of current string.
-                    // If we exceed the max limit, we need to delete symbols.
-                    deleteIfLengthExceeds(sb);
-
-                    // Then we insert the next character if there is a one.
-                    if (fillExtra) {
-                        insertCharacterIfAvailable(sb, i);
-                    }
-
-                    i++;
-                }
-            }
-        }
-    }
-
-    /**
-     * Insert the pattern character by the specified index if there is one.
-     *
-     * @param sb current string.
-     * @param i  current index to look.
-     */
-    private void insertCharacterIfAvailable(StringBuilder sb, int i) {
-        Character charToInsert = patternCharactersByIndex.get(i);
-        if (charToInsert != null) {
-            if (i < sb.length()) {
-                if (!charToInsert.equals(sb.charAt(i))) {
-                    sb.insert(i, charToInsert);
-                }
-            } else {
-                sb.insert(i, charToInsert);
-            }
+            insertCharactersIfNeeded(sb);
         }
     }
 
@@ -252,13 +223,58 @@ public class PatternedTextWatcher implements TextWatcher {
     }
 
     /**
+     * Insert all missing character if needed.
+     *
+     * @param sb current string.
+     */
+    private void insertCharactersIfNeeded(StringBuilder sb) {
+        if (sb.length() >= firstIndexToCheck) {
+            int i = firstIndexToCheck;
+
+            while (i <= sb.length()) {
+                // First check the length of current string.
+                // If we exceed the max limit, we need to delete symbols.
+                deleteOneLastCharIfLengthExceeds(sb);
+
+                // Then we insert the next character if there is a one.
+                if (fillExtra) {
+                    insertCharacterIfAvailable(sb, i);
+                }
+
+                i++;
+            }
+        }
+    }
+
+    /**
+     * Insert the pattern character by the specified index if there is one.
+     *
+     * @param sb current string.
+     * @param i  current index to look.
+     */
+    private void insertCharacterIfAvailable(StringBuilder sb, int i) {
+        Character charToInsert = patternCharactersByIndex.get(i);
+        if (charToInsert != null) {
+            if (i < sb.length()) {
+                if (!charToInsert.equals(sb.charAt(i))) {
+                    sb.insert(i, charToInsert);
+                }
+            } else {
+                sb.insert(i, charToInsert);
+            }
+        }
+    }
+
+    /**
      * Check whether the Editable is empty or full.
      *
      * @param s the editable to check.
      * @return {@code false} if the {@code s} is empty or exceeds the maximum limit. {@code true} otherwise.
      */
     private boolean isValidInLength(Editable s) {
-        return (!respectPatternLength || s.length() <= maxLength);
+        if (respectPatternLength && s.length() > maxLength)
+            return false;
+        return true;
     }
 
     /**
@@ -279,7 +295,7 @@ public class PatternedTextWatcher implements TextWatcher {
      *
      * @param sb current string.
      */
-    private void deleteIfLengthExceeds(StringBuilder sb) {
+    private void deleteOneLastCharIfLengthExceeds(StringBuilder sb) {
         if (sb.length() > maxLength && respectPatternLength) {
             sb.delete(sb.length() - 1, sb.length());
         }
@@ -292,7 +308,6 @@ public class PatternedTextWatcher implements TextWatcher {
      * @return {@code true} if the pattern is followed correctly. {@code false} otherwise.
      */
     private boolean validatePattern(StringBuilder sb) {
-        // TODO Think what to do if something is not on their places.
         boolean patternValidated = true;
         for (Map.Entry<Integer, Character> entry : patternCharactersByIndex.entrySet()) {
             if (entry.getValue() != null) {
