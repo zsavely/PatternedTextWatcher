@@ -22,6 +22,21 @@ import static junit.framework.Assert.assertTrue;
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
 @RunWith(RobolectricGradleTestRunner.class)
 public class AdditionTests {
+
+    // 11 chars
+    private static final String STRING_TO_BE_TYPED_MORE_THAN_PATTERN = "12345678912";
+
+    // 8 chars
+    private static final String STRING_TO_BE_TYPED_LESS_THAN_PATTERN = "12345678";
+
+    // 1 char
+    private static final String STRING_TO_BE_TYPED_LENGTH_ONE = "1";
+
+    // 9 chars.
+    private static final String PATTERN = "(###-###)";
+
+    private static final String EDITTEXT_ERROR_STRING = "EditText contains incorrect text.";
+
     private Activity activity;
     private EditText editText;
 
@@ -33,17 +48,39 @@ public class AdditionTests {
 
     @Test
     public void validateAddingAndRemovingTextWatcher() {
-        PatternedTextWatcher patternedTextWatcher = new PatternedTextWatcher("(###-###)");
-        editText.addTextChangedListener(patternedTextWatcher);
-        editText.removeTextChangedListener(patternedTextWatcher);
+        PatternedTextWatcher patternedTextWatcher = addTextChangedListener();
+        clearTextChangeListener(patternedTextWatcher);
     }
 
     @Test
-    public void basicAddition() {
-        PatternedTextWatcher patternedTextWatcher = new PatternedTextWatcher("(###-###)");
+    public void basicSingleAddition() {
+        basicTest(STRING_TO_BE_TYPED_LENGTH_ONE, "(1");
+    }
+
+    @Test
+    public void basicAdditionMoreThanPattern() {
+        basicTest(STRING_TO_BE_TYPED_MORE_THAN_PATTERN, "(123-456)");
+    }
+
+    @Test
+    public void basicAdditionLessThanPattern() {
+        basicTest(STRING_TO_BE_TYPED_LESS_THAN_PATTERN, "(123-456)");
+    }
+
+    private void basicTest(String appended, String expected) {
+        PatternedTextWatcher patternedTextWatcher = addTextChangedListener();
+        editText.setText(appended);
+        assertTrue(EDITTEXT_ERROR_STRING, editText.getText().toString().equals(expected));
+        clearTextChangeListener(patternedTextWatcher);
+    }
+
+    private PatternedTextWatcher addTextChangedListener() {
+        PatternedTextWatcher patternedTextWatcher = new PatternedTextWatcher(PATTERN);
         editText.addTextChangedListener(patternedTextWatcher);
-        editText.append("3");
-        assertTrue("EditText contains incorrect text.", "(3".equals(editText.getText().toString()));
+        return patternedTextWatcher;
+    }
+
+    private void clearTextChangeListener(PatternedTextWatcher patternedTextWatcher) {
         editText.removeTextChangedListener(patternedTextWatcher);
     }
 }
