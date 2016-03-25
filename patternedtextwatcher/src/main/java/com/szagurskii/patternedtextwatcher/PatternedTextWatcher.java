@@ -43,17 +43,16 @@ public class PatternedTextWatcher implements TextWatcher {
      * @param pattern the pattern of the text watcher.
      */
     public PatternedTextWatcher(String pattern) {
-        this(pattern, getDefaultChar(), getDefaultFillExtra(), getDefaultDeleteExtra(), getDefaultSaveInput(), getDefaultRespectPatternLength(), getDefaultDebug());
+        this(pattern, getDefaultChar(), getDefaultFillExtra(), getDefaultDeleteExtra(),
+             getDefaultSaveInput(), getDefaultRespectPatternLength(), getDefaultDebug());
     }
 
-    private PatternedTextWatcher(String pattern,
-                                 String specialChar,
-                                 boolean fillExtra,
-                                 boolean deleteExtra,
-                                 boolean saveInput,
-                                 boolean respectPatternLength,
+    private PatternedTextWatcher(String pattern, String specialChar, boolean fillExtra,
+                                 boolean deleteExtra, boolean saveInput, boolean respectPatternLength,
                                  boolean debug) {
         checkPatternInput(pattern);
+        checkInput(specialChar, saveInput, fillExtra);
+        checkPatternInInput(pattern, specialChar);
 
         this.pattern = pattern;
         this.fillExtra = fillExtra;
@@ -549,6 +548,7 @@ public class PatternedTextWatcher implements TextWatcher {
         public PatternedTextWatcher build() {
             checkPatternInput(pattern);
             checkInput(specialChar, saveInput, fillExtraCharactersAutomatically);
+            checkPatternInInput(pattern, specialChar);
 
             return new PatternedTextWatcher(pattern,
                                             specialChar,
@@ -581,6 +581,12 @@ public class PatternedTextWatcher implements TextWatcher {
         }
         if (saveInput && fillExtraCharactersAutomatically) {
             throw new IllegalArgumentException("It is impossible to save input when the characters are filled automatically instead of characters.");
+        }
+    }
+
+    private static void checkPatternInInput(String pattern, String specialChar) {
+        if (!pattern.contains(specialChar)) {
+            throw new IllegalStateException("There should be at least one special character in the pattern string.");
         }
     }
 
