@@ -6,6 +6,7 @@ import android.widget.EditText;
 
 import com.szagurskii.patternedtextwatcher.BuildConfig;
 import com.szagurskii.patternedtextwatcher.PatternedTextWatcher;
+import com.szagurskii.rxtesting.models.PatternCheck;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -45,9 +46,11 @@ public class AdditionTests {
     // 9 chars
     private static final String STRING_TO_BE_TYPED_LENGTH_NINE = "123456789";
     // 10 chars
-    private static final String STRING_TO_BE_TYPED_LENGTH_TEN = "1234567891";
+    private static final String STRING_TO_BE_TYPED_LENGTH_TEN = "1234567890";
     // 11 chars
-    private static final String STRING_TO_BE_TYPED_LENGTH_ELEVEN = "12345678912";
+    private static final String STRING_TO_BE_TYPED_LENGTH_ELEVEN = "12345678901";
+    // 12 chars
+    private static final String STRING_TO_BE_TYPED_LENGTH_TWELVE = "123456789012";
 
     // 9 chars
     private static final String PATTERN_1 = "(###-###)";
@@ -67,6 +70,19 @@ public class AdditionTests {
         PATTERN_CHECKS.add(new PatternCheck("(-######-)", STRING_TO_BE_TYPED_LENGTH_SIX, "(-123456-)"));
         PATTERN_CHECKS.add(new PatternCheck("(-#-#-#-#-#-#-)", STRING_TO_BE_TYPED_LENGTH_SIX, "(-1-2-3-4-5-6-)"));
         PATTERN_CHECKS.add(new PatternCheck("(-#-#-#-#-#-#-)))))))))))))))))))))", STRING_TO_BE_TYPED_LENGTH_SIX, "(-1-2-3-4-5-6-)))))))))))))))))))))"));
+
+        PATTERN_CHECKS.add(new PatternCheck("+# (###) ###-##-##", STRING_TO_BE_TYPED_LENGTH_ELEVEN, "+1 (234) 567-89-01"));
+        PATTERN_CHECKS.add(new PatternCheck("+# (###) ###-##-##", STRING_TO_BE_TYPED_LENGTH_TWELVE, "+1 (234) 567-89-01"));
+
+        //PATTERN_CHECKS.add(new PatternCheck(")))###(((###", "((()))", ")))(((((()))"));
+        //PATTERN_CHECKS.add(new PatternCheck(")))######(((", "((()))", ")))((()))((("));
+        //PATTERN_CHECKS.add(new PatternCheck("###)))(((###", "((()))", "((()))((()))"));
+        //PATTERN_CHECKS.add(new PatternCheck("###)))###(((", "((()))", "((())))))((("));
+        //
+        //PATTERN_CHECKS.add(new PatternCheck("(((###)))###", "((()))", "(((((())))))"));
+        //PATTERN_CHECKS.add(new PatternCheck("(((######)))", "((()))", "(((((())))))"));
+        //PATTERN_CHECKS.add(new PatternCheck("###((()))###", "((()))", "(((((())))))"));
+        //PATTERN_CHECKS.add(new PatternCheck("###(((###)))", "((()))", "(((((())))))"));
     }
 
     private static final String EDITTEXT_ERROR_STRING = "EditText contains incorrect text.";

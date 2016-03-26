@@ -16,7 +16,7 @@ public class MainActivity extends Activity {
 
         if (!isInstrumentedRun()) {
             EditText editText = (EditText) findViewById(R.id.et_sample);
-            editText.addTextChangedListener(new PatternedTextWatcher.Builder("(##-##))))#)))#")
+            editText.addTextChangedListener(new PatternedTextWatcher.Builder("###)))(((###")
                                                     .fillExtraCharactersAutomatically(true)
                                                     .deleteExtraCharactersAutomatically(true)
                                                     .debug(true)

@@ -1,4 +1,4 @@
-package com.szagurskii.rxtesting;
+package com.szagurskii.rxtesting.models;
 
 /**
  * @author Savelii Zagurskii

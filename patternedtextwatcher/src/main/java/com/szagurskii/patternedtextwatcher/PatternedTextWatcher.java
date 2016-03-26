@@ -44,7 +44,7 @@ public class PatternedTextWatcher implements TextWatcher {
      */
     public PatternedTextWatcher(String pattern) {
         this(pattern, getDefaultChar(), getDefaultFillExtra(), getDefaultDeleteExtra(),
-             getDefaultSaveInput(), getDefaultRespectPatternLength(), getDefaultDebug());
+                getDefaultSaveInput(), getDefaultRespectPatternLength(), getDefaultDebug());
     }
 
     private PatternedTextWatcher(String pattern, String specialChar, boolean fillExtra,
@@ -278,8 +278,18 @@ public class PatternedTextWatcher implements TextWatcher {
         Character charToInsert = patternCharactersByIndex.get(i);
         if (charToInsert != null) {
             if (i < sb.length()) {
+                /**
+                 * TODO Fix required.
+                 * If there are already such symbols (that were batch-inserted),
+                 * we won't be able to insert.
+                 */
                 if (!charToInsert.equals(sb.charAt(i))) {
                     sb.insert(i, charToInsert);
+                } else {
+                    Character normal = normalCharactersByIndex.get(i);
+                    if (normal != null) {
+                        sb.insert(i, charToInsert);
+                    }
                 }
             } else {
                 sb.insert(i, charToInsert);
@@ -336,12 +346,12 @@ public class PatternedTextWatcher implements TextWatcher {
                 if (sb.length() > entry.getKey()) {
                     if (!entry.getValue().equals(sb.charAt(entry.getKey()))) {
                         LogUtils.logw("validatePattern",
-                                      String.format("Assertion error! Expected \"%1$s\" in index \'%2$s\'." +
-                                                            "\nGot \"%3$s\".",
-                                                    entry.getValue(),
-                                                    entry.getKey(),
-                                                    sb.charAt(entry.getKey())),
-                                      debug);
+                                String.format("Assertion error! Expected \"%1$s\" in index \'%2$s\'." +
+                                                "\nGot \"%3$s\".",
+                                        entry.getValue(),
+                                        entry.getKey(),
+                                        sb.charAt(entry.getKey())),
+                                debug);
                         patternValidated = false;
                     }
                 }
@@ -588,12 +598,12 @@ public class PatternedTextWatcher implements TextWatcher {
             checkPatternInInput(pattern, specialChar);
 
             return new PatternedTextWatcher(pattern,
-                                            specialChar,
-                                            fillExtraCharactersAutomatically,
-                                            deleteExtraCharactersAutomatically,
-                                            saveInput,
-                                            respectPatternLength,
-                                            debug);
+                    specialChar,
+                    fillExtraCharactersAutomatically,
+                    deleteExtraCharactersAutomatically,
+                    saveInput,
+                    respectPatternLength,
+                    debug);
         }
     }
 
