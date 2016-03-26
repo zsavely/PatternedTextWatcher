@@ -32,19 +32,19 @@ public class TextInsertionPatternTests {
     @Test
     public void simpleTextChanged() {
         addTextChangedListener("(##-##)");
-        Utils.insertTextAtOnceAndAssert("(Es-pr)", "(Es-pr)");
+        Utils.insertTextAtOnceAndAssert("Espr", "(Es-pr)");
     }
 
     @Test
     public void basicTest() {
         addTextChangedListener("(###)");
-        Utils.insertTextAtOnceAndAssert("(Esp)", "(Esp)");
+        Utils.insertTextAtOnceAndAssert("Espresso", "(Esp)");
     }
 
     @Test
     public void basicTest2() {
         addTextChangedListener("(### ###)");
-        Utils.insertTextAtOnceAndAssert("(Esp res)", "(Esp res)");
+        Utils.insertTextAtOnceAndAssert("Espresso", "(Esp res)");
     }
 
     @Test
@@ -62,13 +62,13 @@ public class TextInsertionPatternTests {
     @Test
     public void basicTest4() {
         addTextChangedListener("(### ### ##)");
-        Utils.insertTextAtOnceAndAssert("(Esp res so)", "(Esp res so)");
+        Utils.insertTextAtOnceAndAssert("Espresso", "(Esp res so)");
     }
 
     @Test
     public void basicTest5() {
         addTextChangedListener("### ### ##)");
-        Utils.insertTextAtOnceAndAssert("Esp res so)", "Esp res so)");
+        Utils.insertTextAtOnceAndAssert("Espresso", "Esp res so)");
     }
 
     private void addTextChangedListener(String pattern) {

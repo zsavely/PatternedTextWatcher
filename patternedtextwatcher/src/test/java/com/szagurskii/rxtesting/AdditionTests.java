@@ -74,18 +74,19 @@ public class AdditionTests {
         PATTERN_CHECKS.add(new PatternCheck("+# (###) ###-##-##", STRING_TO_BE_TYPED_LENGTH_ELEVEN, "+1 (234) 567-89-01"));
         PATTERN_CHECKS.add(new PatternCheck("+# (###) ###-##-##", STRING_TO_BE_TYPED_LENGTH_TWELVE, "+1 (234) 567-89-01"));
 
-        //PATTERN_CHECKS.add(new PatternCheck(")))###(((###", "((()))", ")))(((((()))"));
-        //PATTERN_CHECKS.add(new PatternCheck(")))######(((", "((()))", ")))((()))((("));
-        //PATTERN_CHECKS.add(new PatternCheck("###)))(((###", "((()))", "((()))((()))"));
-        //PATTERN_CHECKS.add(new PatternCheck("###)))###(((", "((()))", "((())))))((("));
-        //
-        //PATTERN_CHECKS.add(new PatternCheck("(((###)))###", "((()))", "(((((())))))"));
-        //PATTERN_CHECKS.add(new PatternCheck("(((######)))", "((()))", "(((((())))))"));
-        //PATTERN_CHECKS.add(new PatternCheck("###((()))###", "((()))", "(((((())))))"));
-        //PATTERN_CHECKS.add(new PatternCheck("###(((###)))", "((()))", "(((((())))))"));
+        PATTERN_CHECKS.add(new PatternCheck(")))###(((###", "((()))", ")))(((((()))"));
+        PATTERN_CHECKS.add(new PatternCheck(")))######(((", "((()))", ")))((()))((("));
+        PATTERN_CHECKS.add(new PatternCheck("###)))(((###", "((()))", "((()))((()))"));
+        PATTERN_CHECKS.add(new PatternCheck("###)))###(((", "((()))", "((())))))((("));
+
+        PATTERN_CHECKS.add(new PatternCheck("(((###)))###", "((()))", "(((((())))))"));
+        PATTERN_CHECKS.add(new PatternCheck("(((######)))", "((()))", "(((((())))))"));
+        PATTERN_CHECKS.add(new PatternCheck("###((()))###", "((()))", "(((((())))))"));
+        PATTERN_CHECKS.add(new PatternCheck("###(((###)))", "((()))", "(((((())))))"));
     }
 
-    private static final String EDITTEXT_ERROR_STRING = "EditText contains incorrect text.";
+    private static final String EDITTEXT_ERROR_STRING = "EditText contains incorrect text. " +
+            "{Appended: \'%1$s\'; Expected: \'%2$s\'; Actual: \'%3$s\'; Pattern: \'%4$s\'.}";
 
     private Activity activity;
     private EditText editText;
@@ -108,9 +109,11 @@ public class AdditionTests {
 
     @Test
     public void basicMultipleAddition() {
-        appendAndCheck(STRING_TO_BE_TYPED_LENGTH_TWO, "(12", false);
-        appendAndCheck(STRING_TO_BE_TYPED_LENGTH_TWO, "(121-2", false);
-        appendAndCheck(STRING_TO_BE_TYPED_LENGTH_EIGHT, "(121-212)");
+        PatternedTextWatcher patternedTextWatcher = addTextChangedListener(editText, PATTERN_1);
+        appendAndAssert("(12", STRING_TO_BE_TYPED_LENGTH_TWO, PATTERN_1);
+        appendAndAssert("(121-2", STRING_TO_BE_TYPED_LENGTH_TWO, PATTERN_1);
+        appendAndAssert("(121-212)", STRING_TO_BE_TYPED_LENGTH_EIGHT, PATTERN_1);
+        clearTextChangeListener(editText, patternedTextWatcher, true);
     }
 
     @Test
@@ -159,9 +162,15 @@ public class AdditionTests {
 
     private void appendAndCheck(String appended, String expected, String pattern, boolean clearText) {
         PatternedTextWatcher patternedTextWatcher = addTextChangedListener(editText, pattern);
-        editText.append(appended);
-        assertTrue(EDITTEXT_ERROR_STRING, editText.getText().toString().equals(expected));
+        appendAndAssert(expected, appended, pattern);
         clearTextChangeListener(editText, patternedTextWatcher, clearText);
+    }
+
+    private void appendAndAssert(String expected, String typed, String pattern) {
+        editText.append(typed);
+        assertTrue(String.format(EDITTEXT_ERROR_STRING, typed, expected,
+                        editText.getText().toString(), pattern),
+                editText.getText().toString().equals(expected));
     }
 
     private static PatternedTextWatcher addTextChangedListener(EditText editText, String pattern) {
@@ -172,7 +181,10 @@ public class AdditionTests {
 
     private static void clearTextChangeListener(EditText editText, PatternedTextWatcher patternedTextWatcher, boolean clearText) {
         editText.removeTextChangedListener(patternedTextWatcher);
-        if (clearText)
+        if (clearText) {
             editText.getText().clear();
+        } else {
+            editText.setSelection(editText.length());
+        }
     }
 }

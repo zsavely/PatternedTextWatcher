@@ -26,12 +26,14 @@ public class PatternedTextWatcher implements TextWatcher {
     private final Set<Character> specialCharacters;
     private final Map<Integer, Character> patternCharactersByIndex;
     private final Map<Integer, Character> normalCharactersByIndex;
-    private final int firstIndexToCheck;
     private final boolean fillExtra;
     private final boolean deleteExtra;
     private final boolean saveInput;
     private final boolean respectPatternLength;
     private final boolean debug;
+
+    private int firstIndexToCheck;
+    private int lastIndexToCheck;
 
     private String lastText;
     private boolean enabled;
@@ -65,18 +67,16 @@ public class PatternedTextWatcher implements TextWatcher {
         this.specialCharacters = new HashSet<>(ConversionUtils.asList(specialChar));
         this.patternCharactersByIndex = new HashMap<>();
         this.normalCharactersByIndex = new HashMap<>();
-
-        int firstIndexToCheck = -1;
-        firstIndexToCheck = initializeIndexes(pattern, firstIndexToCheck);
-        // TODO Think this problem over. Why didn't the 'firstIndexToCheck' initialize?
-        this.firstIndexToCheck = firstIndexToCheck == -1 ? 0 : firstIndexToCheck;
-
         this.lastText = "";
         this.enabled = true;
         this.savedText = new StringBuilder();
+        this.firstIndexToCheck = -1;
+        this.lastIndexToCheck = -1;
+
+        initializeIndexes(pattern);
     }
 
-    private int initializeIndexes(String pattern, int firstIndexToCheck) {
+    private void initializeIndexes(String pattern) {
         for (int i = 0; i < pattern.length(); i++) {
             char c = pattern.charAt(i);
 
@@ -91,10 +91,18 @@ public class PatternedTextWatcher implements TextWatcher {
                 if (firstIndexToCheck == -1)
                     firstIndexToCheck = i;
 
+                lastIndexToCheck = i;
                 patternCharactersByIndex.put(i, c);
             }
         }
-        return firstIndexToCheck;
+        if (firstIndexToCheck == -1) {
+            // We don't have any chars to automatically insert.
+            firstIndexToCheck = 0;
+        }
+        if (lastIndexToCheck <= 0) {
+            // We don't have any chars to automatically insert.
+            lastIndexToCheck = pattern.length();
+        }
     }
 
     @Override
@@ -114,8 +122,17 @@ public class PatternedTextWatcher implements TextWatcher {
         if (isEnabled()) {
             StringBuilder sb = new StringBuilder(s);
 
-            // If current text is valid in length, proceed.
-            if (isValidInLength(s)) {
+            if (!isValidInLength(s)) {
+                if (sb.length() != 0) {
+                    // Delete all chars that exceed the limit.
+                    sb.delete(maxLength, sb.length());
+                }
+            }
+            // Batch insert.
+            if (sb.length() - lastText.length() > 1) {
+                insertCharactersIfNeeded(sb, lastText.length(), sb.length(), true);
+            } else {
+                // If current text is valid in length, proceed.
                 // Determine if a character was added.
                 if (s.length() > lastText.length()) {
                     onCharacterAdded(sb);
@@ -123,23 +140,16 @@ public class PatternedTextWatcher implements TextWatcher {
                     onCharacterDeleted(sb);
                 }
             }
-            // If the string is over the limit,
-            // we just delete the last symbol.
-            else {
-                if (sb.length() != 0) {
-                    // Delete all chars that exceed the limit.
-                    sb.delete(maxLength, sb.length());
-                }
-            }
-            // Check if we need to insert characters.
+
+            // Check if the pattern is followed.
             if (!validatePattern(sb)) {
-                insertCharactersIfNeeded(sb);
+                insertCharactersIfNeeded(sb, firstIndexToCheck, lastIndexToCheck, false);
             }
+
             // Finalize the string by replacing the old object into a new one.
             checkIfReplaceIsNeeded(s, sb);
-            // Check if the pattern is followed.
-            validatePattern(sb);
         }
+
         LogUtils.logd("Saved text", savedText.toString(), debug);
     }
 
@@ -166,7 +176,7 @@ public class PatternedTextWatcher implements TextWatcher {
                     if (saveInput) {
                         savedText.append(sb.charAt(sb.length() - 1));
                     }
-                    sb.replace(sb.length() - 1, sb.length(), String.valueOf(possibleCharToInsert));
+                    sb.setCharAt(sb.length() - 1, possibleCharToInsert);
                 }
             }
         } else {
@@ -175,7 +185,7 @@ public class PatternedTextWatcher implements TextWatcher {
             }
         }
         if (!areThereCharsLeftToReplace(sb))
-            insertCharactersIfNeeded(sb);
+            insertCharactersIfNeeded(sb, firstIndexToCheck, lastIndexToCheck, false);
     }
 
     /**
@@ -249,8 +259,8 @@ public class PatternedTextWatcher implements TextWatcher {
      *
      * @param sb current string.
      */
-    private void insertCharactersIfNeeded(StringBuilder sb) {
-        if (sb.length() >= firstIndexToCheck) {
+    private void insertCharactersIfNeeded(StringBuilder sb, int firstIndexToCheck, int lastIndexToCheck, boolean batch) {
+        if (sb.length() >= firstIndexToCheck && sb.length() - 1 <= lastIndexToCheck) {
             int i = firstIndexToCheck;
 
             while (i <= sb.length()) {
@@ -258,9 +268,9 @@ public class PatternedTextWatcher implements TextWatcher {
                 // If we exceed the max limit, we need to delete symbols.
                 deleteOneLastCharIfLengthExceeds(sb);
 
-                // Then we insert the next character if there is a one.
+                // Then we insert the next character if there is one.
                 if (fillExtra) {
-                    insertCharacterIfAvailable(sb, i);
+                    insertCharacterIfAvailable(sb, i, batch);
                 }
 
                 i++;
@@ -274,7 +284,7 @@ public class PatternedTextWatcher implements TextWatcher {
      * @param sb current string.
      * @param i  current index to look.
      */
-    private void insertCharacterIfAvailable(StringBuilder sb, int i) {
+    private void insertCharacterIfAvailable(StringBuilder sb, int i, boolean batch) {
         Character charToInsert = patternCharactersByIndex.get(i);
         if (charToInsert != null) {
             if (i < sb.length()) {
@@ -283,12 +293,19 @@ public class PatternedTextWatcher implements TextWatcher {
                  * If there are already such symbols (that were batch-inserted),
                  * we won't be able to insert.
                  */
-                if (!charToInsert.equals(sb.charAt(i))) {
-                    sb.insert(i, charToInsert);
-                } else {
+                if (batch) {
                     Character normal = normalCharactersByIndex.get(i);
-                    if (normal != null) {
+                    if (normal == null) {
                         sb.insert(i, charToInsert);
+                    }
+                } else {
+                    if (!charToInsert.equals(sb.charAt(i))) {
+                        sb.insert(i, charToInsert);
+                    } else {
+                        Character normal = normalCharactersByIndex.get(i);
+                        if (normal == null) {
+                            sb.setCharAt(i, charToInsert);
+                        }
                     }
                 }
             } else {
@@ -605,6 +622,7 @@ public class PatternedTextWatcher implements TextWatcher {
                     respectPatternLength,
                     debug);
         }
+
     }
 
     private static void checkPatternInput(String pattern) {
