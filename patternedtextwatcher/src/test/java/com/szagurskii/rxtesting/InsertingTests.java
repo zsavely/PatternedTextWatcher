@@ -4,14 +4,10 @@ import android.os.Build;
 import android.widget.EditText;
 
 import com.szagurskii.patternedtextwatcher.BuildConfig;
-import com.szagurskii.patternedtextwatcher.PatternedTextWatcher;
 
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
-
-import static com.szagurskii.rxtesting.EditTextUtils.addTextChangedListener;
-import static com.szagurskii.rxtesting.EditTextUtils.clearTextChangeListener;
 
 /**
  * @author Savelii Zagurskii
@@ -20,12 +16,10 @@ import static com.szagurskii.rxtesting.EditTextUtils.clearTextChangeListener;
 @RunWith(RobolectricGradleTestRunner.class)
 public class InsertingTests extends BaseAdditionTests {
     @Override
-    public void basicMultipleAddition() {
-        PatternedTextWatcher patternedTextWatcher = addTextChangedListener(editText, PATTERN_1);
+    public void multipleAddition() {
         addTextAndAssert(editText, "(12", STRING_TO_BE_TYPED_LENGTH_TWO, PATTERN_1);
         addTextAndAssert(editText, "(123-", STRING_TO_BE_TYPED_LENGTH_THREE, PATTERN_1);
         addTextAndAssert(editText, "(123-456)", STRING_TO_BE_TYPED_LENGTH_EIGHT, PATTERN_1);
-        clearTextChangeListener(editText, patternedTextWatcher, true);
     }
 
     @Override

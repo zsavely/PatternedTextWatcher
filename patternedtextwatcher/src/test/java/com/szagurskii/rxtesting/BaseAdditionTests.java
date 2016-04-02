@@ -1,25 +1,22 @@
 package com.szagurskii.rxtesting;
 
-import android.app.Activity;
 import android.widget.EditText;
 
 import com.szagurskii.patternedtextwatcher.PatternedTextWatcher;
 import com.szagurskii.rxtesting.models.PatternCheck;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.robolectric.Robolectric;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static junit.framework.Assert.assertTrue;
+import static com.szagurskii.rxtesting.utils.EditTextUtils.addTextChangedListener;
+import static com.szagurskii.rxtesting.utils.EditTextUtils.clearTextChangeListener;
 
 /**
  * @author Savelii Zagurskii
  */
-public abstract class BaseAdditionTests {
-
+public abstract class BaseAdditionTests extends BaseTests {
     // 1 char
     static final String STRING_TO_BE_TYPED_LENGTH_ONE = "1";
     // 2 chars
@@ -78,19 +75,8 @@ public abstract class BaseAdditionTests {
         PATTERN_CHECKS.add(new PatternCheck("###(((###)))", "((()))", "(((((())))))"));
     }
 
-    static final String EDITTEXT_ERROR_STRING = "EditText contains incorrect text. " +
-            "{Appended: \'%1$s\'; Expected: \'%2$s\'; Actual: \'%3$s\'; Pattern: \'%4$s\'.}";
-
-    Activity activity;
-    EditText editText;
-
-    @Before
-    public void setup() {
-        activity = Robolectric.setupActivity(Activity.class);
-        editText = new EditText(activity);
-    }
-
     @Test
+    @Override
     public void validateAddingAndRemovingTextWatcher() {
         appendAndCheck("", "");
     }
@@ -101,7 +87,13 @@ public abstract class BaseAdditionTests {
     }
 
     @Test
-    public abstract void basicMultipleAddition();
+    public void basicMultipleAddition() {
+        PatternedTextWatcher patternedTextWatcher = addTextChangedListener(editText, PATTERN_1);
+        multipleAddition();
+        clearTextChangeListener(editText, patternedTextWatcher, true);
+    }
+
+    public abstract void multipleAddition();
 
     @Test
     public void basicAdditionExactPattern() {
@@ -148,9 +140,9 @@ public abstract class BaseAdditionTests {
     }
 
     private void appendAndCheck(String appended, String expected, String pattern, boolean clearText) {
-        PatternedTextWatcher patternedTextWatcher = EditTextUtils.addTextChangedListener(editText, pattern);
+        PatternedTextWatcher patternedTextWatcher = addTextChangedListener(editText, pattern);
         addTextAndAssert(editText, expected, appended, pattern);
-        EditTextUtils.clearTextChangeListener(editText, patternedTextWatcher, clearText);
+        clearTextChangeListener(editText, patternedTextWatcher, clearText);
     }
 
     /**
@@ -162,10 +154,4 @@ public abstract class BaseAdditionTests {
      * @param pattern  the pattern which was used.
      */
     abstract void addTextAndAssert(EditText editText, String expected, String typed, String pattern);
-
-    void assertText(EditText editText, String expected, String typed, String pattern) {
-        assertTrue(String.format(BaseAdditionTests.EDITTEXT_ERROR_STRING, typed, expected,
-                        editText.getText().toString(), pattern),
-                editText.getText().toString().equals(expected));
-    }
 }

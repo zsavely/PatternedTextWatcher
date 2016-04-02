@@ -1,4 +1,4 @@
-package com.szagurskii.rxtesting;
+package com.szagurskii.rxtesting.utils;
 
 import android.widget.EditText;
 
@@ -11,13 +11,17 @@ public class EditTextUtils {
     private EditTextUtils() {
     }
 
-    static PatternedTextWatcher addTextChangedListener(EditText editText, String pattern) {
+    public static PatternedTextWatcher addTextChangedListener(EditText editText, String pattern) {
         PatternedTextWatcher patternedTextWatcher = new PatternedTextWatcher(pattern);
         editText.addTextChangedListener(patternedTextWatcher);
         return patternedTextWatcher;
     }
 
-    static void clearTextChangeListener(EditText editText, PatternedTextWatcher patternedTextWatcher, boolean clearText) {
+    public static void clearTextChangeListener(EditText editText, PatternedTextWatcher patternedTextWatcher) {
+        editText.removeTextChangedListener(patternedTextWatcher);
+    }
+
+    public static void clearTextChangeListener(EditText editText, PatternedTextWatcher patternedTextWatcher, boolean clearText) {
         editText.removeTextChangedListener(patternedTextWatcher);
         if (clearText) {
             editText.getText().clear();
