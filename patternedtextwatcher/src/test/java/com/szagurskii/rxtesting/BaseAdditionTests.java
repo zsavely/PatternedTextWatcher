@@ -1,19 +1,14 @@
 package com.szagurskii.rxtesting;
 
 import android.app.Activity;
-import android.os.Build;
 import android.widget.EditText;
 
-import com.szagurskii.patternedtextwatcher.BuildConfig;
 import com.szagurskii.patternedtextwatcher.PatternedTextWatcher;
 import com.szagurskii.rxtesting.models.PatternCheck;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricGradleTestRunner;
-import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,39 +18,37 @@ import static junit.framework.Assert.assertTrue;
 /**
  * @author Savelii Zagurskii
  */
-@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
-@RunWith(RobolectricGradleTestRunner.class)
-public class AdditionTests {
+public abstract class BaseAdditionTests {
 
     // 1 char
-    private static final String STRING_TO_BE_TYPED_LENGTH_ONE = "1";
+    static final String STRING_TO_BE_TYPED_LENGTH_ONE = "1";
     // 2 chars
-    private static final String STRING_TO_BE_TYPED_LENGTH_TWO = "12";
+    static final String STRING_TO_BE_TYPED_LENGTH_TWO = "12";
     // 3 chars
-    private static final String STRING_TO_BE_TYPED_LENGTH_THREE = "123";
+    static final String STRING_TO_BE_TYPED_LENGTH_THREE = "123";
     // 4 chars
-    private static final String STRING_TO_BE_TYPED_LENGTH_FOUR = "1234";
+    static final String STRING_TO_BE_TYPED_LENGTH_FOUR = "1234";
     // 5 chars
-    private static final String STRING_TO_BE_TYPED_LENGTH_FIVE = "12345";
+    static final String STRING_TO_BE_TYPED_LENGTH_FIVE = "12345";
     // 6 chars
-    private static final String STRING_TO_BE_TYPED_LENGTH_SIX = "123456";
+    static final String STRING_TO_BE_TYPED_LENGTH_SIX = "123456";
     // 7 chars
-    private static final String STRING_TO_BE_TYPED_LENGTH_SEVEN = "1234567";
+    static final String STRING_TO_BE_TYPED_LENGTH_SEVEN = "1234567";
     // 8 chars
-    private static final String STRING_TO_BE_TYPED_LENGTH_EIGHT = "12345678";
+    static final String STRING_TO_BE_TYPED_LENGTH_EIGHT = "12345678";
     // 9 chars
-    private static final String STRING_TO_BE_TYPED_LENGTH_NINE = "123456789";
+    static final String STRING_TO_BE_TYPED_LENGTH_NINE = "123456789";
     // 10 chars
-    private static final String STRING_TO_BE_TYPED_LENGTH_TEN = "1234567890";
+    static final String STRING_TO_BE_TYPED_LENGTH_TEN = "1234567890";
     // 11 chars
-    private static final String STRING_TO_BE_TYPED_LENGTH_ELEVEN = "12345678901";
+    static final String STRING_TO_BE_TYPED_LENGTH_ELEVEN = "12345678901";
     // 12 chars
-    private static final String STRING_TO_BE_TYPED_LENGTH_TWELVE = "123456789012";
+    static final String STRING_TO_BE_TYPED_LENGTH_TWELVE = "123456789012";
 
     // 9 chars
-    private static final String PATTERN_1 = "(###-###)";
+    static final String PATTERN_1 = "(###-###)";
 
-    private static final List<PatternCheck> PATTERN_CHECKS = new ArrayList<>();
+    static final List<PatternCheck> PATTERN_CHECKS = new ArrayList<>();
 
     static {
         // Pattern, Input, Expected.
@@ -85,11 +78,11 @@ public class AdditionTests {
         PATTERN_CHECKS.add(new PatternCheck("###(((###)))", "((()))", "(((((())))))"));
     }
 
-    private static final String EDITTEXT_ERROR_STRING = "EditText contains incorrect text. " +
+    static final String EDITTEXT_ERROR_STRING = "EditText contains incorrect text. " +
             "{Appended: \'%1$s\'; Expected: \'%2$s\'; Actual: \'%3$s\'; Pattern: \'%4$s\'.}";
 
-    private Activity activity;
-    private EditText editText;
+    Activity activity;
+    EditText editText;
 
     @Before
     public void setup() {
@@ -108,13 +101,7 @@ public class AdditionTests {
     }
 
     @Test
-    public void basicMultipleAddition() {
-        PatternedTextWatcher patternedTextWatcher = addTextChangedListener(editText, PATTERN_1);
-        appendAndAssert("(12", STRING_TO_BE_TYPED_LENGTH_TWO, PATTERN_1);
-        appendAndAssert("(121-2", STRING_TO_BE_TYPED_LENGTH_TWO, PATTERN_1);
-        appendAndAssert("(121-212)", STRING_TO_BE_TYPED_LENGTH_EIGHT, PATTERN_1);
-        clearTextChangeListener(editText, patternedTextWatcher, true);
-    }
+    public abstract void basicMultipleAddition();
 
     @Test
     public void basicAdditionExactPattern() {
@@ -161,30 +148,24 @@ public class AdditionTests {
     }
 
     private void appendAndCheck(String appended, String expected, String pattern, boolean clearText) {
-        PatternedTextWatcher patternedTextWatcher = addTextChangedListener(editText, pattern);
-        appendAndAssert(expected, appended, pattern);
-        clearTextChangeListener(editText, patternedTextWatcher, clearText);
+        PatternedTextWatcher patternedTextWatcher = EditTextUtils.addTextChangedListener(editText, pattern);
+        addTextAndAssert(editText, expected, appended, pattern);
+        EditTextUtils.clearTextChangeListener(editText, patternedTextWatcher, clearText);
     }
 
-    private void appendAndAssert(String expected, String typed, String pattern) {
-        editText.append(typed);
-        assertTrue(String.format(EDITTEXT_ERROR_STRING, typed, expected,
+    /**
+     * Add or set text to EditText and assert the expected result.
+     *
+     * @param editText current EdiText to watch.
+     * @param expected expected string.
+     * @param typed    what was typed.
+     * @param pattern  the pattern which was used.
+     */
+    abstract void addTextAndAssert(EditText editText, String expected, String typed, String pattern);
+
+    void assertText(EditText editText, String expected, String typed, String pattern) {
+        assertTrue(String.format(BaseAdditionTests.EDITTEXT_ERROR_STRING, typed, expected,
                         editText.getText().toString(), pattern),
                 editText.getText().toString().equals(expected));
-    }
-
-    private static PatternedTextWatcher addTextChangedListener(EditText editText, String pattern) {
-        PatternedTextWatcher patternedTextWatcher = new PatternedTextWatcher(pattern);
-        editText.addTextChangedListener(patternedTextWatcher);
-        return patternedTextWatcher;
-    }
-
-    private static void clearTextChangeListener(EditText editText, PatternedTextWatcher patternedTextWatcher, boolean clearText) {
-        editText.removeTextChangedListener(patternedTextWatcher);
-        if (clearText) {
-            editText.getText().clear();
-        } else {
-            editText.setSelection(editText.length());
-        }
     }
 }
