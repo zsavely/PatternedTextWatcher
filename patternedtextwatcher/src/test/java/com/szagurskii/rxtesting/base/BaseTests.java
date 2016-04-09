@@ -16,6 +16,30 @@ import static junit.framework.Assert.assertTrue;
  * @author Savelii Zagurskii
  */
 public abstract class BaseTests {
+    // 1 char
+    protected static final String STRING_TO_BE_TYPED_LENGTH_ONE = "1";
+    // 2 chars
+    protected static final String STRING_TO_BE_TYPED_LENGTH_TWO = "12";
+    // 3 chars
+    protected static final String STRING_TO_BE_TYPED_LENGTH_THREE = "123";
+    // 4 chars
+    protected static final String STRING_TO_BE_TYPED_LENGTH_FOUR = "1234";
+    // 5 chars
+    protected static final String STRING_TO_BE_TYPED_LENGTH_FIVE = "12345";
+    // 6 chars
+    protected static final String STRING_TO_BE_TYPED_LENGTH_SIX = "123456";
+    // 7 chars
+    protected static final String STRING_TO_BE_TYPED_LENGTH_SEVEN = "1234567";
+    // 8 chars
+    protected static final String STRING_TO_BE_TYPED_LENGTH_EIGHT = "12345678";
+    // 9 chars
+    protected static final String STRING_TO_BE_TYPED_LENGTH_NINE = "123456789";
+    // 10 chars
+    protected static final String STRING_TO_BE_TYPED_LENGTH_TEN = "1234567890";
+    // 11 chars
+    protected static final String STRING_TO_BE_TYPED_LENGTH_ELEVEN = "12345678901";
+    // 12 chars
+    protected static final String STRING_TO_BE_TYPED_LENGTH_TWELVE = "123456789012";
 
     static final String EDITTEXT_ERROR_STRING = "EditText contains incorrect text. " +
             "{Appended: \'%1$s\'; Expected: \'%2$s\'; Actual: \'%3$s\'; Pattern: \'%4$s\'.}";

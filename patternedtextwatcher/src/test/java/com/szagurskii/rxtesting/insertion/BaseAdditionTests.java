@@ -18,31 +18,6 @@ import static com.szagurskii.rxtesting.utils.EditTextUtils.clearTextChangeListen
  * @author Savelii Zagurskii
  */
 public abstract class BaseAdditionTests extends BaseTests {
-    // 1 char
-    static final String STRING_TO_BE_TYPED_LENGTH_ONE = "1";
-    // 2 chars
-    static final String STRING_TO_BE_TYPED_LENGTH_TWO = "12";
-    // 3 chars
-    static final String STRING_TO_BE_TYPED_LENGTH_THREE = "123";
-    // 4 chars
-    static final String STRING_TO_BE_TYPED_LENGTH_FOUR = "1234";
-    // 5 chars
-    static final String STRING_TO_BE_TYPED_LENGTH_FIVE = "12345";
-    // 6 chars
-    static final String STRING_TO_BE_TYPED_LENGTH_SIX = "123456";
-    // 7 chars
-    static final String STRING_TO_BE_TYPED_LENGTH_SEVEN = "1234567";
-    // 8 chars
-    static final String STRING_TO_BE_TYPED_LENGTH_EIGHT = "12345678";
-    // 9 chars
-    static final String STRING_TO_BE_TYPED_LENGTH_NINE = "123456789";
-    // 10 chars
-    static final String STRING_TO_BE_TYPED_LENGTH_TEN = "1234567890";
-    // 11 chars
-    static final String STRING_TO_BE_TYPED_LENGTH_ELEVEN = "12345678901";
-    // 12 chars
-    static final String STRING_TO_BE_TYPED_LENGTH_TWELVE = "123456789012";
-
     // 9 chars
     static final String PATTERN_1 = "(###-###)";
 
