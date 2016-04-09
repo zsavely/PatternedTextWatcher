@@ -24,7 +24,15 @@ public class PatternedTextWatcher implements TextWatcher {
     private final int maxLength;
     private final String specialChar;
     private final Set<Character> specialCharacters;
+
+    /**
+     * Indexes of secondary characters (not inserted by user).
+     */
     private final Map<Integer, Character> patternCharactersByIndex;
+
+    /**
+     * Indexes of symbols inserted by user.
+     */
     private final Map<Integer, Character> normalCharactersByIndex;
     private final boolean fillExtra;
     private final boolean deleteExtra;
@@ -269,9 +277,7 @@ public class PatternedTextWatcher implements TextWatcher {
                 deleteOneLastCharIfLengthExceeds(sb);
 
                 // Then we insert the next character if there is one.
-                if (fillExtra) {
-                    insertCharacterIfAvailable(sb, i, batch);
-                }
+                insertCharacterIfAvailable(sb, i, batch);
 
                 i++;
             }
@@ -288,19 +294,14 @@ public class PatternedTextWatcher implements TextWatcher {
         Character charToInsert = patternCharactersByIndex.get(i);
         if (charToInsert != null) {
             if (i < sb.length()) {
-                /**
-                 * TODO Fix required.
-                 * If there are already such symbols (that were batch-inserted),
-                 * we won't be able to insert.
-                 */
                 if (batch) {
                     Character normal = normalCharactersByIndex.get(i);
                     if (normal == null) {
-                        sb.insert(i, charToInsert);
+                        insertDepending(sb, i, charToInsert);
                     }
                 } else {
                     if (!charToInsert.equals(sb.charAt(i))) {
-                        sb.insert(i, charToInsert);
+                        insertDepending(sb, i, charToInsert);
                     } else {
                         Character normal = normalCharactersByIndex.get(i);
                         if (normal == null) {
@@ -309,8 +310,25 @@ public class PatternedTextWatcher implements TextWatcher {
                     }
                 }
             } else {
-                sb.insert(i, charToInsert);
+                if (fillExtra) {
+                    sb.insert(i, charToInsert);
+                }
             }
+        }
+    }
+
+    /**
+     * Insert the character depending on the {@link PatternedTextWatcher#fillExtra} parameter.
+     *
+     * @param sb           current string.
+     * @param i            current index.
+     * @param charToInsert char to insert.
+     */
+    private void insertDepending(StringBuilder sb, int i, Character charToInsert) {
+        if (fillExtra) {
+            sb.insert(i, charToInsert);
+        } else {
+            sb.setCharAt(i, charToInsert);
         }
     }
 

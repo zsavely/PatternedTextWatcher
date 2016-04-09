@@ -5,12 +5,12 @@ import android.widget.EditText;
 import com.szagurskii.patternedtextwatcher.PatternedTextWatcher;
 import com.szagurskii.rxtesting.models.PatternCheck;
 
+import org.junit.After;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.szagurskii.rxtesting.utils.EditTextUtils.addTextChangedListener;
 import static com.szagurskii.rxtesting.utils.EditTextUtils.clearTextChangeListener;
 
 /**
@@ -47,82 +47,10 @@ public abstract class BaseAdditionTests extends BaseTests {
 
     static final List<PatternCheck> PATTERN_CHECKS = new ArrayList<>();
 
-    static {
-        // Pattern, Input, Expected.
-        PATTERN_CHECKS.add(new PatternCheck("######", STRING_TO_BE_TYPED_LENGTH_SIX, "123456"));
-        PATTERN_CHECKS.add(new PatternCheck("(######", STRING_TO_BE_TYPED_LENGTH_SIX, "(123456"));
-        PATTERN_CHECKS.add(new PatternCheck("######)", STRING_TO_BE_TYPED_LENGTH_SIX, "123456)"));
-        PATTERN_CHECKS.add(new PatternCheck("###-###", STRING_TO_BE_TYPED_LENGTH_SIX, "123-456"));
-        PATTERN_CHECKS.add(new PatternCheck("(######)", STRING_TO_BE_TYPED_LENGTH_SIX, "(123456)"));
-        PATTERN_CHECKS.add(new PatternCheck("(###-###)", STRING_TO_BE_TYPED_LENGTH_SIX, "(123-456)"));
-        PATTERN_CHECKS.add(new PatternCheck("(-######)", STRING_TO_BE_TYPED_LENGTH_SIX, "(-123456)"));
-        PATTERN_CHECKS.add(new PatternCheck("(######-)", STRING_TO_BE_TYPED_LENGTH_SIX, "(123456-)"));
-        PATTERN_CHECKS.add(new PatternCheck("(-######-)", STRING_TO_BE_TYPED_LENGTH_SIX, "(-123456-)"));
-        PATTERN_CHECKS.add(new PatternCheck("(-#-#-#-#-#-#-)", STRING_TO_BE_TYPED_LENGTH_SIX, "(-1-2-3-4-5-6-)"));
-        PATTERN_CHECKS.add(new PatternCheck("(-#-#-#-#-#-#-)))))))))))))))))))))", STRING_TO_BE_TYPED_LENGTH_SIX, "(-1-2-3-4-5-6-)))))))))))))))))))))"));
-
-        PATTERN_CHECKS.add(new PatternCheck("+# (###) ###-##-##", STRING_TO_BE_TYPED_LENGTH_ELEVEN, "+1 (234) 567-89-01"));
-        PATTERN_CHECKS.add(new PatternCheck("+# (###) ###-##-##", STRING_TO_BE_TYPED_LENGTH_TWELVE, "+1 (234) 567-89-01"));
-
-        PATTERN_CHECKS.add(new PatternCheck(")))###(((###", "((()))", ")))(((((()))"));
-        PATTERN_CHECKS.add(new PatternCheck(")))######(((", "((()))", ")))((()))((("));
-        PATTERN_CHECKS.add(new PatternCheck("###)))(((###", "((()))", "((()))((()))"));
-        PATTERN_CHECKS.add(new PatternCheck("###)))###(((", "((()))", "((())))))((("));
-
-        PATTERN_CHECKS.add(new PatternCheck("(((###)))###", "((()))", "(((((())))))"));
-        PATTERN_CHECKS.add(new PatternCheck("(((######)))", "((()))", "(((((())))))"));
-        PATTERN_CHECKS.add(new PatternCheck("###((()))###", "((()))", "(((((())))))"));
-        PATTERN_CHECKS.add(new PatternCheck("###(((###)))", "((()))", "(((((())))))"));
-    }
-
     @Test
     @Override
     public void validateAddingAndRemovingTextWatcher() {
         appendAndCheck("", "");
-    }
-
-    @Test
-    public void basicSingleAddition() {
-        appendAndCheck(STRING_TO_BE_TYPED_LENGTH_ONE, "(1");
-    }
-
-    @Test
-    public void basicMultipleAddition() {
-        PatternedTextWatcher patternedTextWatcher = addTextChangedListener(editText, PATTERN_1);
-        multipleAddition();
-        clearTextChangeListener(editText, patternedTextWatcher, true);
-    }
-
-    public abstract void multipleAddition();
-
-    @Test
-    public void basicAdditionExactPattern() {
-        appendAndCheck(STRING_TO_BE_TYPED_LENGTH_NINE, "(123-456)");
-    }
-
-    @Test
-    public void basicAdditionMoreThanPattern() {
-        appendAndCheck(STRING_TO_BE_TYPED_LENGTH_ELEVEN, "(123-456)");
-    }
-
-    @Test
-    public void basicAdditionLessThanPattern() {
-        appendAndCheck(STRING_TO_BE_TYPED_LENGTH_SEVEN, "(123-456)");
-    }
-
-    @Test
-    public void basicAdditionExactPatternSpecialCharacters() {
-        appendAndCheck(STRING_TO_BE_TYPED_LENGTH_SIX, "(123-456)");
-    }
-
-    @Test
-    public void basicAdditionMoreThanPatternSpecialCharacters() {
-        appendAndCheck(STRING_TO_BE_TYPED_LENGTH_TEN, "(123-456)");
-    }
-
-    @Test
-    public void basicAdditionLessThanPatternSpecialCharacters() {
-        appendAndCheck(STRING_TO_BE_TYPED_LENGTH_FOUR, "(123-4");
     }
 
     @Test
@@ -131,16 +59,42 @@ public abstract class BaseAdditionTests extends BaseTests {
             appendAndCheck(patternCheck.getInput(), patternCheck.getExpected(), patternCheck.getPattern(), true);
     }
 
-    private void appendAndCheck(String appended, String expected) {
+    @After
+    public void tearDown() throws Exception {
+        PATTERN_CHECKS.clear();
+    }
+
+    /**
+     * Append the string and assert the expected result.
+     *
+     * @param appended the string to append or to set.
+     * @param expected the expected result after setting, appending.
+     */
+    void appendAndCheck(String appended, String expected) {
         appendAndCheck(appended, expected, PATTERN_1, true);
     }
 
-    private void appendAndCheck(String appended, String expected, boolean clearText) {
+    /**
+     * Append the string and assert the expected result.
+     *
+     * @param appended  the string to append or to set.
+     * @param expected  the expected result after setting, appending.
+     * @param clearText {@code true} to clear the text after asserting.
+     */
+    void appendAndCheck(String appended, String expected, boolean clearText) {
         appendAndCheck(appended, expected, PATTERN_1, clearText);
     }
 
-    private void appendAndCheck(String appended, String expected, String pattern, boolean clearText) {
-        PatternedTextWatcher patternedTextWatcher = addTextChangedListener(editText, pattern);
+    /**
+     * Append the string and assert the expected result.
+     *
+     * @param appended  the string to append or to set.
+     * @param expected  the expected result after setting, appending.
+     * @param pattern   the pattern used in the TextWatcher. Needed to logging.
+     * @param clearText {@code true} to clear the text after asserting.
+     */
+    void appendAndCheck(String appended, String expected, String pattern, boolean clearText) {
+        PatternedTextWatcher patternedTextWatcher = init(editText, pattern);
         addTextAndAssert(editText, expected, appended, pattern);
         clearTextChangeListener(editText, patternedTextWatcher, clearText);
     }
@@ -154,4 +108,13 @@ public abstract class BaseAdditionTests extends BaseTests {
      * @param pattern  the pattern which was used.
      */
     abstract void addTextAndAssert(EditText editText, String expected, String typed, String pattern);
+
+    /**
+     * Initialize EditText with a special {@link PatternedTextWatcher}.
+     *
+     * @param editText EditText to add a TextWatcher.
+     * @param pattern  Pattern to supply to TextWatcher.
+     * @return initialized {@link PatternedTextWatcher}.
+     */
+    abstract PatternedTextWatcher init(EditText editText, String pattern);
 }
