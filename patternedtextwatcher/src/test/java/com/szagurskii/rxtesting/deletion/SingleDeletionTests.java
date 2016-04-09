@@ -1,4 +1,4 @@
-package com.szagurskii.rxtesting;
+package com.szagurskii.rxtesting.deletion;
 
 import android.os.Build;
 import android.widget.EditText;

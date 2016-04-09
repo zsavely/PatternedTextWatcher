@@ -1,8 +1,9 @@
-package com.szagurskii.rxtesting;
+package com.szagurskii.rxtesting.insertion;
 
 import android.widget.EditText;
 
 import com.szagurskii.patternedtextwatcher.PatternedTextWatcher;
+import com.szagurskii.rxtesting.base.BaseTests;
 import com.szagurskii.rxtesting.models.PatternCheck;
 
 import org.junit.After;

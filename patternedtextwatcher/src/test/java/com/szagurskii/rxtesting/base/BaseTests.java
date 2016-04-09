@@ -1,4 +1,4 @@
-package com.szagurskii.rxtesting;
+package com.szagurskii.rxtesting.base;
 
 import android.app.Activity;
 import android.widget.EditText;
@@ -22,7 +22,7 @@ public abstract class BaseTests {
             "{Appended: \'%1$s\'; Expected: \'%2$s\'; Actual: \'%3$s\'; Pattern: \'%4$s\'.}";
 
     Activity activity;
-    EditText editText;
+    protected EditText editText;
 
     @Before
     public void setup() {
@@ -36,7 +36,7 @@ public abstract class BaseTests {
         clearTextChangeListener(editText, patternedTextWatcher);
     }
 
-    static void assertText(EditText editText, String expected, String typed, String pattern) {
+    protected static void assertText(EditText editText, String expected, String typed, String pattern) {
         assertTrue(String.format(EDITTEXT_ERROR_STRING, typed, expected,
                         editText.getText().toString(), pattern),
                 editText.getText().toString().equals(expected));

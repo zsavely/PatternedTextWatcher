@@ -1,4 +1,4 @@
-package com.szagurskii.rxtesting;
+package com.szagurskii.rxtesting.insertion;
 
 import android.widget.EditText;
 

@@ -1,8 +1,9 @@
-package com.szagurskii.rxtesting;
+package com.szagurskii.rxtesting.deletion;
 
 import android.widget.EditText;
 
 import com.szagurskii.patternedtextwatcher.PatternedTextWatcher;
+import com.szagurskii.rxtesting.base.BaseTests;
 
 import org.junit.Test;
 
