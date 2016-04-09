@@ -14,34 +14,6 @@ import static com.szagurskii.rxtesting.utils.EditTextUtils.clearTextChangeListen
  */
 public abstract class BaseCustomizedAdditionTests extends BaseAdditionTests {
 
-    static {
-        // Pattern, Input, Expected.
-        PATTERN_CHECKS.add(new PatternCheck("######", STRING_TO_BE_TYPED_LENGTH_SIX, "123456"));
-        PATTERN_CHECKS.add(new PatternCheck("(######", STRING_TO_BE_TYPED_LENGTH_SIX, "(23456"));
-        PATTERN_CHECKS.add(new PatternCheck("######)", STRING_TO_BE_TYPED_LENGTH_SIX, "123456"));
-        PATTERN_CHECKS.add(new PatternCheck("###-###", STRING_TO_BE_TYPED_LENGTH_SIX, "123-56"));
-        PATTERN_CHECKS.add(new PatternCheck("(######)", STRING_TO_BE_TYPED_LENGTH_SIX, "(23456"));
-        PATTERN_CHECKS.add(new PatternCheck("(###-###)", STRING_TO_BE_TYPED_LENGTH_SIX, "(234-6"));
-        PATTERN_CHECKS.add(new PatternCheck("(-######)", STRING_TO_BE_TYPED_LENGTH_SIX, "(-3456"));
-        PATTERN_CHECKS.add(new PatternCheck("(######-)", STRING_TO_BE_TYPED_LENGTH_SIX, "(23456"));
-        PATTERN_CHECKS.add(new PatternCheck("(-######-)", STRING_TO_BE_TYPED_LENGTH_SIX, "(-3456"));
-        PATTERN_CHECKS.add(new PatternCheck("(-#-#-#-#-#-#-)", STRING_TO_BE_TYPED_LENGTH_SIX, "(-3-4-6"));
-        PATTERN_CHECKS.add(new PatternCheck("(-#-#-#-#-#-#-)))))))))))))))))))))", STRING_TO_BE_TYPED_LENGTH_SIX, "(-3-4-6"));
-
-        PATTERN_CHECKS.add(new PatternCheck("+# (###) ###-##-##", STRING_TO_BE_TYPED_LENGTH_ELEVEN, "+2 (56"));
-        PATTERN_CHECKS.add(new PatternCheck("+# (###) ###-##-##", STRING_TO_BE_TYPED_LENGTH_TWELVE, "+2 (56"));
-
-        PATTERN_CHECKS.add(new PatternCheck(")))###(((###", "((()))", "))))))"));
-        PATTERN_CHECKS.add(new PatternCheck(")))######(((", "((()))", "))))))"));
-        PATTERN_CHECKS.add(new PatternCheck("###)))(((###", "((()))", "((()))"));
-        PATTERN_CHECKS.add(new PatternCheck("###)))###(((", "((()))", "((()))"));
-
-        PATTERN_CHECKS.add(new PatternCheck("(((###)))###", "((()))", "((()))"));
-        PATTERN_CHECKS.add(new PatternCheck("(((######)))", "((()))", "((()))"));
-        PATTERN_CHECKS.add(new PatternCheck("###((()))###", "((()))", "(((((("));
-        PATTERN_CHECKS.add(new PatternCheck("###(((###)))", "((()))", "(((((("));
-    }
-
     @Test
     public void basicSingleAddition() {
         appendAndCheck(STRING_TO_BE_TYPED_LENGTH_ONE, "(");
@@ -84,6 +56,35 @@ public abstract class BaseCustomizedAdditionTests extends BaseAdditionTests {
     @Test
     public void basicAdditionLessThanPatternSpecialCharacters() {
         appendAndCheck(STRING_TO_BE_TYPED_LENGTH_FOUR, "(234");
+    }
+
+    @Override
+    void fillPatternChecks() {
+        // Pattern, Input, Expected, Formatted, Clean, Full.
+        PATTERN_CHECKS.add(new PatternCheck("######", STRING_TO_BE_TYPED_LENGTH_SIX, "123456", "123456", "123456", "123456"));
+        PATTERN_CHECKS.add(new PatternCheck("(######", STRING_TO_BE_TYPED_LENGTH_SIX, "(23456", "(23456", "23456", "(23456"));
+        PATTERN_CHECKS.add(new PatternCheck("######)", STRING_TO_BE_TYPED_LENGTH_SIX, "123456", "123456", "123456", "123456"));
+        PATTERN_CHECKS.add(new PatternCheck("###-###", STRING_TO_BE_TYPED_LENGTH_SIX, "123-56", "123-56", "12356", "123-56"));
+        PATTERN_CHECKS.add(new PatternCheck("(######)", STRING_TO_BE_TYPED_LENGTH_SIX, "(23456", "(23456", "23456", "(23456"));
+        PATTERN_CHECKS.add(new PatternCheck("(###-###)", STRING_TO_BE_TYPED_LENGTH_SIX, "(234-6", "(234-6", "2346", "(234-6"));
+        PATTERN_CHECKS.add(new PatternCheck("(-######)", STRING_TO_BE_TYPED_LENGTH_SIX, "(-3456", "(-3456", "3456", "(-3456"));
+        PATTERN_CHECKS.add(new PatternCheck("(######-)", STRING_TO_BE_TYPED_LENGTH_SIX, "(23456", "(23456", "23456", "(23456"));
+        PATTERN_CHECKS.add(new PatternCheck("(-######-)", STRING_TO_BE_TYPED_LENGTH_SIX, "(-3456", "(-3456", "3456", "(-3456"));
+        PATTERN_CHECKS.add(new PatternCheck("(-#-#-#-#-#-#-)", STRING_TO_BE_TYPED_LENGTH_SIX, "(-3-5-", "(-3-5-", "35", "(-3-5-"));
+        PATTERN_CHECKS.add(new PatternCheck("(-#-#-#-#-#-#-)))))))))))))))))))))", STRING_TO_BE_TYPED_LENGTH_SIX, "(-3-5-", "(-3-5-", "35", "(-3-5-"));
+
+        PATTERN_CHECKS.add(new PatternCheck("+# (###) ###-##-##", STRING_TO_BE_TYPED_LENGTH_ELEVEN, "+2 (567) 01", "+2 (567) 01", "256701", "+2 (567) 01"));
+        PATTERN_CHECKS.add(new PatternCheck("+# (###) ###-##-##", STRING_TO_BE_TYPED_LENGTH_TWELVE, "+2 (567) 012", "+2 (567) 012", "2567012", "+2 (567) 012"));
+
+        PATTERN_CHECKS.add(new PatternCheck(")))###(((###", "((()))", "))))))", "))))))", ")))", "))))))"));
+        PATTERN_CHECKS.add(new PatternCheck(")))######(((", "((()))", "))))))", "))))))", ")))", "))))))"));
+        PATTERN_CHECKS.add(new PatternCheck("###)))(((###", "((()))", "((()))", "((()))", "(((", "((()))"));
+        PATTERN_CHECKS.add(new PatternCheck("###)))###(((", "((()))", "((()))", "((()))", "(((", "((()))"));
+
+        PATTERN_CHECKS.add(new PatternCheck("(((###)))###", "((()))", "((()))", "((()))", ")))", "((()))"));
+        PATTERN_CHECKS.add(new PatternCheck("(((######)))", "((()))", "((()))", "((()))", ")))", "((()))"));
+        PATTERN_CHECKS.add(new PatternCheck("###((()))###", "((()))", "((((((", "((((((", "(((", "(((((("));
+        PATTERN_CHECKS.add(new PatternCheck("###(((###)))", "((()))", "((((((", "((((((", "(((", "(((((("));
     }
 
     @Override

@@ -21,7 +21,7 @@ public abstract class BaseAdditionTests extends BaseTests {
     // 9 chars
     static final String PATTERN_1 = "(###-###)";
 
-    static final List<PatternCheck> PATTERN_CHECKS = new ArrayList<>();
+    final List<PatternCheck> PATTERN_CHECKS = new ArrayList<>();
 
     @Test
     @Override
@@ -31,13 +31,19 @@ public abstract class BaseAdditionTests extends BaseTests {
 
     @Test
     public void multipleAdditionPatternCheck() {
+        fillPatternChecks();
         for (PatternCheck patternCheck : PATTERN_CHECKS) {
             appendAndCheck(patternCheck.getInput(),
                     patternCheck.getExpected(),
+                    patternCheck.getExpectedFormattedString(),
+                    patternCheck.getExpectedCleanString(),
+                    patternCheck.getExpectedFullString(),
                     patternCheck.getPattern(),
                     true);
         }
     }
+
+    abstract void fillPatternChecks();
 
     @After
     public void tearDown() {
@@ -51,7 +57,7 @@ public abstract class BaseAdditionTests extends BaseTests {
      * @param expected the expected result after setting, appending.
      */
     void appendAndCheck(String appended, String expected) {
-        appendAndCheck(appended, expected, null, null, null, null, null, null, PATTERN_1, true);
+        appendAndCheck(appended, expected, null, null, null, PATTERN_1, true);
     }
 
     /**
@@ -62,7 +68,7 @@ public abstract class BaseAdditionTests extends BaseTests {
      * @param clearText {@code true} to clear the text after asserting.
      */
     void appendAndCheck(String appended, String expected, boolean clearText) {
-        appendAndCheck(appended, expected, null, null, null, null, null, null, PATTERN_1, clearText);
+        appendAndCheck(appended, expected, null, null, null, PATTERN_1, clearText);
     }
 
     /**
@@ -74,7 +80,7 @@ public abstract class BaseAdditionTests extends BaseTests {
      * @param clearText {@code true} to clear the text after asserting.
      */
     void appendAndCheck(String appended, String expected, String pattern, boolean clearText) {
-        appendAndCheck(appended, expected, null, null, null, null, null, null, pattern, clearText);
+        appendAndCheck(appended, expected, null, null, null, pattern, clearText);
     }
 
     /**
@@ -86,20 +92,20 @@ public abstract class BaseAdditionTests extends BaseTests {
      * @param clearText {@code true} to clear the text after asserting.
      */
     void appendAndCheck(String appended, String expected,
-                        String actualFormattedString, String expectedFormattedString,
-                        String actualCleanString, String expectedCleanString,
-                        String actualFullString, String expectedFullString,
+                        String expectedFormattedString,
+                        String expectedCleanString,
+                        String expectedFullString,
                         String pattern, boolean clearText) {
         PatternedTextWatcher patternedTextWatcher = init(editText, pattern);
         addTextAndAssert(editText, expected, appended, pattern);
         if (expectedFormattedString != null) {
-            assertText(appended, expectedFormattedString, actualFormattedString, pattern);
+            assertText(appended, expectedFormattedString, patternedTextWatcher.getFormattedString(), pattern);
         }
         if (expectedCleanString != null) {
-            assertText(appended, expectedCleanString, actualCleanString, pattern);
+            assertText(appended, expectedCleanString, patternedTextWatcher.getCleanString(), pattern);
         }
         if (expectedFullString != null) {
-            assertText(appended, expectedFullString, actualFullString, pattern);
+            assertText(appended, expectedFullString, patternedTextWatcher.getFullString(), pattern);
 
         }
         clearTextChangeListener(editText, patternedTextWatcher, clearText);
