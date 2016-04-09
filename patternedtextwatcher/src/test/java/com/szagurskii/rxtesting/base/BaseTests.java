@@ -74,6 +74,18 @@ public abstract class BaseTests {
     }
 
     /**
+     * Assert the specified string with an expected string.
+     *
+     * @param expected expected string to assert.
+     * @param typed    what was inserted/appended.
+     * @param pattern  the pattern which was user (needed for logging).
+     */
+    protected static void assertText(String typed, String expected, String actual, String pattern) {
+        assertTrue(String.format(EDITTEXT_ERROR_STRING, typed, expected, actual, pattern),
+                expected.equals(actual));
+    }
+
+    /**
      * Initialize EditText with a special {@link PatternedTextWatcher}.
      *
      * @param editText EditText to add a TextWatcher.

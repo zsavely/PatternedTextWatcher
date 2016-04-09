@@ -31,12 +31,16 @@ public abstract class BaseAdditionTests extends BaseTests {
 
     @Test
     public void multipleAdditionPatternCheck() {
-        for (PatternCheck patternCheck : PATTERN_CHECKS)
-            appendAndCheck(patternCheck.getInput(), patternCheck.getExpected(), patternCheck.getPattern(), true);
+        for (PatternCheck patternCheck : PATTERN_CHECKS) {
+            appendAndCheck(patternCheck.getInput(),
+                    patternCheck.getExpected(),
+                    patternCheck.getPattern(),
+                    true);
+        }
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         PATTERN_CHECKS.clear();
     }
 
@@ -47,7 +51,7 @@ public abstract class BaseAdditionTests extends BaseTests {
      * @param expected the expected result after setting, appending.
      */
     void appendAndCheck(String appended, String expected) {
-        appendAndCheck(appended, expected, PATTERN_1, true);
+        appendAndCheck(appended, expected, null, null, null, null, null, null, PATTERN_1, true);
     }
 
     /**
@@ -58,7 +62,7 @@ public abstract class BaseAdditionTests extends BaseTests {
      * @param clearText {@code true} to clear the text after asserting.
      */
     void appendAndCheck(String appended, String expected, boolean clearText) {
-        appendAndCheck(appended, expected, PATTERN_1, clearText);
+        appendAndCheck(appended, expected, null, null, null, null, null, null, PATTERN_1, clearText);
     }
 
     /**
@@ -70,8 +74,34 @@ public abstract class BaseAdditionTests extends BaseTests {
      * @param clearText {@code true} to clear the text after asserting.
      */
     void appendAndCheck(String appended, String expected, String pattern, boolean clearText) {
+        appendAndCheck(appended, expected, null, null, null, null, null, null, pattern, clearText);
+    }
+
+    /**
+     * Append the string and assert the expected result.
+     *
+     * @param appended  the string to append or to set.
+     * @param expected  the expected result after setting, appending.
+     * @param pattern   the pattern used in the TextWatcher. Needed to logging.
+     * @param clearText {@code true} to clear the text after asserting.
+     */
+    void appendAndCheck(String appended, String expected,
+                        String actualFormattedString, String expectedFormattedString,
+                        String actualCleanString, String expectedCleanString,
+                        String actualFullString, String expectedFullString,
+                        String pattern, boolean clearText) {
         PatternedTextWatcher patternedTextWatcher = init(editText, pattern);
         addTextAndAssert(editText, expected, appended, pattern);
+        if (expectedFormattedString != null) {
+            assertText(appended, expectedFormattedString, actualFormattedString, pattern);
+        }
+        if (expectedCleanString != null) {
+            assertText(appended, expectedCleanString, actualCleanString, pattern);
+        }
+        if (expectedFullString != null) {
+            assertText(appended, expectedFullString, actualFullString, pattern);
+
+        }
         clearTextChangeListener(editText, patternedTextWatcher, clearText);
     }
 
