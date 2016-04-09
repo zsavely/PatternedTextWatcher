@@ -49,7 +49,7 @@ public abstract class BaseDefaultAdditionTests extends BaseAdditionTests {
 
     @Test
     public void basicMultipleAddition() {
-        PatternedTextWatcher patternedTextWatcher = addTextChangedListener(editText, PATTERN_1);
+        PatternedTextWatcher patternedTextWatcher = init(editText, PATTERN_1);
         multipleAddition();
         clearTextChangeListener(editText, patternedTextWatcher, true);
     }
@@ -87,7 +87,7 @@ public abstract class BaseDefaultAdditionTests extends BaseAdditionTests {
     }
 
     @Override
-    PatternedTextWatcher init(EditText editText, String pattern) {
+    protected PatternedTextWatcher init(EditText editText, String pattern) {
         return addTextChangedListener(editText, pattern);
     }
 }

@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.robolectric.Robolectric;
 
-import static com.szagurskii.rxtesting.utils.EditTextUtils.addTextChangedListener;
 import static com.szagurskii.rxtesting.utils.EditTextUtils.clearTextChangeListener;
 import static junit.framework.Assert.assertTrue;
 
@@ -32,13 +31,30 @@ public abstract class BaseTests {
 
     @Test
     public void validateAddingAndRemovingTextWatcher() {
-        PatternedTextWatcher patternedTextWatcher = addTextChangedListener(editText, "(#)");
+        PatternedTextWatcher patternedTextWatcher = init(editText, "(#)");
         clearTextChangeListener(editText, patternedTextWatcher);
     }
 
+    /**
+     * Assert the specified EditText with the expected string.
+     *
+     * @param editText EditText to assert.
+     * @param expected expected string to assert.
+     * @param typed    what was inserted/appended.
+     * @param pattern  the pattern which was user (needed for logging).
+     */
     protected static void assertText(EditText editText, String expected, String typed, String pattern) {
         assertTrue(String.format(EDITTEXT_ERROR_STRING, typed, expected,
-                        editText.getText().toString(), pattern),
+                editText.getText().toString(), pattern),
                 editText.getText().toString().equals(expected));
     }
+
+    /**
+     * Initialize EditText with a special {@link PatternedTextWatcher}.
+     *
+     * @param editText EditText to add a TextWatcher.
+     * @param pattern  Pattern to supply to TextWatcher.
+     * @return initialized {@link PatternedTextWatcher}.
+     */
+    protected abstract PatternedTextWatcher init(EditText editText, String pattern);
 }

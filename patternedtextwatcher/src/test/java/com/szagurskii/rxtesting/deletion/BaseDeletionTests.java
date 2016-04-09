@@ -42,7 +42,7 @@ public abstract class BaseDeletionTests extends BaseTests {
 
     @Test
     public void multipleDeletion1() {
-        PatternedTextWatcher patternedTextWatcher = addTextChangedListener(editText, PATTERN_4);
+        PatternedTextWatcher patternedTextWatcher = init(editText, PATTERN_4);
         addText(editText, INSERT);
         backspace(INSERT, "(123)))45", PATTERN_4);
         backspace(INSERT, "(123)))4", PATTERN_4);
@@ -54,7 +54,7 @@ public abstract class BaseDeletionTests extends BaseTests {
     }
 
     private void appendClearOneSymbolAndCheck(String appended, String expected, String pattern) {
-        PatternedTextWatcher patternedTextWatcher = addTextChangedListener(editText, pattern);
+        PatternedTextWatcher patternedTextWatcher = init(editText, pattern);
         addText(editText, appended);
         backspace(appended, expected, pattern);
         clearTextChangeListener(editText, patternedTextWatcher);
@@ -77,6 +77,11 @@ public abstract class BaseDeletionTests extends BaseTests {
     private void clearTextAndAssert(EditText editText, String expected, String typed, String pattern, int start, int end) {
         editText.getText().delete(start, end);
         assertText(editText, expected, typed, pattern);
+    }
+
+    @Override
+    protected PatternedTextWatcher init(EditText editText, String pattern) {
+        return addTextChangedListener(editText, pattern);
     }
 
     /**

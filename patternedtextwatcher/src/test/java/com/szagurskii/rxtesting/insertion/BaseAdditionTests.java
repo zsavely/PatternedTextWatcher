@@ -109,13 +109,4 @@ public abstract class BaseAdditionTests extends BaseTests {
      * @param pattern  the pattern which was used.
      */
     abstract void addTextAndAssert(EditText editText, String expected, String typed, String pattern);
-
-    /**
-     * Initialize EditText with a special {@link PatternedTextWatcher}.
-     *
-     * @param editText EditText to add a TextWatcher.
-     * @param pattern  Pattern to supply to TextWatcher.
-     * @return initialized {@link PatternedTextWatcher}.
-     */
-    abstract PatternedTextWatcher init(EditText editText, String pattern);
 }

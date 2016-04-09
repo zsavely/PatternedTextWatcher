@@ -87,7 +87,7 @@ public abstract class BaseCustomizedAdditionTests extends BaseAdditionTests {
     }
 
     @Override
-    PatternedTextWatcher init(EditText editText, String pattern) {
+    protected PatternedTextWatcher init(EditText editText, String pattern) {
         PatternedTextWatcher patternedTextWatcher = new PatternedTextWatcher.Builder(pattern)
                 .fillExtraCharactersAutomatically(false)
                 .build();
