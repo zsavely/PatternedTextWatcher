@@ -17,17 +17,50 @@ public abstract class BaseDeletionTests extends BaseTests {
     static final String INSERT = "123456789";
     // 6 chars
     static final String PATTERN_1 = "######";
+    // 8 chars
+    static final String PATTERN_2 = "(######)";
+    // 12 chars
+    static final String PATTERN_3 = "(######)))))";
+    // 15 chars
+    static final String PATTERN_4 = "(###)))###)))))";
 
     @Test
-    public void basicDeletion() {
+    public void deletion1() {
         appendClearOneSymbolAndCheck(INSERT, "12345", PATTERN_1);
+    }
+
+    @Test
+    public void deletion2() {
+        appendClearOneSymbolAndCheck(INSERT, "(12345", PATTERN_2);
+    }
+
+    @Test
+    public void deletion3() {
+        appendClearOneSymbolAndCheck(INSERT, "(12345", PATTERN_3);
+    }
+
+    @Test
+    public void multipleDeletion1() {
+        PatternedTextWatcher patternedTextWatcher = addTextChangedListener(editText, PATTERN_4);
+        addText(editText, INSERT);
+        backspace(INSERT, "(123)))45", PATTERN_4);
+        backspace(INSERT, "(123)))4", PATTERN_4);
+        backspace(INSERT, "(123", PATTERN_4);
+        backspace(INSERT, "(12", PATTERN_4);
+        backspace(INSERT, "(1", PATTERN_4);
+        backspace(INSERT, "", PATTERN_4);
+        clearTextChangeListener(editText, patternedTextWatcher);
     }
 
     private void appendClearOneSymbolAndCheck(String appended, String expected, String pattern) {
         PatternedTextWatcher patternedTextWatcher = addTextChangedListener(editText, pattern);
         addText(editText, appended);
-        clearTextAndAssert(editText, expected, appended, pattern, editText.length() - 1, editText.length());
+        backspace(appended, expected, pattern);
         clearTextChangeListener(editText, patternedTextWatcher);
+    }
+
+    private void backspace(String appended, String expected, String pattern) {
+        clearTextAndAssert(editText, expected, appended, pattern, editText.length() - 1, editText.length());
     }
 
     /**
