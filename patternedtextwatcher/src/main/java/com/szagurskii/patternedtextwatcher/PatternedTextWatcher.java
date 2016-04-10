@@ -136,11 +136,19 @@ public class PatternedTextWatcher implements TextWatcher {
                     sb.delete(maxLength, sb.length());
                 }
             }
+            final boolean lastTextIsPresentIsSequence = sb.toString().startsWith(lastText);
+            final boolean currentStringIsPresentIsSequence = lastText.startsWith(sb.toString());
+            final int difference = sb.length() - lastText.length();
+            final boolean batchInsert = difference > 1;
+            final boolean batchDeletion = difference < -1;
             // Batch insert.
-            if (sb.length() - lastText.length() > 1) {
+            if (batchInsert && lastTextIsPresentIsSequence) {
                 insertCharactersIfNeeded(sb, lastText.length(), sb.length(), true);
             } else {
-                // If current text is valid in length, proceed.
+                if (batchDeletion) {
+                    lastText = "";
+                    insertCharactersIfNeeded(sb, lastText.length(), sb.length(), true);
+                }
                 // Determine if a character was added.
                 if (s.length() > lastText.length()) {
                     onCharacterAdded(sb);

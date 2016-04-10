@@ -49,9 +49,6 @@ public abstract class BaseCustomizedDeletionTests extends BaseDeletionTests {
         clearTextChangeListener(editText, patternedTextWatcher);
     }
 
-    @Test
-    public abstract void multipleAddingAndDeletion1();
-
     /**
      * Clear or backspace text from EditText and assert the expected result.
      *

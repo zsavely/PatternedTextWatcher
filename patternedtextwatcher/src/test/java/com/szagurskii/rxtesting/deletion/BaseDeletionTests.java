@@ -5,6 +5,8 @@ import android.widget.EditText;
 import com.szagurskii.patternedtextwatcher.PatternedTextWatcher;
 import com.szagurskii.rxtesting.base.BaseTests;
 
+import org.junit.Test;
+
 import static com.szagurskii.rxtesting.utils.EditTextUtils.addTextChangedListener;
 import static com.szagurskii.rxtesting.utils.EditTextUtils.clearTextChangeListener;
 
@@ -22,6 +24,9 @@ public abstract class BaseDeletionTests extends BaseTests {
     static final String PATTERN_3 = "(######)))))";
     // 15 chars
     static final String PATTERN_4 = "(###)))###)))))";
+
+    @Test
+    public abstract void multipleAddingAndDeletion1();
 
     void appendClearOneSymbolAndCheck(String appended, String expected, String pattern) {
         PatternedTextWatcher patternedTextWatcher = init(editText, pattern);

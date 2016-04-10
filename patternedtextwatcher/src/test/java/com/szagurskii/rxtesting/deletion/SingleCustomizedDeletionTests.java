@@ -25,29 +25,29 @@ public class SingleCustomizedDeletionTests extends BaseCustomizedDeletionTests {
         backspace(STRING_TO_BE_TYPED_LENGTH_NINE, "(123)))456))))", PATTERN_4);
 
         addText(editText, STRING_TO_BE_TYPED_LENGTH_EIGHT);
-        backspace(STRING_TO_BE_TYPED_LENGTH_NINE, "(123)))456))))", PATTERN_4);
+        backspace(STRING_TO_BE_TYPED_LENGTH_EIGHT, "(123)))456))))", PATTERN_4);
 
         addText(editText, STRING_TO_BE_TYPED_LENGTH_SEVEN);
-        backspace(STRING_TO_BE_TYPED_LENGTH_NINE, "(123)))456))))", PATTERN_4);
+        backspace(STRING_TO_BE_TYPED_LENGTH_SEVEN, "(123)))456))))", PATTERN_4);
 
         addText(editText, STRING_TO_BE_TYPED_LENGTH_SIX);
-        backspace(STRING_TO_BE_TYPED_LENGTH_NINE, "(123)))456))))", PATTERN_4);
+        backspace(STRING_TO_BE_TYPED_LENGTH_SIX, "(123)))456))))", PATTERN_4);
 
         addText(editText, STRING_TO_BE_TYPED_LENGTH_FIVE);
-        backspace(STRING_TO_BE_TYPED_LENGTH_NINE, "(123)))4", PATTERN_4);
+        backspace(STRING_TO_BE_TYPED_LENGTH_FIVE, "(123)))4", PATTERN_4);
 
         addText(editText, STRING_TO_BE_TYPED_LENGTH_FOUR);
-        backspace(STRING_TO_BE_TYPED_LENGTH_NINE, "(123)))", PATTERN_4);
+        backspace(STRING_TO_BE_TYPED_LENGTH_FOUR, "(123)))", PATTERN_4);
 
         addText(editText, STRING_TO_BE_TYPED_LENGTH_THREE);
-        backspace(STRING_TO_BE_TYPED_LENGTH_NINE, "(123))", PATTERN_4);
+        backspace(STRING_TO_BE_TYPED_LENGTH_THREE, "(123))", PATTERN_4);
 
         addText(editText, STRING_TO_BE_TYPED_LENGTH_TWO);
-        backspace(STRING_TO_BE_TYPED_LENGTH_NINE, "(1", PATTERN_4);
+        backspace(STRING_TO_BE_TYPED_LENGTH_TWO, "(1", PATTERN_4);
 
         addText(editText, STRING_TO_BE_TYPED_LENGTH_ONE);
-        backspace(STRING_TO_BE_TYPED_LENGTH_NINE, "(", PATTERN_4);
-        backspace(STRING_TO_BE_TYPED_LENGTH_NINE, "", PATTERN_4);
+        backspace(STRING_TO_BE_TYPED_LENGTH_ONE, "(", PATTERN_4);
+        backspace(STRING_TO_BE_TYPED_LENGTH_ONE, "", PATTERN_4);
 
         clearTextChangeListener(editText, patternedTextWatcher);
     }
