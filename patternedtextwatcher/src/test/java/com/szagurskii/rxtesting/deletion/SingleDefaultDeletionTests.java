@@ -14,7 +14,7 @@ import org.robolectric.annotation.Config;
  */
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
 @RunWith(RobolectricGradleTestRunner.class)
-public class SingleDefaultDeletionTests extends BaseCustomizedDeletionTests {
+public class SingleDefaultDeletionTests extends BaseDefaultDeletionTests {
     @Override
     void addText(EditText editText, String value) {
         editText.setText(value);

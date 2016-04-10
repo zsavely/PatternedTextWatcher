@@ -16,6 +16,11 @@ import org.robolectric.annotation.Config;
 @RunWith(RobolectricGradleTestRunner.class)
 public class GradualCustomizedDeletionTests extends BaseCustomizedDeletionTests {
     @Override
+    public void multipleAddingAndDeletion1() {
+
+    }
+
+    @Override
     void addText(EditText editText, String value) {
         editText.append(value);
     }
