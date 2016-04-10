@@ -1,4 +1,4 @@
-package com.szagurskii.rxtesting.base;
+package com.szagurskii.patternedtextwatcher.base;
 
 import android.app.Activity;
 import android.widget.EditText;
@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.robolectric.Robolectric;
 
-import static com.szagurskii.rxtesting.utils.EditTextUtils.clearTextChangeListener;
+import static com.szagurskii.patternedtextwatcher.utils.EditTextUtils.clearTextChangeListener;
 import static junit.framework.Assert.assertTrue;
 
 /**

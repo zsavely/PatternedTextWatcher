@@ -1,4 +1,4 @@
-package com.szagurskii.rxtesting.deletion;
+package com.szagurskii.patternedtextwatcher.deletion;
 
 import android.os.Build;
 import android.widget.EditText;
@@ -10,44 +10,39 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
-import static com.szagurskii.rxtesting.utils.EditTextUtils.clearTextChangeListener;
+import static com.szagurskii.patternedtextwatcher.utils.EditTextUtils.clearTextChangeListener;
 
 /**
  * @author Savelii Zagurskii
  */
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
 @RunWith(RobolectricGradleTestRunner.class)
-public class SingleCustomizedDeletionTests extends BaseCustomizedDeletionTests {
+public class SingleDefaultDeletionTests extends BaseDefaultDeletionTests {
     @Override
     public void multipleAddingAndDeletion1() {
         PatternedTextWatcher patternedTextWatcher = init(editText, PATTERN_4);
-        addText(editText, STRING_TO_BE_TYPED_LENGTH_NINE);
-        backspace(STRING_TO_BE_TYPED_LENGTH_NINE, "(123)))456))))", PATTERN_4);
-
-        addText(editText, STRING_TO_BE_TYPED_LENGTH_EIGHT);
-        backspace(STRING_TO_BE_TYPED_LENGTH_EIGHT, "(123)))456))))", PATTERN_4);
-
-        addText(editText, STRING_TO_BE_TYPED_LENGTH_SEVEN);
-        backspace(STRING_TO_BE_TYPED_LENGTH_SEVEN, "(123)))456))))", PATTERN_4);
-
-        addText(editText, STRING_TO_BE_TYPED_LENGTH_SIX);
-        backspace(STRING_TO_BE_TYPED_LENGTH_SIX, "(123)))456))))", PATTERN_4);
 
         addText(editText, STRING_TO_BE_TYPED_LENGTH_FIVE);
         backspace(STRING_TO_BE_TYPED_LENGTH_FIVE, "(123)))4", PATTERN_4);
 
-        addText(editText, STRING_TO_BE_TYPED_LENGTH_FOUR);
-        backspace(STRING_TO_BE_TYPED_LENGTH_FOUR, "(123)))", PATTERN_4);
+        addText(editText, STRING_TO_BE_TYPED_LENGTH_TWO);
+        backspace(STRING_TO_BE_TYPED_LENGTH_TWO, "(1", PATTERN_4);
 
-        addText(editText, STRING_TO_BE_TYPED_LENGTH_THREE);
-        backspace(STRING_TO_BE_TYPED_LENGTH_THREE, "(123))", PATTERN_4);
+        addText(editText, STRING_TO_BE_TYPED_LENGTH_ELEVEN);
+        backspace(STRING_TO_BE_TYPED_LENGTH_ELEVEN, "(123)))45", PATTERN_4);
+
+        addText(editText, STRING_TO_BE_TYPED_LENGTH_ONE);
+        backspace(STRING_TO_BE_TYPED_LENGTH_ONE, "", PATTERN_4);
 
         addText(editText, STRING_TO_BE_TYPED_LENGTH_TWO);
         backspace(STRING_TO_BE_TYPED_LENGTH_TWO, "(1", PATTERN_4);
 
-        addText(editText, STRING_TO_BE_TYPED_LENGTH_ONE);
-        backspace(STRING_TO_BE_TYPED_LENGTH_ONE, "(", PATTERN_4);
-        backspace(STRING_TO_BE_TYPED_LENGTH_ONE, "", PATTERN_4);
+        addText(editText, STRING_TO_BE_TYPED_LENGTH_FOUR);
+        backspace(STRING_TO_BE_TYPED_LENGTH_FOUR, "(123", PATTERN_4);
+
+        backspace(STRING_TO_BE_TYPED_LENGTH_FOUR, "(12", PATTERN_4);
+        backspace(STRING_TO_BE_TYPED_LENGTH_FOUR, "(1", PATTERN_4);
+        backspace(STRING_TO_BE_TYPED_LENGTH_FOUR, "", PATTERN_4);
 
         clearTextChangeListener(editText, patternedTextWatcher);
     }

@@ -1,6 +1,4 @@
-package com.szagurskii.rxtesting;
-
-import com.szagurskii.patternedtextwatcher.PatternedTextWatcher;
+package com.szagurskii.patternedtextwatcher;
 
 import org.junit.Before;
 import org.junit.Test;

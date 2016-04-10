@@ -1,4 +1,4 @@
-package com.szagurskii.rxtesting.deletion;
+package com.szagurskii.patternedtextwatcher.deletion;
 
 import android.widget.EditText;
 
@@ -6,7 +6,7 @@ import com.szagurskii.patternedtextwatcher.PatternedTextWatcher;
 
 import org.junit.Test;
 
-import static com.szagurskii.rxtesting.utils.EditTextUtils.clearTextChangeListener;
+import static com.szagurskii.patternedtextwatcher.utils.EditTextUtils.clearTextChangeListener;
 
 /**
  * @author Savelii Zagurskii

@@ -1,10 +1,10 @@
-package com.szagurskii.rxtesting.insertion;
+package com.szagurskii.patternedtextwatcher.insertion;
 
 import android.widget.EditText;
 
 import com.szagurskii.patternedtextwatcher.PatternedTextWatcher;
-import com.szagurskii.rxtesting.base.BaseTests;
-import com.szagurskii.rxtesting.models.PatternCheck;
+import com.szagurskii.patternedtextwatcher.base.BaseTests;
+import com.szagurskii.patternedtextwatcher.models.PatternCheck;
 
 import org.junit.After;
 import org.junit.Test;
@@ -12,7 +12,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.szagurskii.rxtesting.utils.EditTextUtils.clearTextChangeListener;
+import static com.szagurskii.patternedtextwatcher.utils.EditTextUtils.clearTextChangeListener;
 
 /**
  * @author Savelii Zagurskii

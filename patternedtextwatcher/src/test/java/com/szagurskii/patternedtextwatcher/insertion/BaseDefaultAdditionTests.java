@@ -1,14 +1,14 @@
-package com.szagurskii.rxtesting.insertion;
+package com.szagurskii.patternedtextwatcher.insertion;
 
 import android.widget.EditText;
 
 import com.szagurskii.patternedtextwatcher.PatternedTextWatcher;
-import com.szagurskii.rxtesting.models.PatternCheck;
+import com.szagurskii.patternedtextwatcher.models.PatternCheck;
 
 import org.junit.Test;
 
-import static com.szagurskii.rxtesting.utils.EditTextUtils.addTextChangedListener;
-import static com.szagurskii.rxtesting.utils.EditTextUtils.clearTextChangeListener;
+import static com.szagurskii.patternedtextwatcher.utils.EditTextUtils.addTextChangedListener;
+import static com.szagurskii.patternedtextwatcher.utils.EditTextUtils.clearTextChangeListener;
 
 /**
  * @author Savelii Zagurskii

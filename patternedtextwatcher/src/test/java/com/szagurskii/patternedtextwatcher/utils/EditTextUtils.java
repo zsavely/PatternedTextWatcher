@@ -1,4 +1,4 @@
-package com.szagurskii.rxtesting.utils;
+package com.szagurskii.patternedtextwatcher.utils;
 
 import android.widget.EditText;
 

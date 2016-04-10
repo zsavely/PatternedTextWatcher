@@ -1,4 +1,4 @@
-package com.szagurskii.rxtesting.configuration;
+package com.szagurskii.patternedtextwatcher.configuration;
 
 import com.szagurskii.patternedtextwatcher.PatternedTextWatcher;
 

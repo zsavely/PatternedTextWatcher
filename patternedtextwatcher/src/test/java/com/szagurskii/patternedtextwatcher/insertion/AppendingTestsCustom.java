@@ -1,4 +1,4 @@
-package com.szagurskii.rxtesting.insertion;
+package com.szagurskii.patternedtextwatcher.insertion;
 
 import android.os.Build;
 import android.widget.EditText;
@@ -14,12 +14,12 @@ import org.robolectric.annotation.Config;
  */
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
 @RunWith(RobolectricGradleTestRunner.class)
-public class AppendingTestsDefault extends BaseDefaultAdditionTests {
+public class AppendingTestsCustom extends BaseCustomizedAdditionTests {
     @Override
     public void multipleAddition() {
-        addTextAndAssert(editText, "(12", STRING_TO_BE_TYPED_LENGTH_TWO, PATTERN_1);
-        addTextAndAssert(editText, "(121-2", STRING_TO_BE_TYPED_LENGTH_TWO, PATTERN_1);
-        addTextAndAssert(editText, "(121-212)", STRING_TO_BE_TYPED_LENGTH_EIGHT, PATTERN_1);
+        addTextAndAssert(editText, "(2", STRING_TO_BE_TYPED_LENGTH_TWO, PATTERN_1);
+        addTextAndAssert(editText, "(212", STRING_TO_BE_TYPED_LENGTH_TWO, PATTERN_1);
+        addTextAndAssert(editText, "(212-234)", STRING_TO_BE_TYPED_LENGTH_EIGHT, PATTERN_1);
     }
 
     @Override

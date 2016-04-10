@@ -1,4 +1,4 @@
-package com.szagurskii.rxtesting.deletion;
+package com.szagurskii.patternedtextwatcher.deletion;
 
 import android.os.Build;
 import android.widget.EditText;
@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
-import static com.szagurskii.rxtesting.utils.EditTextUtils.clearTextChangeListener;
+import static com.szagurskii.patternedtextwatcher.utils.EditTextUtils.clearTextChangeListener;
 
 /**
  * @author Savelii Zagurskii

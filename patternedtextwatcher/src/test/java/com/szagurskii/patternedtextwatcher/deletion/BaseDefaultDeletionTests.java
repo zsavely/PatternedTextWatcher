@@ -1,42 +1,44 @@
-package com.szagurskii.rxtesting.deletion;
+package com.szagurskii.patternedtextwatcher.deletion;
 
 import android.widget.EditText;
 
 import com.szagurskii.patternedtextwatcher.PatternedTextWatcher;
-import com.szagurskii.rxtesting.base.BaseTests;
 
 import org.junit.Test;
 
-import static com.szagurskii.rxtesting.utils.EditTextUtils.addTextChangedListener;
-import static com.szagurskii.rxtesting.utils.EditTextUtils.clearTextChangeListener;
+import static com.szagurskii.patternedtextwatcher.utils.EditTextUtils.addTextChangedListener;
+import static com.szagurskii.patternedtextwatcher.utils.EditTextUtils.clearTextChangeListener;
 
 /**
  * @author Savelii Zagurskii
  */
-public abstract class BaseDeletionTests extends BaseTests {
-    // 9 chars
-    static final String INSERT = "123456789";
-    // 6 chars
-    static final String PATTERN_1 = "######";
-    // 8 chars
-    static final String PATTERN_2 = "(######)";
-    // 12 chars
-    static final String PATTERN_3 = "(######)))))";
-    // 15 chars
-    static final String PATTERN_4 = "(###)))###)))))";
-
+public abstract class BaseDefaultDeletionTests extends BaseDeletionTests {
     @Test
-    public abstract void multipleAddingAndDeletion1();
-
-    void appendClearOneSymbolAndCheck(String appended, String expected, String pattern) {
-        PatternedTextWatcher patternedTextWatcher = init(editText, pattern);
-        addText(editText, appended);
-        backspace(appended, expected, pattern);
-        clearTextChangeListener(editText, patternedTextWatcher);
+    public void deletion1() {
+        appendClearOneSymbolAndCheck(INSERT, "12345", PATTERN_1);
     }
 
-    void backspace(String appended, String expected, String pattern) {
-        clearTextAndAssert(editText, expected, appended, pattern, editText.length() - 1, editText.length());
+    @Test
+    public void deletion2() {
+        appendClearOneSymbolAndCheck(INSERT, "(12345", PATTERN_2);
+    }
+
+    @Test
+    public void deletion3() {
+        appendClearOneSymbolAndCheck(INSERT, "(12345", PATTERN_3);
+    }
+
+    @Test
+    public void multipleDeletion1() {
+        PatternedTextWatcher patternedTextWatcher = init(editText, PATTERN_4);
+        addText(editText, INSERT);
+        backspace(INSERT, "(123)))45", PATTERN_4);
+        backspace(INSERT, "(123)))4", PATTERN_4);
+        backspace(INSERT, "(123", PATTERN_4);
+        backspace(INSERT, "(12", PATTERN_4);
+        backspace(INSERT, "(1", PATTERN_4);
+        backspace(INSERT, "", PATTERN_4);
+        clearTextChangeListener(editText, patternedTextWatcher);
     }
 
     /**

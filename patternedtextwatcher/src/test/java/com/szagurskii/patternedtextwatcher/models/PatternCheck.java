@@ -1,4 +1,4 @@
-package com.szagurskii.rxtesting.models;
+package com.szagurskii.patternedtextwatcher.models;
 
 /**
  * @author Savelii Zagurskii
