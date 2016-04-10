@@ -65,30 +65,30 @@ public abstract class BaseDefaultAdditionTests extends BaseAdditionTests {
 
     @Override
     void fillPatternChecks() {
-        // Pattern, Input, Expected.
-        PATTERN_CHECKS.add(new PatternCheck("######", STRING_TO_BE_TYPED_LENGTH_SIX, "123456"));
-        PATTERN_CHECKS.add(new PatternCheck("(######", STRING_TO_BE_TYPED_LENGTH_SIX, "(123456"));
-        PATTERN_CHECKS.add(new PatternCheck("######)", STRING_TO_BE_TYPED_LENGTH_SIX, "123456)"));
-        PATTERN_CHECKS.add(new PatternCheck("###-###", STRING_TO_BE_TYPED_LENGTH_SIX, "123-456"));
-        PATTERN_CHECKS.add(new PatternCheck("(######)", STRING_TO_BE_TYPED_LENGTH_SIX, "(123456)"));
-        PATTERN_CHECKS.add(new PatternCheck("(###-###)", STRING_TO_BE_TYPED_LENGTH_SIX, "(123-456)"));
-        PATTERN_CHECKS.add(new PatternCheck("(-######)", STRING_TO_BE_TYPED_LENGTH_SIX, "(-123456)"));
-        PATTERN_CHECKS.add(new PatternCheck("(######-)", STRING_TO_BE_TYPED_LENGTH_SIX, "(123456-)"));
-        PATTERN_CHECKS.add(new PatternCheck("(-######-)", STRING_TO_BE_TYPED_LENGTH_SIX, "(-123456-)"));
-        PATTERN_CHECKS.add(new PatternCheck("(-#-#-#-#-#-#-)", STRING_TO_BE_TYPED_LENGTH_SIX, "(-1-2-3-4-5-6-)"));
-        PATTERN_CHECKS.add(new PatternCheck("(-#-#-#-#-#-#-)))))))))))))))))))))", STRING_TO_BE_TYPED_LENGTH_SIX, "(-1-2-3-4-5-6-)))))))))))))))))))))"));
+        // Pattern, Input, Expected, Formatted, Clean, Full.
+        PATTERN_CHECKS.add(new PatternCheck("######", STRING_TO_BE_TYPED_LENGTH_SIX, "123456", "123456", "123456", "123456"));
+        PATTERN_CHECKS.add(new PatternCheck("(######", STRING_TO_BE_TYPED_LENGTH_SIX, "(123456", "(123456", "123456", "(123456"));
+        PATTERN_CHECKS.add(new PatternCheck("######)", STRING_TO_BE_TYPED_LENGTH_SIX, "123456)", "123456)", "123456", "123456)"));
+        PATTERN_CHECKS.add(new PatternCheck("###-###", STRING_TO_BE_TYPED_LENGTH_SIX, "123-456", "123-456", "123456", "123-456"));
+        PATTERN_CHECKS.add(new PatternCheck("(######)", STRING_TO_BE_TYPED_LENGTH_SIX, "(123456)", "(123456)", "123456", "(123456)"));
+        PATTERN_CHECKS.add(new PatternCheck("(###-###)", STRING_TO_BE_TYPED_LENGTH_SIX, "(123-456)", "(123-456)", "123456", "(123-456)"));
+        PATTERN_CHECKS.add(new PatternCheck("(-######)", STRING_TO_BE_TYPED_LENGTH_SIX, "(-123456)", "(-123456)", "123456", "(-123456)"));
+        PATTERN_CHECKS.add(new PatternCheck("(######-)", STRING_TO_BE_TYPED_LENGTH_SIX, "(123456-)", "(123456-)", "123456", "(123456-)"));
+        PATTERN_CHECKS.add(new PatternCheck("(-######-)", STRING_TO_BE_TYPED_LENGTH_SIX, "(-123456-)", "(-123456-)", "123456", "(-123456-)"));
+        PATTERN_CHECKS.add(new PatternCheck("(-#-#-#-#-#-#-)", STRING_TO_BE_TYPED_LENGTH_SIX, "(-1-2-3-4-5-6-)", "(-1-2-3-4-5-6-)", "123456", "(-1-2-3-4-5-6-)"));
+        PATTERN_CHECKS.add(new PatternCheck("(-#-#-#-#-#-#-)))))))))))))))))))))", STRING_TO_BE_TYPED_LENGTH_SIX, "(-1-2-3-4-5-6-)))))))))))))))))))))", "(-1-2-3-4-5-6-)))))))))))))))))))))", "123456", "(-1-2-3-4-5-6-)))))))))))))))))))))"));
 
-        PATTERN_CHECKS.add(new PatternCheck("+# (###) ###-##-##", STRING_TO_BE_TYPED_LENGTH_ELEVEN, "+1 (234) 567-89-01"));
-        PATTERN_CHECKS.add(new PatternCheck("+# (###) ###-##-##", STRING_TO_BE_TYPED_LENGTH_TWELVE, "+1 (234) 567-89-01"));
+        PATTERN_CHECKS.add(new PatternCheck("+# (###) ###-##-##", STRING_TO_BE_TYPED_LENGTH_ELEVEN, "+1 (234) 567-89-01", "+1 (234) 567-89-01", "12345678901", "+1 (234) 567-89-01"));
+        PATTERN_CHECKS.add(new PatternCheck("+# (###) ###-##-##", STRING_TO_BE_TYPED_LENGTH_TWELVE, "+1 (234) 567-89-01", "+1 (234) 567-89-01", "12345678901", "+1 (234) 567-89-01"));
 
-        PATTERN_CHECKS.add(new PatternCheck(")))###(((###", "((()))", ")))(((((()))"));
-        PATTERN_CHECKS.add(new PatternCheck(")))######(((", "((()))", ")))((()))((("));
-        PATTERN_CHECKS.add(new PatternCheck("###)))(((###", "((()))", "((()))((()))"));
-        PATTERN_CHECKS.add(new PatternCheck("###)))###(((", "((()))", "((())))))((("));
+        PATTERN_CHECKS.add(new PatternCheck(")))###(((###", "((()))", ")))(((((()))", ")))(((((()))", "((()))", ")))(((((()))"));
+        PATTERN_CHECKS.add(new PatternCheck(")))######(((", "((()))", ")))((()))(((", ")))((()))(((", "((()))", ")))((()))((("));
+        PATTERN_CHECKS.add(new PatternCheck("###)))(((###", "((()))", "((()))((()))", "((()))((()))", "((()))", "((()))((()))"));
+        PATTERN_CHECKS.add(new PatternCheck("###)))###(((", "((()))", "((())))))(((", "((())))))(((", "((()))", "((())))))((("));
 
-        PATTERN_CHECKS.add(new PatternCheck("(((###)))###", "((()))", "(((((())))))"));
-        PATTERN_CHECKS.add(new PatternCheck("(((######)))", "((()))", "(((((())))))"));
-        PATTERN_CHECKS.add(new PatternCheck("###((()))###", "((()))", "(((((())))))"));
-        PATTERN_CHECKS.add(new PatternCheck("###(((###)))", "((()))", "(((((())))))"));
+        PATTERN_CHECKS.add(new PatternCheck("(((###)))###", "((()))", "(((((())))))", "(((((())))))", "((()))", "(((((())))))"));
+        PATTERN_CHECKS.add(new PatternCheck("(((######)))", "((()))", "(((((())))))", "(((((())))))", "((()))", "(((((())))))"));
+        PATTERN_CHECKS.add(new PatternCheck("###((()))###", "((()))", "(((((())))))", "(((((())))))", "((()))", "(((((())))))"));
+        PATTERN_CHECKS.add(new PatternCheck("###(((###)))", "((()))", "(((((())))))", "(((((())))))", "((()))", "(((((())))))"));
     }
 }
