@@ -35,25 +35,6 @@ public abstract class BaseDeletionTests extends BaseTests {
         clearTextChangeListener(editText, patternedTextWatcher);
     }
 
-    void backspace(String appended, String expected, String pattern) {
-        clearTextAndAssert(editText, expected, appended, pattern, editText.length() - 1, editText.length());
-    }
-
-    /**
-     * Clear or backspace text from EditText and assert the expected result.
-     *
-     * @param editText current EdiText to watch.
-     * @param expected expected string.
-     * @param typed    string that was inserted before deleting.
-     * @param pattern  the pattern which was used.
-     * @param start    start index of the string which is being removed.
-     * @param end      end index of the string which is being removed.
-     */
-    private void clearTextAndAssert(EditText editText, String expected, String typed, String pattern, int start, int end) {
-        editText.getText().delete(start, end);
-        assertText(editText, expected, typed, pattern);
-    }
-
     @Override
     protected PatternedTextWatcher init(EditText editText, String pattern) {
         return addTextChangedListener(editText, pattern);

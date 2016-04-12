@@ -60,6 +60,32 @@ public abstract class BaseTests {
     }
 
     /**
+     * Make a backspace-like action.
+     *
+     * @param appended the string that was appended earlier (needed for logging).
+     * @param expected the string that was expected.
+     * @param pattern  pattern that was used (needed for logging).
+     */
+    protected void backspace(String appended, String expected, String pattern) {
+        clearTextAndAssert(editText, expected, appended, pattern, editText.length() - 1, editText.length());
+    }
+
+    /**
+     * Clear or backspace text from EditText and assert the expected result.
+     *
+     * @param editText current EdiText to watch.
+     * @param expected expected string.
+     * @param typed    string that was inserted before deleting.
+     * @param pattern  the pattern which was used.
+     * @param start    start index of the string which is being removed.
+     * @param end      end index of the string which is being removed.
+     */
+    protected void clearTextAndAssert(EditText editText, String expected, String typed, String pattern, int start, int end) {
+        editText.getText().delete(start, end);
+        assertText(editText, expected, typed, pattern);
+    }
+
+    /**
      * Assert the specified EditText with the expected string.
      *
      * @param editText EditText to assert.
@@ -69,8 +95,8 @@ public abstract class BaseTests {
      */
     protected static void assertText(EditText editText, String expected, String typed, String pattern) {
         assertTrue(String.format(EDITTEXT_ERROR_STRING, typed, expected,
-                editText.getText().toString(), pattern),
-                editText.getText().toString().equals(expected));
+                                 editText.getText().toString(), pattern),
+                   editText.getText().toString().equals(expected));
     }
 
     /**
@@ -82,7 +108,7 @@ public abstract class BaseTests {
      */
     protected static void assertText(String typed, String expected, String actual, String pattern) {
         assertTrue(String.format(EDITTEXT_ERROR_STRING, typed, expected, actual, pattern),
-                expected.equals(actual));
+                   expected.equals(actual));
     }
 
     /**
