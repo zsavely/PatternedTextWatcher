@@ -5,6 +5,7 @@ import android.text.TextWatcher;
 
 import com.szagurskii.patternedtextwatcher.utils.ConversionUtils;
 import com.szagurskii.patternedtextwatcher.utils.LogUtils;
+import com.szagurskii.patternedtextwatcher.utils.StringUtils;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -54,7 +55,7 @@ public class PatternedTextWatcher implements TextWatcher {
      */
     public PatternedTextWatcher(String pattern) {
         this(pattern, getDefaultChar(), getDefaultFillExtra(), getDefaultDeleteExtra(),
-                getDefaultSaveInput(), getDefaultRespectPatternLength(), getDefaultDebug());
+             getDefaultSaveInput(), getDefaultRespectPatternLength(), getDefaultDebug());
     }
 
     private PatternedTextWatcher(String pattern, String specialChar, boolean fillExtra,
@@ -128,14 +129,16 @@ public class PatternedTextWatcher implements TextWatcher {
         LogUtils.logd("afterTextChanged", s, debug);
 
         if (isEnabled()) {
+            final boolean isValidInLength = isValidInLength(s);
             StringBuilder sb = new StringBuilder(s);
 
-            if (!isValidInLength(s)) {
+            if (!isValidInLength) {
                 if (sb.length() != 0) {
                     // Delete all chars that exceed the limit.
                     sb.delete(maxLength, sb.length());
                 }
             }
+
             final boolean lastTextIsPresentIsSequence = sb.toString().startsWith(lastText);
             final boolean currentStringIsPresentIsSequence = lastText.startsWith(sb.toString());
             final int difference = sb.length() - lastText.length();
@@ -143,15 +146,34 @@ public class PatternedTextWatcher implements TextWatcher {
             final boolean batchDeletion = difference < -1;
             // Batch insert.
             if (batchInsert && lastTextIsPresentIsSequence) {
+                if (saveInput) {
+                    // Text can be saved when it is saved from scratch.
+                    if (lastText.isEmpty()) {
+                        savedText.append(sb.toString());
+                    } else {
+                        // Attempt to append right string.
+                        savedText.append(StringUtils.difference(lastText, sb.toString()));
+                    }
+                }
                 insertCharactersIfNeeded(sb, lastText.length(), sb.length(), true);
             } else {
                 if (batchDeletion) {
+                    if (saveInput) {
+                        // Delete all text if current string is empty.
+                        if (sb.length() == 0) {
+                            savedText.setLength(0);
+                        } else {
+                            // Attempt to append right string.
+                            savedText.delete(savedText.length() - StringUtils.difference(sb.toString(), lastText).length() - 1, savedText.length());
+                        }
+                    }
                     lastText = "";
                     insertCharactersIfNeeded(sb, lastText.length(), sb.length(), true);
                 }
+
                 // Determine if a character was added.
                 if (s.length() > lastText.length()) {
-                    onCharacterAdded(sb);
+                    onCharacterAdded(sb, isValidInLength);
                 } else if (s.length() < lastText.length()) {
                     onCharacterDeleted(sb);
                 }
@@ -174,7 +196,7 @@ public class PatternedTextWatcher implements TextWatcher {
      *
      * @param sb current string.
      */
-    private void onCharacterAdded(StringBuilder sb) {
+    private void onCharacterAdded(StringBuilder sb, boolean isValidInLength) {
         // Check if the pattern has characters to replace in current index.
         Character possibleCharToInsert = patternCharactersByIndex.get(sb.length() - 1);
 
@@ -186,17 +208,18 @@ public class PatternedTextWatcher implements TextWatcher {
                     sb.insert(sb.length() - 1, possibleCharToInsert);
 
                     // Insert pattern chars until they are over.
-                    while (patternCharactersByIndex.get(sb.length() - 1) != null)
+                    while (patternCharactersByIndex.get(sb.length() - 1) != null) {
                         sb.insert(sb.length() - 1, patternCharactersByIndex.get(sb.length() - 1));
+                    }
                 } else {
-                    if (saveInput) {
+                    if (saveInput && isValidInLength) {
                         savedText.append(sb.charAt(sb.length() - 1));
                     }
                     sb.setCharAt(sb.length() - 1, possibleCharToInsert);
                 }
             }
         } else {
-            if (saveInput) {
+            if (saveInput && isValidInLength) {
                 savedText.append(sb.charAt(sb.length() - 1));
             }
         }
@@ -389,12 +412,12 @@ public class PatternedTextWatcher implements TextWatcher {
                 if (sb.length() > entry.getKey()) {
                     if (!entry.getValue().equals(sb.charAt(entry.getKey()))) {
                         LogUtils.logw("validatePattern",
-                                String.format("Assertion error! Expected \"%1$s\" in index \'%2$s\'." +
-                                                "\nGot \"%3$s\".",
-                                        entry.getValue(),
-                                        entry.getKey(),
-                                        sb.charAt(entry.getKey())),
-                                debug);
+                                      String.format("Assertion error! Expected \"%1$s\" in index \'%2$s\'." +
+                                                            "\nGot \"%3$s\".",
+                                                    entry.getValue(),
+                                                    entry.getKey(),
+                                                    sb.charAt(entry.getKey())),
+                                      debug);
                         patternValidated = false;
                     }
                 }
@@ -641,12 +664,12 @@ public class PatternedTextWatcher implements TextWatcher {
             checkPatternInInput(pattern, specialChar);
 
             return new PatternedTextWatcher(pattern,
-                    specialChar,
-                    fillExtraCharactersAutomatically,
-                    deleteExtraCharactersAutomatically,
-                    saveInput,
-                    respectPatternLength,
-                    debug);
+                                            specialChar,
+                                            fillExtraCharactersAutomatically,
+                                            deleteExtraCharactersAutomatically,
+                                            saveInput,
+                                            respectPatternLength,
+                                            debug);
         }
 
     }

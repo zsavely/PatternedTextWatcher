@@ -106,7 +106,7 @@ public abstract class BaseTests {
      * @param typed    what was inserted/appended.
      * @param pattern  the pattern which was user (needed for logging).
      */
-    protected static void assertText(String typed, String expected, String actual, String pattern) {
+    protected void assertText(String typed, String expected, String actual, String pattern) {
         assertTrue(String.format(EDITTEXT_ERROR_STRING, typed, expected, actual, pattern),
                    expected.equals(actual));
     }

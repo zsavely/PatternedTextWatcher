@@ -20,11 +20,10 @@ import static com.szagurskii.patternedtextwatcher.utils.EditTextUtils.clearTextC
 public class SavingInputTests extends BaseSavingInputTests {
 
     @Override
-    public void shouldSaveOnAdding() {
-        PatternedTextWatcher patternedTextWatcher = init(editText, "######");
-        addText("E");
-        assertText("E", "E", patternedTextWatcher.getFullString(), "######");
-        // TODO Batch insert doesn't work with getFullString().
+    public void shouldSaveOnMultipleAdding() {
+        PatternedTextWatcher patternedTextWatcher = init(editText, BASIC_PATTERN);
+        addText(ESPRESSO);
+        assertText(ESPRESSO, ESPRESSO, patternedTextWatcher.getFullString(), BASIC_PATTERN);
         clearTextChangeListener(editText, patternedTextWatcher);
     }
 

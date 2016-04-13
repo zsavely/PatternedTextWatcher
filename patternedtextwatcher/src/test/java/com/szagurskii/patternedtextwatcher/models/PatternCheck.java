@@ -19,6 +19,11 @@ public class PatternCheck {
         this.expected = expected;
     }
 
+    public PatternCheck(String pattern, String expected) {
+        this.pattern = pattern;
+        this.expected = expected;
+    }
+
     public PatternCheck(String pattern, String input, String expected,
                         String expectedFormattedString, String expectedCleanString, String expectedFullString) {
         this.pattern = pattern;
