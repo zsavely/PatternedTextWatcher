@@ -28,10 +28,8 @@ public class StringUtils {
      * More precisely, return the remainder of the second String,
      * starting from where it's different from the first. This means that
      * the difference between "abc" and "ab" is the empty String and not "c". </p>
-     * <p/>
      * <p>For example,
      * {@code difference("i am a machine", "i am a robot") -> "robot"}.</p>
-     * <p/>
      * <pre>
      * StringUtils.difference(null, null) = null
      * StringUtils.difference("", "") = ""
@@ -68,10 +66,8 @@ public class StringUtils {
     /**
      * <p>Compares two CharSequences, and returns the index at which the
      * CharSequences begin to differ.</p>
-     * <p/>
      * <p>For example,
      * {@code indexOfDifference("i am a machine", "i am a robot") -> 7}</p>
-     * <p/>
      * <pre>
      * StringUtils.indexOfDifference(null, null) = -1
      * StringUtils.indexOfDifference("", "") = -1
@@ -111,10 +107,8 @@ public class StringUtils {
     /**
      * <p>Compares all CharSequences in an array and returns the index at which the
      * CharSequences begin to differ.</p>
-     * <p/>
      * <p>For example,
      * <code>indexOfDifference(new String[] {"i am a machine", "i am a robot"}) -&gt; 7</code></p>
-     * <p/>
      * <pre>
      * StringUtils.indexOfDifference(null) = -1
      * StringUtils.indexOfDifference(new String[] {}) = -1
