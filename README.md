@@ -7,7 +7,7 @@ Customizable TextWatcher for implementing different input types very quickly.
 
 ### Dependency
 ```groovy
-compile 'com.szagurskii:patternedtextwatcher:0.4.1'
+compile 'com.szagurskii:patternedtextwatcher:0.5.0'
 ```
 
 ### How to use
