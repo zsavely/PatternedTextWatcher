@@ -24,27 +24,52 @@ public class SavingInputTests extends BaseSavingInputTests {
         PatternedTextWatcher patternedTextWatcher = init(editText, BASIC_PATTERN);
         addText(ESPRESSO);
         assertText(ESPRESSO, ESPRESSO, patternedTextWatcher.getFullString(), BASIC_PATTERN);
-        clearTextChangeListener(editText, patternedTextWatcher);
+        clearTextChangeListener(editText, patternedTextWatcher, true);
     }
 
     @Override
     public void shouldSaveOnAddingAndBackspace() {
-        // TODO
+        PatternedTextWatcher patternedTextWatcher = init(editText, BASIC_PATTERN);
+        addText(ESPRESSO);
+        assertText(ESPRESSO, ESPRESSO, patternedTextWatcher.getFullString(), BASIC_PATTERN);
+        backspace(ESPRESSO, ESPRESSO.substring(0, ESPRESSO.length() - 1), BASIC_PATTERN);
+        clearTextChangeListener(editText, patternedTextWatcher, true);
     }
 
     @Override
     public void shouldSaveOnAddingAndClearing() {
-        // TODO
+        PatternedTextWatcher patternedTextWatcher = init(editText, BASIC_PATTERN);
+        addText(ESPRESSO);
+        assertText(ESPRESSO, ESPRESSO, patternedTextWatcher.getFullString(), BASIC_PATTERN);
+        editText.getText().clear();
+        assertText(ESPRESSO, "", patternedTextWatcher.getFullString(), BASIC_PATTERN);
+        clearTextChangeListener(editText, patternedTextWatcher, true);
     }
 
     @Override
     public void shouldSaveOnAddingClearingAndBackspace() {
-        // TODO
+        PatternedTextWatcher patternedTextWatcher = init(editText, BASIC_PATTERN);
+        addText(ESPRESSO);
+        assertText(ESPRESSO, ESPRESSO, patternedTextWatcher.getFullString(), BASIC_PATTERN);
+        editText.getText().clear();
+        assertText(ESPRESSO, "", patternedTextWatcher.getFullString(), BASIC_PATTERN);
+        addText(ESPRESSO);
+        assertText(ESPRESSO, ESPRESSO, patternedTextWatcher.getFullString(), BASIC_PATTERN);
+        backspace(ESPRESSO, ESPRESSO.substring(0, ESPRESSO.length() - 1), BASIC_PATTERN);
+        clearTextChangeListener(editText, patternedTextWatcher, true);
     }
 
     @Override
     public void shouldSaveOnAddingBackspaceAndClearing() {
-        // TODO
+        PatternedTextWatcher patternedTextWatcher = init(editText, BASIC_PATTERN);
+        addText(ESPRESSO);
+        assertText(ESPRESSO, ESPRESSO, patternedTextWatcher.getFullString(), BASIC_PATTERN);
+        addText(ESPRESSO);
+        assertText(ESPRESSO, ESPRESSO + E + s + p, patternedTextWatcher.getFullString(), BASIC_PATTERN);
+        backspace(ESPRESSO, (ESPRESSO + E + s + p).substring(0, (ESPRESSO + E + s + p).length() - 1), BASIC_PATTERN);
+        editText.getText().clear();
+        assertText(ESPRESSO, "", patternedTextWatcher.getFullString(), BASIC_PATTERN);
+        clearTextChangeListener(editText, patternedTextWatcher, true);
     }
 
     @Override
