@@ -71,12 +71,12 @@ public class BasicDeletionTests {
         Utils.deleteOneCharacter();
         Utils.assertExpectedOutput("(Es-pr");
 
-        Utils.typeTextAndAssert("e", "(Es-pr))))e");
+        Utils.typeTextAndAssert("e", "(Es-pr))))e)))");
 
         Utils.deleteOneCharacter();
         Utils.assertExpectedOutput("(Es-pr");
 
-        Utils.typeTextAndAssert("e", "(Es-pr))))e");
+        Utils.typeTextAndAssert("e", "(Es-pr))))e)))");
 
         Utils.deleteOneCharacter();
         Utils.deleteOneCharacter();
