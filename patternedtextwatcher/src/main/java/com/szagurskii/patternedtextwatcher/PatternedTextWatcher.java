@@ -12,6 +12,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import static com.szagurskii.patternedtextwatcher.Preconditions.checkInput;
+import static com.szagurskii.patternedtextwatcher.Preconditions.checkPatternInInput;
+import static com.szagurskii.patternedtextwatcher.Preconditions.checkPatternInput;
+
 /**
  * A customizable text watcher which can be constructed via
  * {@link com.szagurskii.patternedtextwatcher.PatternedTextWatcher.Builder}.
@@ -51,7 +55,8 @@ public class PatternedTextWatcher implements TextWatcher {
 
   /**
    * Initialize
-   * {@link PatternedTextWatcher} with {@code pattern} and default parameters. For advanced tweaking use {@link Builder}.
+   * {@link PatternedTextWatcher} with {@code pattern} and default parameters.
+   * For advanced tweaking use {@link Builder}.
    *
    * @param pattern the pattern of the text watcher.
    */
@@ -60,10 +65,9 @@ public class PatternedTextWatcher implements TextWatcher {
   }
 
   private PatternedTextWatcher(Builder builder) {
-    Preconditions.checkPatternInput(builder.pattern);
-    Preconditions.checkInput(builder.specialChar, builder.saveInput, builder
-        .fillExtraChars);
-    Preconditions.checkPatternInInput(builder.pattern, builder.specialChar);
+    checkPatternInput(builder.pattern);
+    checkInput(builder.specialChar, builder.saveInput, builder.fillExtraChars);
+    checkPatternInInput(builder.pattern, builder.specialChar);
 
     this.pattern = builder.pattern;
     this.fillExtra = builder.fillExtraChars;
