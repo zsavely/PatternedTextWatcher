@@ -8,25 +8,26 @@ import com.szagurskii.patternedtextwatcher.PatternedTextWatcher;
  * @author Savelii Zagurskii
  */
 public class EditTextUtils {
-    private EditTextUtils() {
-    }
+  private EditTextUtils() {
+  }
 
-    public static PatternedTextWatcher addTextChangedListener(EditText editText, String pattern) {
-        PatternedTextWatcher patternedTextWatcher = new PatternedTextWatcher(pattern);
-        editText.addTextChangedListener(patternedTextWatcher);
-        return patternedTextWatcher;
-    }
+  public static PatternedTextWatcher addTextChangedListener(EditText editText, String pattern) {
+    PatternedTextWatcher watcher = new PatternedTextWatcher(pattern);
+    editText.addTextChangedListener(watcher);
+    return watcher;
+  }
 
-    public static void clearTextChangeListener(EditText editText, PatternedTextWatcher patternedTextWatcher) {
-        editText.removeTextChangedListener(patternedTextWatcher);
-    }
+  public static void clearTextChangeListener(EditText editText, PatternedTextWatcher watcher) {
+    editText.removeTextChangedListener(watcher);
+  }
 
-    public static void clearTextChangeListener(EditText editText, PatternedTextWatcher patternedTextWatcher, boolean clearText) {
-        editText.removeTextChangedListener(patternedTextWatcher);
-        if (clearText) {
-            editText.getText().clear();
-        } else {
-            editText.setSelection(editText.length());
-        }
+  public static void clearTextChangeListener(EditText editText, PatternedTextWatcher watcher,
+      boolean clearText) {
+    editText.removeTextChangedListener(watcher);
+    if (clearText) {
+      editText.getText().clear();
+    } else {
+      editText.setSelection(editText.length());
     }
+  }
 }

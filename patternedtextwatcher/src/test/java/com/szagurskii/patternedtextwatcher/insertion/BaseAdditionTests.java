@@ -18,106 +18,107 @@ import static com.szagurskii.patternedtextwatcher.utils.EditTextUtils.clearTextC
  * @author Savelii Zagurskii
  */
 public abstract class BaseAdditionTests extends BaseTests {
-    // 9 chars
-    static final String PATTERN_1 = "(###-###)";
+  // 9 chars
+  static final String PATTERN_1 = "(###-###)";
 
-    final List<PatternCheck> PATTERN_CHECKS = new ArrayList<>();
+  final List<PatternCheck> PATTERN_CHECKS = new ArrayList<>();
 
-    @Test
-    @Override
-    public void validateAddingAndRemovingTextWatcher() {
-        appendAndCheck("", "");
+  @Test
+  @Override
+  public void validateAddingAndRemovingTextWatcher() {
+    appendAndCheck("", "");
+  }
+
+  @Test
+  public void multipleAdditionPatternCheck() {
+    fillPatternChecks();
+    for (PatternCheck patternCheck : PATTERN_CHECKS) {
+      appendAndCheck(patternCheck.getInput(),
+          patternCheck.getExpected(),
+          patternCheck.getExpectedFormattedString(),
+          patternCheck.getExpectedCleanString(),
+          patternCheck.getExpectedFullString(),
+          patternCheck.getPattern(),
+          true);
     }
+  }
 
-    @Test
-    public void multipleAdditionPatternCheck() {
-        fillPatternChecks();
-        for (PatternCheck patternCheck : PATTERN_CHECKS) {
-            appendAndCheck(patternCheck.getInput(),
-                    patternCheck.getExpected(),
-                    patternCheck.getExpectedFormattedString(),
-                    patternCheck.getExpectedCleanString(),
-                    patternCheck.getExpectedFullString(),
-                    patternCheck.getPattern(),
-                    true);
-        }
+  abstract void fillPatternChecks();
+
+  @After
+  public void tearDown() {
+    PATTERN_CHECKS.clear();
+  }
+
+  /**
+   * Append the string and assert the expected result.
+   *
+   * @param appended the string to append or to set.
+   * @param expected the expected result after setting, appending.
+   */
+  void appendAndCheck(String appended, String expected) {
+    appendAndCheck(appended, expected, null, null, null, PATTERN_1, true);
+  }
+
+  /**
+   * Append the string and assert the expected result.
+   *
+   * @param appended  the string to append or to set.
+   * @param expected  the expected result after setting, appending.
+   * @param clearText {@code true} to clear the text after asserting.
+   */
+  void appendAndCheck(String appended, String expected, boolean clearText) {
+    appendAndCheck(appended, expected, null, null, null, PATTERN_1, clearText);
+  }
+
+  /**
+   * Append the string and assert the expected result.
+   *
+   * @param appended  the string to append or to set.
+   * @param expected  the expected result after setting, appending.
+   * @param pattern   the pattern used in the TextWatcher. Needed to logging.
+   * @param clearText {@code true} to clear the text after asserting.
+   */
+  void appendAndCheck(String appended, String expected, String pattern, boolean clearText) {
+    appendAndCheck(appended, expected, null, null, null, pattern, clearText);
+  }
+
+  /**
+   * Append the string and assert the expected result.
+   *
+   * @param appended  the string to append or to set.
+   * @param expected  the expected result after setting, appending.
+   * @param pattern   the pattern used in the TextWatcher. Needed to logging.
+   * @param clearText {@code true} to clear the text after asserting.
+   */
+  void appendAndCheck(String appended, String expected,
+      String expectedFormattedString,
+      String expectedCleanString,
+      String expectedFullString,
+      String pattern, boolean clearText) {
+    PatternedTextWatcher patternedTextWatcher = init(editText, pattern);
+    addTextAndAssert(editText, expected, appended, pattern);
+    if (expectedFormattedString != null) {
+      assertText(appended, expectedFormattedString, patternedTextWatcher.getFormattedString(),
+          pattern);
     }
-
-    abstract void fillPatternChecks();
-
-    @After
-    public void tearDown() {
-        PATTERN_CHECKS.clear();
+    if (expectedCleanString != null) {
+      assertText(appended, expectedCleanString, patternedTextWatcher.getCleanString(), pattern);
     }
+    if (expectedFullString != null) {
+      assertText(appended, expectedFullString, patternedTextWatcher.getFullString(), pattern);
 
-    /**
-     * Append the string and assert the expected result.
-     *
-     * @param appended the string to append or to set.
-     * @param expected the expected result after setting, appending.
-     */
-    void appendAndCheck(String appended, String expected) {
-        appendAndCheck(appended, expected, null, null, null, PATTERN_1, true);
     }
+    clearTextChangeListener(editText, patternedTextWatcher, clearText);
+  }
 
-    /**
-     * Append the string and assert the expected result.
-     *
-     * @param appended  the string to append or to set.
-     * @param expected  the expected result after setting, appending.
-     * @param clearText {@code true} to clear the text after asserting.
-     */
-    void appendAndCheck(String appended, String expected, boolean clearText) {
-        appendAndCheck(appended, expected, null, null, null, PATTERN_1, clearText);
-    }
-
-    /**
-     * Append the string and assert the expected result.
-     *
-     * @param appended  the string to append or to set.
-     * @param expected  the expected result after setting, appending.
-     * @param pattern   the pattern used in the TextWatcher. Needed to logging.
-     * @param clearText {@code true} to clear the text after asserting.
-     */
-    void appendAndCheck(String appended, String expected, String pattern, boolean clearText) {
-        appendAndCheck(appended, expected, null, null, null, pattern, clearText);
-    }
-
-    /**
-     * Append the string and assert the expected result.
-     *
-     * @param appended  the string to append or to set.
-     * @param expected  the expected result after setting, appending.
-     * @param pattern   the pattern used in the TextWatcher. Needed to logging.
-     * @param clearText {@code true} to clear the text after asserting.
-     */
-    void appendAndCheck(String appended, String expected,
-                        String expectedFormattedString,
-                        String expectedCleanString,
-                        String expectedFullString,
-                        String pattern, boolean clearText) {
-        PatternedTextWatcher patternedTextWatcher = init(editText, pattern);
-        addTextAndAssert(editText, expected, appended, pattern);
-        if (expectedFormattedString != null) {
-            assertText(appended, expectedFormattedString, patternedTextWatcher.getFormattedString(), pattern);
-        }
-        if (expectedCleanString != null) {
-            assertText(appended, expectedCleanString, patternedTextWatcher.getCleanString(), pattern);
-        }
-        if (expectedFullString != null) {
-            assertText(appended, expectedFullString, patternedTextWatcher.getFullString(), pattern);
-
-        }
-        clearTextChangeListener(editText, patternedTextWatcher, clearText);
-    }
-
-    /**
-     * Add or set text to EditText and assert the expected result.
-     *
-     * @param editText current EdiText to watch.
-     * @param expected expected string.
-     * @param typed    what was typed.
-     * @param pattern  the pattern which was used.
-     */
-    abstract void addTextAndAssert(EditText editText, String expected, String typed, String pattern);
+  /**
+   * Add or set text to EditText and assert the expected result.
+   *
+   * @param editText current EdiText to watch.
+   * @param expected expected string.
+   * @param typed    what was typed.
+   * @param pattern  the pattern which was used.
+   */
+  abstract void addTextAndAssert(EditText editText, String expected, String typed, String pattern);
 }

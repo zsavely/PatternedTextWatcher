@@ -11,53 +11,53 @@ import static junit.framework.Assert.assertTrue;
  * @author Savelii Zagurskii
  */
 public class ConfigurationTests {
-    private static final String MESSAGE = "Condition was incorrect.";
+  private static final String MESSAGE = "Condition was incorrect.";
 
-    @Before
-    public void setup() {
-    }
+  @Before
+  public void setup() {
+  }
 
-    @Test
-    public void defaultConfiguration() {
-        PatternedTextWatcher patternedTextWatcher = new PatternedTextWatcher("#");
+  @Test
+  public void defaultConfiguration() {
+    PatternedTextWatcher patternedTextWatcher = new PatternedTextWatcher("#");
 
-        assertTrue(MESSAGE, patternedTextWatcher.isDeletingExtra());
-        assertTrue(MESSAGE, patternedTextWatcher.isEnabled());
-        assertTrue(MESSAGE, patternedTextWatcher.isFillingExtra());
-        assertTrue(MESSAGE, patternedTextWatcher.isRespectingPatternLength());
-        assertTrue(MESSAGE, !patternedTextWatcher.isSavingInput());
-        assertTrue(MESSAGE, !patternedTextWatcher.isDebug());
-    }
+    assertTrue(MESSAGE, patternedTextWatcher.isDeletingExtra());
+    assertTrue(MESSAGE, patternedTextWatcher.isEnabled());
+    assertTrue(MESSAGE, patternedTextWatcher.isFillingExtra());
+    assertTrue(MESSAGE, patternedTextWatcher.isRespectingPatternLength());
+    assertTrue(MESSAGE, !patternedTextWatcher.isSavingInput());
+    assertTrue(MESSAGE, !patternedTextWatcher.isDebug());
+  }
 
-    @Test
-    public void customConfiguration() {
-        PatternedTextWatcher patternedTextWatcher = new PatternedTextWatcher.Builder("#")
-                .fillExtraCharactersAutomatically(false)
-                .deleteExtraCharactersAutomatically(false)
-                .debug(true)
-                .respectPatternLength(false)
-                .saveAllInput(true)
-                .build();
+  @Test
+  public void customConfiguration() {
+    PatternedTextWatcher patternedTextWatcher = new PatternedTextWatcher.Builder("#")
+        .fillExtraCharactersAutomatically(false)
+        .deleteExtraCharactersAutomatically(false)
+        .debug(true)
+        .respectPatternLength(false)
+        .saveAllInput(true)
+        .build();
 
-        assertTrue(MESSAGE, !patternedTextWatcher.isDeletingExtra());
-        assertTrue(MESSAGE, patternedTextWatcher.isEnabled());
-        assertTrue(MESSAGE, !patternedTextWatcher.isFillingExtra());
-        assertTrue(MESSAGE, !patternedTextWatcher.isRespectingPatternLength());
-        assertTrue(MESSAGE, patternedTextWatcher.isSavingInput());
-        assertTrue(MESSAGE, patternedTextWatcher.isDebug());
-    }
+    assertTrue(MESSAGE, !patternedTextWatcher.isDeletingExtra());
+    assertTrue(MESSAGE, patternedTextWatcher.isEnabled());
+    assertTrue(MESSAGE, !patternedTextWatcher.isFillingExtra());
+    assertTrue(MESSAGE, !patternedTextWatcher.isRespectingPatternLength());
+    assertTrue(MESSAGE, patternedTextWatcher.isSavingInput());
+    assertTrue(MESSAGE, patternedTextWatcher.isDebug());
+  }
 
-    @Test
-    public void customConfiguration2() {
-        PatternedTextWatcher patternedTextWatcher = new PatternedTextWatcher.Builder("#")
-                .build();
-        patternedTextWatcher.setEnabled(false);
+  @Test
+  public void customConfiguration2() {
+    PatternedTextWatcher patternedTextWatcher = new PatternedTextWatcher.Builder("#")
+        .build();
+    patternedTextWatcher.setEnabled(false);
 
-        assertTrue(MESSAGE, patternedTextWatcher.isDeletingExtra());
-        assertTrue(MESSAGE, !patternedTextWatcher.isEnabled());
-        assertTrue(MESSAGE, patternedTextWatcher.isFillingExtra());
-        assertTrue(MESSAGE, patternedTextWatcher.isRespectingPatternLength());
-        assertTrue(MESSAGE, !patternedTextWatcher.isSavingInput());
-        assertTrue(MESSAGE, !patternedTextWatcher.isDebug());
-    }
+    assertTrue(MESSAGE, patternedTextWatcher.isDeletingExtra());
+    assertTrue(MESSAGE, !patternedTextWatcher.isEnabled());
+    assertTrue(MESSAGE, patternedTextWatcher.isFillingExtra());
+    assertTrue(MESSAGE, patternedTextWatcher.isRespectingPatternLength());
+    assertTrue(MESSAGE, !patternedTextWatcher.isSavingInput());
+    assertTrue(MESSAGE, !patternedTextWatcher.isDebug());
+  }
 }

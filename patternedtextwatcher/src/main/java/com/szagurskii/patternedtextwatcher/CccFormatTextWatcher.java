@@ -5,7 +5,8 @@ import android.text.TextWatcher;
 
 /**
  * <p>This class is needed to format Código cuenta cliente (CCC).</p>
- * <p>The Customer Account Code (CCC) is a code used in Spain by financial institutions (banks and credit unions)
+ * <p>The Customer Account Code (CCC) is a code used in Spain by financial institutions (banks
+ * and credit unions)
  * to identify the accounts of their clients. It consists of twenty digits.</p>
  * <a href="URL">https://es.wikipedia.org/wiki/C%C3%B3digo_cuenta_cliente</a>
  *
@@ -13,52 +14,52 @@ import android.text.TextWatcher;
  */
 public class CccFormatTextWatcher implements TextWatcher {
 
-    private static final char SPACE = ' ';
+  private static final char SPACE = ' ';
 
-    // The maximum length of the CCC.
-    private static final int MAX_LENGTH = 20 + 3;
+  // The maximum length of the CCC.
+  private static final int MAX_LENGTH = 20 + 3;
 
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
+  @Override
+  public void onTextChanged(CharSequence s, int start, int before, int count) {
+  }
+
+  @Override
+  public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+  }
+
+  @Override
+  public void afterTextChanged(Editable s) {
+    StringBuilder sb = new StringBuilder(s);
+
+    for (int i = sb.length() - 1; i >= 0; i--) {
+      char c = sb.charAt(i);
+      if (SPACE == c) {
+        sb.delete(i, i + 1);
+      }
     }
 
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    if (sb.length() > 4) {
+      int i = 4;
+      int j;
+
+      while (i < sb.length()) {
+        j = i + 1;
+
+        // Don't let the user insert more symbols than the maximum allowed.
+        if (i >= MAX_LENGTH) {
+          sb.delete(i, j);
+        }
+
+        // Space must be inserted at these places.
+        if (j == 5 | j == 10 | j == 13) {
+          sb.insert(i, String.valueOf(SPACE));
+        }
+        i++;
+      }
     }
 
-    @Override
-    public void afterTextChanged(Editable s) {
-        StringBuilder sb = new StringBuilder(s);
-
-        for (int i = sb.length() - 1; i >= 0; i--) {
-            char c = sb.charAt(i);
-            if (SPACE == c) {
-                sb.delete(i, i + 1);
-            }
-        }
-
-        if (sb.length() > 4) {
-            int i = 4;
-            int j;
-
-            while (i < sb.length()) {
-                j = i + 1;
-
-                // Don't let the user insert more symbols than the maximum allowed.
-                if (i >= MAX_LENGTH) {
-                    sb.delete(i, j);
-                }
-
-                // Space must be inserted at these places.
-                if (j == 5 | j == 10 | j == 13) {
-                    sb.insert(i, String.valueOf(SPACE));
-                }
-                i++;
-            }
-        }
-
-        if (!s.toString().equals(sb.toString())) {
-            s.replace(0, s.length(), sb);
-        }
+    if (!s.toString().equals(sb.toString())) {
+      s.replace(0, s.length(), sb);
     }
+  }
 }
