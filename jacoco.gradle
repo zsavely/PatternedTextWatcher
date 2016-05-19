@@ -1,6 +1,9 @@
 // Somehow jacoco doesn't want to work with Robolectric 3.0, Gradle 2.13.
 // This is a workaround from:
 // https://github.com/mkjensen/danish-media-license/blob/5d9eb52a0d07790b132fb0a6818aa78a5bbbfed1/config/jacoco.gradle
+// And a merge from:
+// From https://github.com/mgouline/android-samples/blob/master/jacoco/jacoco.gradle
+// and https://github.com/pushtorefresh/storio/blob/master/gradle/jacoco-android.gradle
 configurations {
   jacoco
 }
