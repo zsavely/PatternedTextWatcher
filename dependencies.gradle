@@ -1,13 +1,18 @@
 ext.versions = [
-    supportLibs      : '23.3.0',
+    supportLibs       : '23.3.0',
 
-    junit            : '4.12',
-    robolectric      : '3.0',
-    assertJ          : '1.7.1',
-    equalsVerifier   : '1.7.5',
-    mockito          : '1.10.19',
-    supportTestRunner: '0.5',
-    espresso         : '2.2.1',
+    junit             : '4.12',
+    robolectric       : '3.0',
+    assertJ           : '1.7.1',
+    equalsVerifier    : '1.7.5',
+    mockito           : '1.10.19',
+    supportTestRunner : '0.5',
+    espresso          : '2.2.1',
+    jacocoGradlePlugin: '0.7.6.201602180812'
+]
+
+ext.gradlePlugins = [
+    jacoco: "org.jacoco:org.jacoco.core:$versions.jacocoGradlePlugin"
 ]
 
 ext.libraries = [

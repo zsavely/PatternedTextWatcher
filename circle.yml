@@ -32,3 +32,5 @@ test:
     - adb shell input keyevent 82
     # run the script
     - sh script.sh
+  post:
+    - bash <(curl -s https://codecov.io/bash)
