@@ -22,11 +22,7 @@ android {
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
   }
   buildTypes {
-    debug {
-      testCoverageEnabled true
-    }
     release {
-      testCoverageEnabled true
       minifyEnabled true
       shrinkResources true
       signingConfig signingConfigs.release
