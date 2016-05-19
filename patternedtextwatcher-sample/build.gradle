@@ -19,7 +19,7 @@ android {
     versionCode 1
     versionName "1.0"
 
-    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    testInstrumentationRunner 'com.szagurskii.patternedtextwatcher.sample.CustomTestRunner'
   }
   buildTypes {
     debug {
@@ -41,6 +41,7 @@ android {
   }
   lintOptions {
     disable 'GradleDependency'
+    disable 'MissingPermission'
   }
 }
 
