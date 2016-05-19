@@ -23,7 +23,7 @@ android {
   }
   buildTypes {
     debug {
-      testCoverageEnabled true
+      testCoverageEnabled false
     }
     release {
       minifyEnabled true
