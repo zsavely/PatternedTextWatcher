@@ -1,41 +1,41 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+  compileSdkVersion 23
+  buildToolsVersion "23.0.3"
 
-    defaultConfig {
-        applicationId "com.szagurskii.patternedtextwatcher.sample"
-        minSdkVersion 9
-        targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+  defaultConfig {
+    applicationId "com.szagurskii.patternedtextwatcher.sample"
+    minSdkVersion 9
+    targetSdkVersion 23
+    versionCode 1
+    versionName "1.0"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+  }
+  packagingOptions {
+    exclude 'META-INF/maven/com.google.guava/guava/pom.properties'
+    exclude 'META-INF/maven/com.google.guava/guava/pom.xml'
+  }
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
-    packagingOptions {
-        exclude 'META-INF/maven/com.google.guava/guava/pom.properties'
-        exclude 'META-INF/maven/com.google.guava/guava/pom.xml'
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-    lintOptions {
-        disable 'GradleDependency'
-    }
+  }
+  lintOptions {
+    disable 'GradleDependency'
+  }
 }
 
 dependencies {
-    compile project(':patternedtextwatcher')
+  compile project(':patternedtextwatcher')
 
-    // Testing-only dependencies
-    // Force usage of support annotations in the test app, since it is internally used by the runner module.
-    androidTestCompile 'com.google.guava:guava:18.0'
-    androidTestCompile 'com.android.support:support-annotations:23.3.0'
-    androidTestCompile 'com.android.support.test:runner:0.4.1'
-    androidTestCompile 'com.android.support.test:rules:0.4.1'
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
+  // Testing-only dependencies
+  // Force usage of support annotations in the test app, since it is internally used by the runner module.
+  androidTestCompile 'com.google.guava:guava:18.0'
+  androidTestCompile 'com.android.support:support-annotations:23.3.0'
+  androidTestCompile 'com.android.support.test:runner:0.4.1'
+  androidTestCompile 'com.android.support.test:rules:0.4.1'
+  androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
 }

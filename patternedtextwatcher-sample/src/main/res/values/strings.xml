@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PTW</string>
-    <string name="activity_name">Patterned TextWatcher</string>
-    <string name="hint_sample">Sample</string>
+  <string name="app_name">PTW</string>
+  <string name="activity_name">Patterned TextWatcher</string>
+  <string name="hint_sample">Sample</string>
 </resources>
