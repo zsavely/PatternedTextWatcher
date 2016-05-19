@@ -21,17 +21,24 @@ android {
 
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
   }
-  packagingOptions {
-    exclude 'META-INF/maven/com.google.guava/guava/pom.properties'
-    exclude 'META-INF/maven/com.google.guava/guava/pom.xml'
-  }
   buildTypes {
+    debug {
+      testCoverageEnabled true
+    }
     release {
+      testCoverageEnabled true
       minifyEnabled true
       shrinkResources true
       signingConfig signingConfigs.release
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
+  }
+  packagingOptions {
+    exclude 'META-INF/maven/com.google.guava/guava/pom.properties'
+    exclude 'META-INF/maven/com.google.guava/guava/pom.xml'
+  }
+  dexOptions {
+    incremental false
   }
   lintOptions {
     disable 'GradleDependency'

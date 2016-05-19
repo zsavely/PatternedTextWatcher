@@ -5,7 +5,7 @@
   xmlns:tools="http://schemas.android.com/tools">
 
   <application
-    android:allowBackup="true"
+    android:allowBackup="false"
     android:icon="@mipmap/ic_launcher"
     android:label="@string/app_name"
     android:supportsRtl="true"
@@ -19,5 +19,6 @@
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
+    <activity android:name=".TestActivity"/>
   </application>
 </manifest>

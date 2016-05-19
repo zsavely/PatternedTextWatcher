@@ -23,7 +23,7 @@ public class FormattingTests {
   private static final String STRING_TO_BE_TYPED = "Espresso";
 
   @Rule
-  public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class);
+  public ActivityTestRule<TestActivity> mActivityRule = new ActivityTestRule<>(TestActivity.class);
 
   private EditText editText;
 

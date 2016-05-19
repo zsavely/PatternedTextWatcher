@@ -20,7 +20,7 @@ import org.junit.runner.RunWith;
 @LargeTest
 public class TextInsertionPatternTests {
   @Rule
-  public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class);
+  public ActivityTestRule<TestActivity> mActivityRule = new ActivityTestRule<>(TestActivity.class);
 
   private EditText editText;
 
