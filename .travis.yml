@@ -3,7 +3,7 @@ language: android
 jdk: oraclejdk8
 env:
   global:
-    - ANDROID_TARGET=android-21
+    - ANDROID_TARGET=android-15
     - ANDROID_ABI=armeabi-v7a
 
 android:
@@ -23,7 +23,7 @@ before_install:
 script:
   - android-wait-for-emulator
   - adb devices
-  - adb shell input keyevent 82 &amp;
+  - adb shell input keyevent 82 &
   - adb shell setprop dalvik.vm.dexopt-flags v=n,o=v
   - sh script.sh
 
