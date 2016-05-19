@@ -1,12 +1,22 @@
-// From https://github.com/mgouline/android-samples/blob/master/jacoco/jacoco.gradle
-// and https://github.com/pushtorefresh/storio/blob/master/gradle/jacoco-android.gradle
-apply plugin: 'jacoco'
+// Somehow jacoco doesn't want to work with Robolectric 3.0, Gradle 2.13.
+// This is a workaround from:
+// https://github.com/mkjensen/danish-media-license/blob/5d9eb52a0d07790b132fb0a6818aa78a5bbbfed1/config/jacoco.gradle
+configurations {
+  jacoco
+}
 
-jacoco {
-  toolVersion = "0.7.6.201602180812"
+dependencies {
+  jacoco 'org.jacoco:org.jacoco.agent:0.7.2.201409121644'
 }
 
 project.afterEvaluate {
+  unzipJacocoAgent.onlyIf { false }
+
+  transformClassesWithJacocoForDebug.dependsOn extractJacocoAgent
+
+  testDebugUnitTest.jvmArgs "-javaagent:${project.buildDir}/intermediates/jacoco/jacocoagent.jar=append=true,destfile=${project.buildDir}/outputs/code-coverage/connected/coverage.ec"
+  testDebugUnitTest.mustRunAfter connectedDebugAndroidTest
+
   // Grab all build types and product flavors
   def buildTypes = android.buildTypes.collect { type -> type.name }
   def productFlavors = android.productFlavors.collect { flavor -> flavor.name }
@@ -61,4 +71,11 @@ project.afterEvaluate {
       }
     }
   }
+}
+
+task extractJacocoAgent(type: Copy) {
+  from {
+    configurations.jacoco.collect { zipTree(it) }
+  }
+  into "${project.buildDir}/intermediates/jacoco"
 }
