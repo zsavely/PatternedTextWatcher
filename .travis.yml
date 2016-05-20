@@ -1,6 +1,8 @@
 sudo: false
+
 language: android
 jdk: oraclejdk8
+
 env:
   global:
     - ANDROID_TARGET=android-15
@@ -16,9 +18,10 @@ android:
     - sys-img-${ANDROID_ABI}-${ANDROID_TARGET}
 
 before_install:
- - chmod +x gradlew
- - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
- - emulator -avd test -no-skin -no-audio -no-window &
+  - chmod +x gradlew
+  - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
+  - emulator -avd test -no-skin -no-audio -no-window &
+  - pip install --user codecov
 
 script:
   - android-wait-for-emulator
@@ -41,4 +44,4 @@ cache:
     - $HOME/.gradle/wrapper/
 
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - codecov

@@ -10,10 +10,29 @@ android {
     targetSdkVersion 23
     versionCode 6
     versionName "0.5.0"
+
+    testInstrumentationRunner 'com.szagurskii.patternedtextwatcher.utils.RxBindingTestRunner'
   }
   buildTypes {
     debug {
       testCoverageEnabled true
+    }
+    release {
+      testCoverageEnabled true
+    }
+  }
+  lintOptions {
+    disable 'MissingPermission'
+  }
+  testOptions {
+    unitTests.all {
+      jacoco {
+        includeNoLocationClasses = true
+      }
+      testLogging {
+        events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+        exceptionFormat 'full'
+      }
     }
   }
 }
@@ -33,13 +52,6 @@ dependencies {
     exclude module: 'support-annotations'
     exclude module: 'recyclerview-v7'
     exclude module: 'support-v4'
-  }
-}
-
-configurations.all {
-  resolutionStrategy {
-    // Force our version of support-annotations, we have a conflict between app and androidTest dependency resolution.
-    force libraries.supportAnnotations
   }
 }
 

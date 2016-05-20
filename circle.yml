@@ -2,7 +2,7 @@ machine:
   environment:
     PATH: "~/$CIRCLE_PROJECT_REPONAME/gradle-2.13/bin:$PATH"
     TERM: "dumb"
-    ADB_INSTALL_TIMEOUT: "10"
+    ADB_INSTALL_TIMEOUT: "30"
     GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx2048m -XX:+HeapDumpOnOutOfMemoryError"'
   java:
     version: oraclejdk8
@@ -20,17 +20,15 @@ dependencies:
     - echo y | android update sdk --no-ui --all --filter "build-tools-23.0.3"
 
 test:
-  override:
-    # start the emulator
+  pre:
+    # Start the emulator.
     - emulator -avd circleci-android22 -no-audio -no-window:
         background: true
         parallel: true
-    # wait for it to have booted
+    # Wait for it to have booted.
     - circle-android wait-for-boot
-    # unlock the emulator screen
-    - sleep 30
-    - adb shell input keyevent 82
-    # run the script
+
+  override:
+    # Run the script.
     - sh script.sh
-  post:
-    - bash <(curl -s https://codecov.io/bash)
+    - pip install --user codecov && codecov

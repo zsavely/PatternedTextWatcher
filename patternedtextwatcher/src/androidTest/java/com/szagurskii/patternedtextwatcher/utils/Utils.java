@@ -1,9 +1,7 @@
-package com.szagurskii.patternedtextwatcher.sample.utils;
+package com.szagurskii.patternedtextwatcher.utils;
 
 import android.support.test.espresso.action.ViewActions;
 import android.view.KeyEvent;
-
-import com.szagurskii.patternedtextwatcher.sample.R;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
@@ -24,7 +22,7 @@ public class Utils {
    */
   public static void typeTextAndAssert(String input, String expectedOutput) {
     // Type text.
-    onView(withId(R.id.et_sample))
+    onView(withId(android.R.id.primary))
         .perform(typeText(input), closeSoftKeyboard());
 
     // Check that the text was changed.
@@ -39,7 +37,7 @@ public class Utils {
    */
   public static void insertTextAtOnceAndAssert(String input, String expectedOutput) {
     // Type input.
-    onView(withId(R.id.et_sample))
+    onView(withId(android.R.id.primary))
         .perform(ViewActions.replaceText(input));
     assertExpectedOutput(expectedOutput);
 
@@ -52,7 +50,7 @@ public class Utils {
    */
   public static void assertExpectedOutput(String expectedOutput) {
     // Check that the input was changed.
-    onView(withId(R.id.et_sample))
+    onView(withId(android.R.id.primary))
         .check(matches(withText(expectedOutput)));
   }
 
@@ -60,6 +58,6 @@ public class Utils {
    * Delete one character from the edit text.
    */
   public static void deleteOneCharacter() {
-    onView(withId(R.id.et_sample)).perform(ViewActions.pressKey(KeyEvent.KEYCODE_DEL));
+    onView(withId(android.R.id.primary)).perform(ViewActions.pressKey(KeyEvent.KEYCODE_DEL));
   }
 }

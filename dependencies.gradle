@@ -8,8 +8,8 @@ ext.versions = [
     mockito           : '1.10.19',
     supportTestRunner : '0.5',
     espresso          : '2.2.1',
-    jacocoGradlePlugin: '0.7.2.201409121644'
-    //jacocoGradlePlugin: '0.7.6.201602180812'
+    //jacocoGradlePlugin: '0.7.2.201409121644'
+    jacocoGradlePlugin: '0.7.6.201602180812'
 ]
 
 ext.gradlePlugins = [
