@@ -52,7 +52,9 @@ project.afterEvaluate {
         ]
         additionalSourceDirs = files(coverageSourceDirs)
         sourceDirectories = files(coverageSourceDirs)
-        executionData = files("${project.buildDir}/jacoco/${testTaskName}.exec")
+        executionData = files(["${project.buildDir}/jacoco/${testTaskName}.exec",
+                               "${buildDir}/outputs/code-coverage/connected/coverage.ec"
+        ])
 
         reports {
           xml.enabled = true
