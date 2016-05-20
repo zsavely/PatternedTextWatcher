@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-apply from: '../jacoco.gradle'
+apply plugin: 'jacoco'
 
 android {
   compileSdkVersion 23
@@ -24,6 +24,13 @@ android {
   lintOptions {
     disable 'MissingPermission'
   }
+  testOptions {
+    unitTests.all {
+      jacoco {
+        includeNoLocationClasses = true
+      }
+    }
+  }
 }
 
 dependencies {
@@ -43,6 +50,8 @@ dependencies {
     exclude module: 'support-v4'
   }
 }
+
+apply from: '../jacoco.gradle'
 
 //ext {
 //    bintrayRepo = 'maven'
