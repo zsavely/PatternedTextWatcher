@@ -4,10 +4,10 @@ import android.os.Build;
 import android.widget.EditText;
 
 import com.szagurskii.patternedtextwatcher.BuildConfig;
+import com.szagurskii.patternedtextwatcher.CustomRobolectricTestRunner;
 import com.szagurskii.patternedtextwatcher.PatternedTextWatcher;
 
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
 import static com.szagurskii.patternedtextwatcher.utils.EditTextUtils.clearTextChangeListener;
@@ -16,7 +16,7 @@ import static com.szagurskii.patternedtextwatcher.utils.EditTextUtils.clearTextC
  * @author Savelii Zagurskii
  */
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
-@RunWith(RobolectricGradleTestRunner.class)
+@RunWith(CustomRobolectricTestRunner.class)
 public class GradualDefaultDeletionTests extends BaseDefaultDeletionTests {
   @Override
   public void multipleAddingAndDeletion1() {

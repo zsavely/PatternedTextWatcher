@@ -4,16 +4,16 @@ import android.os.Build;
 import android.widget.EditText;
 
 import com.szagurskii.patternedtextwatcher.BuildConfig;
+import com.szagurskii.patternedtextwatcher.CustomRobolectricTestRunner;
 
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
 /**
  * @author Savelii Zagurskii
  */
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
-@RunWith(RobolectricGradleTestRunner.class)
+@RunWith(CustomRobolectricTestRunner.class)
 public class AppendingTestsDefault extends BaseDefaultAdditionTests {
   @Override
   public void multipleAddition() {

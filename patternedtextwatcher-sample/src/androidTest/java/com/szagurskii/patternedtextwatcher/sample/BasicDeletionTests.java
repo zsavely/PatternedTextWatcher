@@ -2,7 +2,6 @@ package com.szagurskii.patternedtextwatcher.sample;
 
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.LargeTest;
 import android.widget.EditText;
 
 import com.szagurskii.patternedtextwatcher.PatternedTextWatcher;
@@ -17,12 +16,11 @@ import org.junit.runner.RunWith;
  * @author Savelii Zagurskii
  */
 @RunWith(AndroidJUnit4.class)
-@LargeTest
 public class BasicDeletionTests {
   private static final String STRING_TO_BE_TYPED = "Espresso";
 
   @Rule
-  public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class);
+  public ActivityTestRule<TestActivity> mActivityRule = new ActivityTestRule<>(TestActivity.class);
 
   private EditText editText;
 

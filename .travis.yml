@@ -17,11 +17,13 @@ android:
 
 before_install:
  - chmod +x gradlew
+ - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
+ - emulator -avd test -no-skin -no-audio -no-window &
 
 script:
-  - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
-  - emulator -avd test -no-skin -no-audio -no-window &
   - android-wait-for-emulator
+  - adb devices
+  - adb shell input keyevent 82 &
   - adb shell setprop dalvik.vm.dexopt-flags v=n,o=v
   - sh script.sh
 
@@ -37,3 +39,6 @@ cache:
     - $HOME/.gradle
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
