@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-apply plugin: 'jacoco'
+apply from: '../jacoco.gradle'
 
 android {
   compileSdkVersion 23
@@ -29,6 +29,10 @@ android {
       jacoco {
         includeNoLocationClasses = true
       }
+      testLogging {
+        events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+        exceptionFormat 'full'
+      }
     }
   }
 }
@@ -50,8 +54,6 @@ dependencies {
     exclude module: 'support-v4'
   }
 }
-
-apply from: '../jacoco.gradle'
 
 //ext {
 //    bintrayRepo = 'maven'

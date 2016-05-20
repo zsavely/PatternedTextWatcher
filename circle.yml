@@ -31,6 +31,4 @@ test:
   override:
     # Run the script.
     - sh script.sh
-
-  post:
-    - bash <(curl -s https://codecov.io/bash)
+    - pip install --user codecov && codecov

@@ -2,10 +2,6 @@
 // and https://github.com/pushtorefresh/storio/blob/master/gradle/jacoco-android.gradle
 apply plugin: 'jacoco'
 
-jacoco {
-  toolVersion = "0.7.6.201602180812"
-}
-
 project.afterEvaluate {
   // Grab all build types and product flavors
   def buildTypes = android.buildTypes.collect { type -> type.name }
@@ -61,6 +57,7 @@ project.afterEvaluate {
           html.enabled = true
         }
       }
+      build.dependsOn "${coverageTaskName}"
     }
   }
 }
