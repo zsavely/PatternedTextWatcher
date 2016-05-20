@@ -1,5 +1,6 @@
 // From https://github.com/mgouline/android-samples/blob/master/jacoco/jacoco.gradle
 // and https://github.com/pushtorefresh/storio/blob/master/gradle/jacoco-android.gradle
+// and https://github.com/artem-zinnatullin/qualitymatters/blob/master/code_quality_tools/jacoco.gradle
 apply plugin: 'jacoco'
 
 project.afterEvaluate {
@@ -20,9 +21,10 @@ project.afterEvaluate {
         sourcePath = "${productFlavorName}/${buildTypeName}"
       }
       def testTaskName = "test${sourceName.capitalize()}UnitTest"
+      def coverageTaskName = "${testTaskName}Coverage"
 
       // Create coverage task of form 'testFlavorTypeCoverage' depending on 'testFlavorTypeUnitTest'
-      task "${testTaskName}Coverage"(type: JacocoReport, dependsOn: "$testTaskName") {
+      task "${coverageTaskName}"(type: JacocoReport, dependsOn: "$testTaskName") {
         group = "Reporting"
         description = "Generate Jacoco coverage reports on the ${sourceName.capitalize()} build."
 
