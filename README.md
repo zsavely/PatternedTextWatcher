@@ -2,6 +2,8 @@ PatternedTextWatcher
 ========
 [![Build Status](https://travis-ci.org/zsavely/PatternedTextWatcher.svg?branch=master)](https://travis-ci.org/zsavely/PatternedTextWatcher)
 [![Download](https://api.bintray.com/packages/zsavely/maven/patternedtextwatcher/images/download.svg) ](https://bintray.com/zsavely/maven/patternedtextwatcher/_latestVersion)
+[![codecov](https://codecov.io/gh/zsavely/PatternedTextWatcher/branch/master/graph/badge.svg)](https://codecov.io/gh/zsavely/PatternedTextWatcher)
+<a href="http://www.methodscount.com/?lib=com.szagurskii%3Apatternedtextwatcher%3A0.5.0"><img src="https://img.shields.io/badge/Methods and size-127 | 13 KB-e91e63.svg"></img></a>
 
 Customizable TextWatcher for implementing different input types very quickly.
 
