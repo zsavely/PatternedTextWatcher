@@ -1,14 +1,9 @@
-package com.szagurskii.patternedtextwatcher.sample;
+package com.szagurskii.patternedtextwatcher;
 
-import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.widget.EditText;
 
-import com.szagurskii.patternedtextwatcher.PatternedTextWatcher;
-import com.szagurskii.patternedtextwatcher.sample.utils.Utils;
+import com.szagurskii.patternedtextwatcher.utils.Utils;
 
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -16,17 +11,7 @@ import org.junit.runner.RunWith;
  * @author Savelii Zagurskii
  */
 @RunWith(AndroidJUnit4.class)
-public class TextInsertionPatternTests {
-  @Rule
-  public ActivityTestRule<TestActivity> mActivityRule = new ActivityTestRule<>(TestActivity.class);
-
-  private EditText editText;
-
-  @Before
-  public void setUp() throws Exception {
-    editText = (EditText) mActivityRule.getActivity().findViewById(R.id.et_sample);
-  }
-
+public class TextInsertionPatternTests extends BaseTests {
   @Test
   public void simpleTextChanged() {
     addTextChangedListener("(##-##)");

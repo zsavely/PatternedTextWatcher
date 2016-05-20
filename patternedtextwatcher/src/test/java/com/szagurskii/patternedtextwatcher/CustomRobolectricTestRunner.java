@@ -9,6 +9,6 @@ import org.robolectric.RobolectricGradleTestRunner;
 public class CustomRobolectricTestRunner extends RobolectricGradleTestRunner {
   public CustomRobolectricTestRunner(Class<?> klass) throws InitializationError {
     super(klass);
-    //System.setProperty("user.home", "C:\\Repository");
+    System.setProperty("user.home", "C:\\Repository");
   }
 }
