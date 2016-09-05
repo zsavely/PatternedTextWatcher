@@ -49,7 +49,7 @@ repositories {
 }
 ```
 
-```
+```groovy
 compile 'com.szagurskii:patternedtextwatcher:0.6.0-SNAPSHOT'
 ```
     
