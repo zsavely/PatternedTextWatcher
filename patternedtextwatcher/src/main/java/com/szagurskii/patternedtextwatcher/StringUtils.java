@@ -1,10 +1,10 @@
-package com.szagurskii.patternedtextwatcher.utils;
+package com.szagurskii.patternedtextwatcher;
 
 /**
  * * <p>Operations on {@link java.lang.String} that are
  * {@code null} safe.</p>
  */
-public class StringUtils {
+final class StringUtils {
 
   /**
    * Represents a failed index search.
@@ -190,5 +190,8 @@ public class StringUtils {
       return shortestStrLen;
     }
     return firstDiff;
+  }
+
+  private StringUtils() {
   }
 }

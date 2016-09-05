@@ -1,8 +1,5 @@
 package com.szagurskii.patternedtextwatcher.models;
 
-/**
- * @author Savelii Zagurskii
- */
 public class PatternCheck {
   private String pattern;
 

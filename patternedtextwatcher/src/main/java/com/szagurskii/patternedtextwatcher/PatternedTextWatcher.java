@@ -3,10 +3,6 @@ package com.szagurskii.patternedtextwatcher;
 import android.text.Editable;
 import android.text.TextWatcher;
 
-import com.szagurskii.patternedtextwatcher.utils.ConversionUtils;
-import com.szagurskii.patternedtextwatcher.utils.LogUtils;
-import com.szagurskii.patternedtextwatcher.utils.StringUtils;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;

@@ -9,9 +9,6 @@ import com.szagurskii.patternedtextwatcher.CustomRobolectricTestRunner;
 import org.junit.runner.RunWith;
 import org.robolectric.annotation.Config;
 
-/**
- * @author Savelii Zagurskii
- */
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
 @RunWith(CustomRobolectricTestRunner.class)
 public class AppendingTestsCustom extends BaseCustomizedAdditionTests {

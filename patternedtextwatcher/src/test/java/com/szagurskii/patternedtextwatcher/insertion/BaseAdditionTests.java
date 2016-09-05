@@ -14,9 +14,6 @@ import java.util.List;
 
 import static com.szagurskii.patternedtextwatcher.utils.EditTextUtils.clearTextChangeListener;
 
-/**
- * @author Savelii Zagurskii
- */
 public abstract class BaseAdditionTests extends BaseTests {
   // 9 chars
   static final String PATTERN_1 = "(###-###)";

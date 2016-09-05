@@ -1,12 +1,9 @@
-package com.szagurskii.patternedtextwatcher.utils;
+package com.szagurskii.patternedtextwatcher;
 
 import java.util.AbstractList;
 import java.util.List;
 
-/**
- * @author Savelii Zagurskii
- */
-public class ConversionUtils {
+final class ConversionUtils {
   /**
    * Convert {@link String} to a {@link List} of {@link Character}s.
    *
@@ -26,5 +23,8 @@ public class ConversionUtils {
         return string.charAt(index);
       }
     };
+  }
+
+  private ConversionUtils() {
   }
 }

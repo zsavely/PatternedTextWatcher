@@ -10,9 +10,6 @@ import org.junit.Test;
 import static com.szagurskii.patternedtextwatcher.utils.EditTextUtils.addTextChangedListener;
 import static com.szagurskii.patternedtextwatcher.utils.EditTextUtils.clearTextChangeListener;
 
-/**
- * @author Savelii Zagurskii
- */
 public abstract class BaseDeletionTests extends BaseTests {
   // 9 chars
   static final String INSERT = "123456789";

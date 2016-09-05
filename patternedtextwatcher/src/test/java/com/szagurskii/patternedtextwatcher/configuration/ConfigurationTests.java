@@ -7,9 +7,6 @@ import org.junit.Test;
 
 import static junit.framework.Assert.assertTrue;
 
-/**
- * @author Savelii Zagurskii
- */
 public class ConfigurationTests {
   private static final String MESSAGE = "Condition was incorrect.";
 
