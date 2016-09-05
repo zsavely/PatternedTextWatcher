@@ -397,19 +397,15 @@ public class PatternedTextWatcher implements TextWatcher {
     boolean patternValidated = true;
     for (int i = 0; i < patternCharactersByIndex.size(); i++) {
       Character character = patternCharactersByIndex.get(i);
-      if (character != null) {
-        if (sb.length() > i) {
-          if (character != sb.charAt(i)) {
-            LogUtils.logw("validatePattern",
-                String.format("Assertion error! Expected \"%1$s\" in index \'%2$s\'." +
-                        "\nGot \"%3$s\".",
-                    character,
-                    i,
-                    sb.charAt(i)),
-                debug);
-            patternValidated = false;
-          }
-        }
+      if (character != null && sb.length() > i && character != sb.charAt(i)) {
+        LogUtils.logw("validatePattern",
+            String.format("Assertion error! Expected \"%1$s\" in index \'%2$s\'." +
+                    "\nGot \"%3$s\".",
+                character,
+                i,
+                sb.charAt(i)),
+            debug);
+        patternValidated = false;
       }
     }
     return patternValidated;
