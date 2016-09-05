@@ -31,9 +31,6 @@ script:
   - adb shell setprop dalvik.vm.dexopt-flags v=n,o=v
   - sh script.sh
 
-after_success:
-  - .buildscript/deploy_snapshot.sh
-
 notifications:
   email: true
 
@@ -48,4 +45,5 @@ cache:
     - $HOME/.gradle/wrapper/
 
 after_success:
+  - .buildscript/deploy_snapshot.sh
   - codecov
