@@ -1,12 +1,20 @@
 package com.szagurskii.patternedtextwatcher.configuration;
 
+import android.os.Build;
+
+import com.szagurskii.patternedtextwatcher.BuildConfig;
+import com.szagurskii.patternedtextwatcher.CustomRobolectricTestRunner;
 import com.szagurskii.patternedtextwatcher.PatternedTextWatcher;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.assertTrue;
 
+@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
+@RunWith(CustomRobolectricTestRunner.class)
 public class ConfigurationTests {
   private static final String MESSAGE = "Condition was incorrect.";
 

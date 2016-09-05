@@ -1,8 +1,14 @@
 package com.szagurskii.patternedtextwatcher;
 
+import android.os.Build;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.annotation.Config;
 
+@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
+@RunWith(CustomRobolectricTestRunner.class)
 public class PreconditionsTests {
   @Before
   public void setup() {
