@@ -10,7 +10,7 @@ public class PreconditionsTests {
 
   @Test(expected = NullPointerException.class)
   public void shouldThrowIfNull() {
-    PatternedTextWatcher patternedTextWatcher = new PatternedTextWatcher(null);
+    PatternedTextWatcher patternedTextWatcher = new PatternedTextWatcher((String) null);
   }
 
   @Test(expected = IllegalArgumentException.class)
