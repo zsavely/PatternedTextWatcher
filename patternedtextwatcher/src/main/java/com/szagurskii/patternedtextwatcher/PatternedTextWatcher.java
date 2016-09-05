@@ -4,38 +4,30 @@ import android.text.Editable;
 import android.text.TextWatcher;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import static com.szagurskii.patternedtextwatcher.Preconditions.checkInput;
 import static com.szagurskii.patternedtextwatcher.Preconditions.checkPatternInInput;
 import static com.szagurskii.patternedtextwatcher.Preconditions.checkPatternInput;
 
 /**
- * A customizable text watcher which can be constructed via
- * {@link com.szagurskii.patternedtextwatcher.PatternedTextWatcher.Builder}.
+ * A customizable text watcher which can be constructed via {@link Builder}.
  *
  * @author Savelii Zagurskii
  */
 public class PatternedTextWatcher implements TextWatcher {
 
-  private static final String DEFAULT_CHAR = "#";
+  static final String DEFAULT_CHAR = "#";
 
-  private final String pattern;
   private final int maxLength;
-  private final String specialChar;
-  private final Set<Character> specialCharacters;
+  private final char specialCharacter;
 
-  /**
-   * Indexes of secondary characters (not inserted by user).
-   */
+  /** Indexes of secondary characters (not inserted by user). */
   private final Map<Integer, Character> patternCharactersByIndex;
 
-  /**
-   * Indexes of symbols inserted by user.
-   */
+  /** Indexes of symbols inserted by user. */
   private final Map<Integer, Character> normalCharactersByIndex;
+
   private final boolean fillExtra;
   private final boolean deleteExtra;
   private final boolean saveInput;
@@ -50,8 +42,7 @@ public class PatternedTextWatcher implements TextWatcher {
   private StringBuilder savedText;
 
   /**
-   * Initialize
-   * {@link PatternedTextWatcher} with {@code pattern} and default parameters.
+   * Initialize {@link PatternedTextWatcher} with {@code pattern} and default parameters.
    * For advanced tweaking use {@link Builder}.
    *
    * @param pattern the pattern of the text watcher.
@@ -60,20 +51,19 @@ public class PatternedTextWatcher implements TextWatcher {
     this(new Builder(pattern));
   }
 
-  private PatternedTextWatcher(Builder builder) {
+  PatternedTextWatcher(Builder builder) {
     checkPatternInput(builder.pattern);
     checkInput(builder.specialChar, builder.saveInput, builder.fillExtraChars);
     checkPatternInInput(builder.pattern, builder.specialChar);
 
-    this.pattern = builder.pattern;
+    String pattern = builder.pattern;
     this.fillExtra = builder.fillExtraChars;
     this.deleteExtra = builder.deleteExtraChars;
     this.saveInput = builder.saveInput;
     this.respectPatternLength = builder.respectPatternLength;
     this.debug = builder.debug;
     this.maxLength = pattern.length();
-    this.specialChar = builder.specialChar;
-    this.specialCharacters = new HashSet<>(ConversionUtils.asList(specialChar));
+    this.specialCharacter = builder.specialChar.charAt(0);
     this.patternCharactersByIndex = new HashMap<>();
     this.normalCharactersByIndex = new HashMap<>();
     this.lastText = "";
@@ -91,7 +81,7 @@ public class PatternedTextWatcher implements TextWatcher {
 
       // If current char is present in special characters that we must replace,
       // save it.
-      if (specialCharacters.contains(c)) {
+      if (specialCharacter == c) {
         normalCharactersByIndex.put(i, c);
       }
       // If current char is not present in special characters,
@@ -114,18 +104,15 @@ public class PatternedTextWatcher implements TextWatcher {
     }
   }
 
-  @Override
-  public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+  @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
     LogUtils.logd("beforeTextChanged", s, debug);
   }
 
-  @Override
-  public void onTextChanged(CharSequence s, int start, int before, int count) {
+  @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
     LogUtils.logd("onTextChanged", s, debug);
   }
 
-  @Override
-  public synchronized void afterTextChanged(Editable s) {
+  @Override public synchronized void afterTextChanged(Editable s) {
     LogUtils.logd("afterTextChanged", s, debug);
 
     if (isEnabled()) {
@@ -457,7 +444,7 @@ public class PatternedTextWatcher implements TextWatcher {
    * Get string only with characters which were replaced.
    *
    * @return clean string with inserted characters if you have set the
-   * {@link com.szagurskii.patternedtextwatcher.PatternedTextWatcher.Builder#respectPatternLength(boolean)}
+   * {@link Builder#respectPatternLength(boolean)}
    * to {@code true} (default).
    * {@link #getFormattedString()} otherwise.
    */
@@ -543,18 +530,18 @@ public class PatternedTextWatcher implements TextWatcher {
    * that will monitor your class that extends {@link android.widget.TextView}.
    */
   public static class Builder {
-    private String specialChar;
-    private String pattern;
-    private boolean fillExtraChars;
-    private boolean deleteExtraChars;
-    private boolean saveInput;
-    private boolean respectPatternLength;
-    private boolean debug;
+    String specialChar;
+    String pattern;
+    boolean fillExtraChars;
+    boolean deleteExtraChars;
+    boolean saveInput;
+    boolean respectPatternLength;
+    boolean debug;
 
     /**
      * Initialize builder with pattern definition. The default {@code specialChar} is '#'.
      * You can set it via
-     * {@link com.szagurskii.patternedtextwatcher.PatternedTextWatcher.Builder#specialChar(String)}.
+     * {@link Builder#specialChar(String)}.
      *
      * @param pattern the pattern to follow. Can't be null.
      */
