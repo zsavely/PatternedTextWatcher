@@ -39,6 +39,20 @@ compile 'com.szagurskii:patternedtextwatcher:0.5.0'
      editText.addTextChangedListener(patternedTextWatcher);
     ```
     
+### Snapshot
+```groovy
+repositories {
+  mavenCentral()
+  maven {
+    url "https://oss.sonatype.org/content/repositories/snapshots"
+  }
+}
+```
+
+```
+compile 'com.szagurskii:patternedtextwatcher:0.6.0-SNAPSHOT'
+```
+    
 ### License
 
     The MIT License (MIT)
