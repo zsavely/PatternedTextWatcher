@@ -10,9 +10,6 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-/**
- * @author Savelii Zagurskii
- */
 public class Utils {
   /**
    * Type inserted strings by character, like in real life.

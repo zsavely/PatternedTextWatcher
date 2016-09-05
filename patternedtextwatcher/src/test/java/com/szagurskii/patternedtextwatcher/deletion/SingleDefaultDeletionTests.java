@@ -12,9 +12,6 @@ import org.robolectric.annotation.Config;
 
 import static com.szagurskii.patternedtextwatcher.utils.EditTextUtils.clearTextChangeListener;
 
-/**
- * @author Savelii Zagurskii
- */
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
 @RunWith(CustomRobolectricTestRunner.class)
 public class SingleDefaultDeletionTests extends BaseDefaultDeletionTests {

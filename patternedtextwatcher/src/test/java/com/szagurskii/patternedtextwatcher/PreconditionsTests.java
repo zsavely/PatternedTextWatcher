@@ -3,9 +3,6 @@ package com.szagurskii.patternedtextwatcher;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- * @author Savelii Zagurskii
- */
 public class PreconditionsTests {
   @Before
   public void setup() {

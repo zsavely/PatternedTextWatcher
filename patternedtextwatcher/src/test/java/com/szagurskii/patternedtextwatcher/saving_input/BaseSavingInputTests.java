@@ -11,9 +11,6 @@ import java.util.List;
 
 import static com.szagurskii.patternedtextwatcher.utils.EditTextUtils.clearTextChangeListener;
 
-/**
- * @author Savelii Zagurskii
- */
 public abstract class BaseSavingInputTests extends BaseTests {
 
   static final String BASIC_PATTERN = "###########";

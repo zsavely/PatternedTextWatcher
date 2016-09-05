@@ -10,9 +10,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 
-/**
- * @author Savelii Zagurskii
- */
 public abstract class BaseTests {
   static final String STRING_TO_BE_TYPED = "Espresso";
 

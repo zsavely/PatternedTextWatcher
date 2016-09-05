@@ -8,9 +8,6 @@ import org.junit.Test;
 
 import static com.szagurskii.patternedtextwatcher.utils.EditTextUtils.clearTextChangeListener;
 
-/**
- * @author Savelii Zagurskii
- */
 public abstract class BaseCustomizedDeletionTests extends BaseDeletionTests {
   @Test
   public void deletion1() {

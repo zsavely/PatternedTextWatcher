@@ -2,12 +2,12 @@ apply plugin: 'com.android.library'
 apply from: '../jacoco.gradle'
 
 android {
-  compileSdkVersion 23
-  buildToolsVersion "23.0.3"
+  compileSdkVersion 24
+  buildToolsVersion "24.0.2"
 
   defaultConfig {
     minSdkVersion 9
-    targetSdkVersion 23
+    targetSdkVersion 24
     versionCode 6
     versionName "0.5.0"
 
@@ -15,9 +15,6 @@ android {
   }
   buildTypes {
     debug {
-      testCoverageEnabled true
-    }
-    release {
       testCoverageEnabled true
     }
   }
@@ -47,38 +44,7 @@ dependencies {
   androidTestCompile libraries.supportTestRunner
   androidTestCompile libraries.supportTestRules
   androidTestCompile libraries.espressoCore
-  androidTestCompile(libraries.espressoContrib) {
-    // Causes IncompatibleClassChangeError.
-    exclude module: 'support-annotations'
-    exclude module: 'recyclerview-v7'
-    exclude module: 'support-v4'
-  }
+  androidTestCompile libraries.espressoContrib
 }
 
-//ext {
-//    bintrayRepo = 'maven'
-//    bintrayName = 'patternedtextwatcher'
-//
-//    publishedGroupId = 'com.szagurskii'
-//    libraryName = 'PatternedTextWatcher'
-//    artifact = 'patternedtextwatcher'
-//
-//    libraryDescription = 'Advanced formatter for EditTexts, TextViews, etc.'
-//
-//    siteUrl = 'https://github.com/zsavely/PatternedTextWatcher'
-//    gitUrl = 'https://github.com/zsavely/PatternedTextWatcher.git'
-//
-//    libraryVersion = '0.5.0'
-//
-//    developerId = 'zsavely'
-//    developerName = 'Savelii Zagurskii'
-//    developerEmail = 'saveliyzagurskiy@gmail.com'
-//
-//    licenseName = 'The MIT License (MIT)'
-//    licenseUrl = 'https://opensource.org/licenses/MIT'
-//    allLicenses = ["MIT"]
-//}
-//
-//// Place it at the end of the file
-//apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
-//apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
+apply from: rootProject.file('gradle/gradle-maven-push.gradle')

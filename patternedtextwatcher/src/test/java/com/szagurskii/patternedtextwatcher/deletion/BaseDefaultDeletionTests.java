@@ -9,9 +9,6 @@ import org.junit.Test;
 import static com.szagurskii.patternedtextwatcher.utils.EditTextUtils.addTextChangedListener;
 import static com.szagurskii.patternedtextwatcher.utils.EditTextUtils.clearTextChangeListener;
 
-/**
- * @author Savelii Zagurskii
- */
 public abstract class BaseDefaultDeletionTests extends BaseDeletionTests {
   @Test
   public void deletion1() {

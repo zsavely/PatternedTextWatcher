@@ -12,9 +12,6 @@ import org.robolectric.Robolectric;
 import static com.szagurskii.patternedtextwatcher.utils.EditTextUtils.clearTextChangeListener;
 import static junit.framework.Assert.assertTrue;
 
-/**
- * @author Savelii Zagurskii
- */
 public abstract class BaseTests {
   // 1 char
   protected static final String STRING_TO_BE_TYPED_LENGTH_ONE = "1";

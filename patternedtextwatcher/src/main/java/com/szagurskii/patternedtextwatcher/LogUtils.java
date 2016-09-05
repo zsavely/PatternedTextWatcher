@@ -1,13 +1,8 @@
-package com.szagurskii.patternedtextwatcher.utils;
+package com.szagurskii.patternedtextwatcher;
 
 import android.util.Log;
 
-import com.szagurskii.patternedtextwatcher.PatternedTextWatcher;
-
-/**
- * @author Savelii Zagurskii
- */
-public class LogUtils {
+final class LogUtils {
   public static final String TAG = PatternedTextWatcher.class.getSimpleName();
 
   public static void logd(Object methodName, Object value, boolean debug) {
@@ -20,5 +15,8 @@ public class LogUtils {
     if (debug) {
       Log.w(TAG, String.format("%1$s:\n%2$s", methodName, value));
     }
+  }
+
+  private LogUtils() {
   }
 }

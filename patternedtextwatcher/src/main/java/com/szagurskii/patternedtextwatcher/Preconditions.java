@@ -1,9 +1,6 @@
 package com.szagurskii.patternedtextwatcher;
 
-/**
- * @author Savelii Zagurskii
- */
-public class Preconditions {
+final class Preconditions {
   static void checkPatternInput(String pattern) {
     if (pattern == null) {
       throw new NullPointerException("Pattern can't be null.");
@@ -34,5 +31,8 @@ public class Preconditions {
       throw new IllegalStateException("There should be at least one special character in the " +
           "pattern string.");
     }
+  }
+
+  private Preconditions() {
   }
 }

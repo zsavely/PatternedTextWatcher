@@ -4,9 +4,6 @@ import android.widget.EditText;
 
 import com.szagurskii.patternedtextwatcher.PatternedTextWatcher;
 
-/**
- * @author Savelii Zagurskii
- */
 public class EditTextUtils {
   private EditTextUtils() {
   }

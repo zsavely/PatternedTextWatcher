@@ -9,22 +9,17 @@ android {
       storePassword 'PatternedTextWatcher'
     }
   }
-  compileSdkVersion 23
-  buildToolsVersion "23.0.3"
+  compileSdkVersion 24
+  buildToolsVersion "24.0.2"
 
   defaultConfig {
     applicationId "com.szagurskii.patternedtextwatcher.sample"
     minSdkVersion 9
-    targetSdkVersion 23
+    targetSdkVersion 24
     versionCode 1
     versionName "1.0"
-
-    testInstrumentationRunner 'com.szagurskii.patternedtextwatcher.sample.CustomTestRunner'
   }
   buildTypes {
-    debug {
-      testCoverageEnabled false
-    }
     release {
       minifyEnabled true
       shrinkResources true
@@ -32,27 +27,8 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
-  packagingOptions {
-    exclude 'META-INF/maven/com.google.guava/guava/pom.properties'
-    exclude 'META-INF/maven/com.google.guava/guava/pom.xml'
-  }
-  dexOptions {
-    incremental false
-  }
-  lintOptions {
-    disable 'GradleDependency'
-    disable 'MissingPermission'
-  }
 }
 
 dependencies {
   compile project(':patternedtextwatcher')
-
-  // Testing-only dependencies
-  // Force usage of support annotations in the test app, since it is internally used by the runner module.
-  androidTestCompile 'com.google.guava:guava:18.0'
-  androidTestCompile 'com.android.support:support-annotations:23.3.0'
-  androidTestCompile 'com.android.support.test:runner:0.4.1'
-  androidTestCompile 'com.android.support.test:rules:0.4.1'
-  androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
 }
