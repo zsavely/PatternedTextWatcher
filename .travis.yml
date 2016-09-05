@@ -20,6 +20,8 @@ android:
 
 before_install:
   - chmod +x gradlew
+  - chmod +x .buildscript/deploy_snapshot.sh
+
   - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
   - emulator -avd test -no-skin -no-audio -no-window &
   - pip install --user codecov
