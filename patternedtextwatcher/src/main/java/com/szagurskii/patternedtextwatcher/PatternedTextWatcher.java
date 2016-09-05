@@ -400,10 +400,7 @@ public class PatternedTextWatcher implements TextWatcher {
       if (character != null && sb.length() > i && character != sb.charAt(i)) {
         LogUtils.logw("validatePattern",
             String.format("Assertion error! Expected \"%1$s\" in index \'%2$s\'." +
-                    "\nGot \"%3$s\".",
-                character,
-                i,
-                sb.charAt(i)),
+                "\nGot \"%3$s\".", character, i, sb.charAt(i)),
             debug);
         patternValidated = false;
       }
