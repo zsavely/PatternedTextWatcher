@@ -2,9 +2,7 @@ package com.szagurskii.patternedtextwatcher;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-
-import java.util.HashMap;
-import java.util.Map;
+import android.util.SparseArray;
 
 import static com.szagurskii.patternedtextwatcher.Preconditions.checkInput;
 import static com.szagurskii.patternedtextwatcher.Preconditions.checkPatternInInput;
@@ -23,10 +21,10 @@ public class PatternedTextWatcher implements TextWatcher {
   private final char specialCharacter;
 
   /** Indexes of secondary characters (not inserted by user). */
-  private final Map<Integer, Character> patternCharactersByIndex;
+  private final SparseArray<Character> patternCharactersByIndex;
 
   /** Indexes of symbols inserted by user. */
-  private final Map<Integer, Character> normalCharactersByIndex;
+  private final SparseArray<Character> normalCharactersByIndex;
 
   private final boolean fillExtra;
   private final boolean deleteExtra;
@@ -64,8 +62,8 @@ public class PatternedTextWatcher implements TextWatcher {
     this.debug = builder.debug;
     this.maxLength = pattern.length();
     this.specialCharacter = builder.specialChar.charAt(0);
-    this.patternCharactersByIndex = new HashMap<>();
-    this.normalCharactersByIndex = new HashMap<>();
+    this.patternCharactersByIndex = new SparseArray<>();
+    this.normalCharactersByIndex = new SparseArray<>();
     this.lastText = "";
     this.enabled = true;
     this.savedText = new StringBuilder();
@@ -397,20 +395,14 @@ public class PatternedTextWatcher implements TextWatcher {
    */
   private boolean validatePattern(StringBuilder sb) {
     boolean patternValidated = true;
-    for (Map.Entry<Integer, Character> entry : patternCharactersByIndex.entrySet()) {
-      if (entry.getValue() != null) {
-        if (sb.length() > entry.getKey()) {
-          if (!entry.getValue().equals(sb.charAt(entry.getKey()))) {
-            LogUtils.logw("validatePattern",
-                String.format("Assertion error! Expected \"%1$s\" in index \'%2$s\'." +
-                        "\nGot \"%3$s\".",
-                    entry.getValue(),
-                    entry.getKey(),
-                    sb.charAt(entry.getKey())),
-                debug);
-            patternValidated = false;
-          }
-        }
+    for (int i = 0; i < patternCharactersByIndex.size(); i++) {
+      Character character = patternCharactersByIndex.get(i);
+      if (character != null && sb.length() > i && character != sb.charAt(i)) {
+        LogUtils.logw("validatePattern",
+            String.format("Assertion error! Expected \"%1$s\" in index \'%2$s\'." +
+                "\nGot \"%3$s\".", character, i, sb.charAt(i)),
+            debug);
+        patternValidated = false;
       }
     }
     return patternValidated;
