@@ -4,6 +4,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.SparseArray;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 import static com.szagurskii.patternedtextwatcher.Preconditions.checkInput;
 import static com.szagurskii.patternedtextwatcher.Preconditions.checkPatternInInput;
 import static com.szagurskii.patternedtextwatcher.Preconditions.checkPatternInput;
@@ -13,19 +16,24 @@ import static com.szagurskii.patternedtextwatcher.Preconditions.checkPatternInpu
  *
  * @author Savelii Zagurskii
  */
-public class PatternedTextWatcher implements TextWatcher {
+public final class PatternedTextWatcher implements TextWatcher {
+  /** Indexes of secondary characters (not inserted by user). */
+  private final SparseArray<Character> patternCharactersByIndex = new SparseArray<>();
 
-  static final String DEFAULT_CHAR = "#";
+  /** Indexes of symbols inserted by user. */
+  private final SparseArray<Character> normalCharactersByIndex = new SparseArray<>();
+
+  /** A queue that needs to be processed in {@link #onTextChanged(CharSequence, int, int, int)}. */
+  private final Queue<BeforeChange> beforeQueue = new LinkedList<>();
+
+  /** A queue that needs to be processed in {@link #onTextChanged(CharSequence, int, int, int)}. */
+  private final Queue<OnChange> onChangeQueue = new LinkedList<>();
+
+  /** Current saved text. */
+  private final StringBuilder savedText = new StringBuilder();
 
   private final int maxLength;
   private final char specialCharacter;
-
-  /** Indexes of secondary characters (not inserted by user). */
-  private final SparseArray<Character> patternCharactersByIndex;
-
-  /** Indexes of symbols inserted by user. */
-  private final SparseArray<Character> normalCharactersByIndex;
-
   private final boolean fillExtra;
   private final boolean deleteExtra;
   private final boolean saveInput;
@@ -37,7 +45,6 @@ public class PatternedTextWatcher implements TextWatcher {
 
   private String lastText;
   private boolean enabled;
-  private StringBuilder savedText;
 
   /**
    * Initialize {@link PatternedTextWatcher} with {@code pattern} and default parameters.
@@ -62,14 +69,12 @@ public class PatternedTextWatcher implements TextWatcher {
     this.debug = builder.debug;
     this.maxLength = pattern.length();
     this.specialCharacter = builder.specialChar.charAt(0);
-    this.patternCharactersByIndex = new SparseArray<>();
-    this.normalCharactersByIndex = new SparseArray<>();
     this.lastText = "";
     this.enabled = true;
-    this.savedText = new StringBuilder();
     this.firstIndexToCheck = -1;
     this.lastIndexToCheck = -1;
 
+    Log.setDebug(debug);
     initializeIndexes(pattern);
   }
 
@@ -103,15 +108,23 @@ public class PatternedTextWatcher implements TextWatcher {
   }
 
   @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-    LogUtils.logd("beforeTextChanged", s, debug);
+    beforeQueue.offer(BeforeChange.createBeforeChange(s, start, count, after));
   }
 
   @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
-    LogUtils.logd("onTextChanged", s, debug);
+    onChangeQueue.offer(OnChange.createOnChange(s, start, before, count));
   }
 
   @Override public synchronized void afterTextChanged(Editable s) {
-    LogUtils.logd("afterTextChanged", s, debug);
+    Log.d("afterTextChanged(s)", s);
+
+    final BeforeChange beforeChange = beforeQueue.poll();
+    final OnChange onChange = onChangeQueue.poll();
+
+    // TODO Add null checking to `beforeChange` and `onChange`.
+
+    android.util.Log.d("PatternedTextWatcher", beforeChange.toString());
+    android.util.Log.d("PatternedTextWatcher", onChange.toString());
 
     if (isEnabled()) {
       final boolean isValidInLength = isValidInLength(s);
@@ -129,6 +142,9 @@ public class PatternedTextWatcher implements TextWatcher {
       final int difference = sb.length() - lastText.length();
       final boolean batchInsert = difference > 1;
       final boolean batchDeletion = difference < -1;
+      //final boolean batchDeletion = beforeChange.count() > 1;
+      //final boolean batchInsert = onChange.count() > 1;
+
       // Batch insert.
       if (batchInsert && lastTextIsPresentIsSequence) {
         if (saveInput) {
@@ -158,6 +174,13 @@ public class PatternedTextWatcher implements TextWatcher {
         }
 
         // Determine if a character was added.
+        //if (onChange.count() > 0) {
+        //  onCharacterAdded(sb, isValidInLength);
+        //} else if (beforeChange.count() > 0) {
+        //  onCharacterDeleted(sb);
+        //}
+
+        // Determine if a character was added.
         if (s.length() > lastText.length()) {
           onCharacterAdded(sb, isValidInLength);
         } else if (s.length() < lastText.length()) {
@@ -174,7 +197,7 @@ public class PatternedTextWatcher implements TextWatcher {
       checkIfReplaceIsNeeded(s, sb);
     }
 
-    LogUtils.logd("Saved text", savedText.toString(), debug);
+    Log.d("Saved text", savedText.toString());
   }
 
   /**
@@ -398,10 +421,9 @@ public class PatternedTextWatcher implements TextWatcher {
     for (int i = 0; i < patternCharactersByIndex.size(); i++) {
       Character character = patternCharactersByIndex.get(i);
       if (character != null && sb.length() > i && character != sb.charAt(i)) {
-        LogUtils.logw("validatePattern",
+        Log.w("validatePattern",
             String.format("Assertion error! Expected \"%1$s\" in index \'%2$s\'." +
-                "\nGot \"%3$s\".", character, i, sb.charAt(i)),
-            debug);
+                "\nGot \"%3$s\".", character, i, sb.charAt(i)));
         patternValidated = false;
       }
     }
@@ -521,7 +543,9 @@ public class PatternedTextWatcher implements TextWatcher {
    * Use {@link PatternedTextWatcher} builder to construct a TextWatcher
    * that will monitor your class that extends {@link android.widget.TextView}.
    */
-  public static class Builder {
+  public static final class Builder {
+    static final String DEFAULT_CHAR = "#";
+
     String specialChar;
     String pattern;
     boolean fillExtraChars;

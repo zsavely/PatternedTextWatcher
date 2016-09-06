@@ -12,7 +12,7 @@ import android.text.TextWatcher;
  *
  * @author Savelii Zagurskii
  */
-public class CccFormatTextWatcher implements TextWatcher {
+public final class CccFormatTextWatcher implements TextWatcher {
 
   private static final char SPACE = ' ';
 
