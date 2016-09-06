@@ -19,6 +19,18 @@ allprojects {
   }
 }
 
+subprojects {
+  // Log instrumentation tests results.
+  tasks.withType(com.android.build.gradle.internal.tasks.AndroidTestTask) { task ->
+    task.doFirst {
+      logging.level = LogLevel.INFO
+    }
+    task.doLast {
+      logging.level = LogLevel.LIFECYCLE
+    }
+  }
+}
+
 task wrapper(type: Wrapper) {
   gradleVersion = '2.14.1'
 }
