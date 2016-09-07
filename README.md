@@ -42,7 +42,6 @@ compile 'com.szagurskii:patternedtextwatcher:0.5.0'
 ### Snapshot
 ```groovy
 repositories {
-  mavenCentral()
   maven {
     url "https://oss.sonatype.org/content/repositories/snapshots"
   }
