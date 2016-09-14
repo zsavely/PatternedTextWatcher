@@ -9,9 +9,12 @@ import android.text.TextWatcher;
  * and credit unions)
  * to identify the accounts of their clients. It consists of twenty digits.</p>
  * <a href="URL">https://es.wikipedia.org/wiki/C%C3%B3digo_cuenta_cliente</a>
+ * <p/>
  *
  * @author Savelii Zagurskii
+ * @hide
  */
+@Deprecated
 public class CccFormatTextWatcher implements TextWatcher {
 
   private static final char SPACE = ' ';

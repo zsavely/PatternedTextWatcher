@@ -2,10 +2,14 @@ package com.szagurskii.patternedtextwatcher;
 
 import android.os.Build;
 
+import com.szagurskii.patternedtextwatcher.utils.TestUtils;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.annotation.Config;
+
+import java.lang.reflect.InvocationTargetException;
 
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
 @RunWith(CustomRobolectricTestRunner.class)
@@ -74,5 +78,10 @@ public class PreconditionsTests {
         .fillExtraCharactersAutomatically(true)
         .saveAllInput(true)
         .build();
+  }
+
+  @Test public void constructorShouldBePrivate()
+      throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+    TestUtils.assertUtilityClassWellDefined(Preconditions.class);
   }
 }

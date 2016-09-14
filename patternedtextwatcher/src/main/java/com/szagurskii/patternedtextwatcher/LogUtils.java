@@ -3,7 +3,7 @@ package com.szagurskii.patternedtextwatcher;
 import android.util.Log;
 
 final class LogUtils {
-  public static final String TAG = PatternedTextWatcher.class.getSimpleName();
+  static final String TAG = "PatternedTextWatcher";
 
   public static void logd(Object methodName, Object value, boolean debug) {
     if (debug) {
