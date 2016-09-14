@@ -35,7 +35,7 @@ project.afterEvaluate {
 
         classDirectories = fileTree(
             dir: "${project.buildDir}/intermediates/classes/${sourcePath}",
-            excludes: ['**/LogUtils.class', '**/CccFormatTextWatcher.class', '**/StringUtils.class',
+            excludes: ['**/LogUtils.*', '**/CccFormatTextWatcher.*', '**/StringUtils.*',
                        '**/R.class',
                        '**/R.class',
                        '**/R$*.class',
