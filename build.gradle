@@ -22,11 +22,11 @@ allprojects {
 subprojects {
   // Log instrumentation tests results.
   tasks.withType(com.android.build.gradle.internal.tasks.AndroidTestTask) { task ->
-    task.doFirst {
-      logging.level = LogLevel.INFO
+    doFirst {
+      logging.captureStandardOutput LogLevel.INFO
     }
-    task.doLast {
-      logging.level = LogLevel.LIFECYCLE
+    doLast {
+      logging.captureStandardOutput LogLevel.LIFECYCLE
     }
   }
 }
