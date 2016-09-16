@@ -9,7 +9,7 @@ buildscript {
   }
   dependencies {
     classpath gradlePlugins.androidToolsPlugin
-    classpath gradlePlugins.jacoco
+    classpath gradlePlugins.gradleAndroidJunitJacocoPlugin
   }
 }
 

@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-apply from: '../jacoco.gradle'
+apply plugin: 'com.vanniktech.android.junit.jacoco'
 
 android {
   compileSdkVersion 24
@@ -21,15 +21,21 @@ android {
   }
   testOptions {
     unitTests.all {
-      jacoco {
-        includeNoLocationClasses = true
-      }
       testLogging {
         events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
         exceptionFormat 'full'
       }
     }
   }
+}
+
+junitJacoco {
+  excludes = [
+      '**/BuildConfig.class',
+      '**/LogUtils.class',
+      '**/CccFormatTextWatcher.class',
+      '**/StringUtils.class'
+  ]
 }
 
 dependencies {
