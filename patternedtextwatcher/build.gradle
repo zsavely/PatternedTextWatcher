@@ -32,6 +32,42 @@ android {
   }
 }
 
+task jacocoCustomTestReport(type: JacocoReport, dependsOn: "connectedDebugAndroidTest") {
+  group = "Reporting"
+  description = "Generate Jacoco coverage reports"
+
+  // Exclude classes that are meaningless to test.
+  def fileFilter = [
+      '**/BuildConfig.class',
+      '**/LogUtils.class',
+      '**/CccFormatTextWatcher.class',
+      '**/StringUtils.class'
+  ]
+
+  def debugTree = fileTree(
+      dir: "${project.buildDir}/intermediates/classes/debug",
+      excludes: fileFilter
+  )
+
+  def mainSrc = "${project.projectDir}/src/main/java"
+
+  sourceDirectories = files([mainSrc])
+  classDirectories = files([debugTree])
+
+  executionData = fileTree(
+      dir: project.projectDir,
+      includes: ['**/*.exec', '**/*.ec']
+  )
+
+  reports {
+    xml.enabled = true
+    xml.destination = "${buildDir}/jacocoTestReport.xml"
+    html.enabled = true
+    html.destination = "${buildDir}/reports/jacoco"
+    csv.enabled = false
+  }
+}
+
 dependencies {
   testCompile libraries.junit
   testCompile libraries.robolectric
