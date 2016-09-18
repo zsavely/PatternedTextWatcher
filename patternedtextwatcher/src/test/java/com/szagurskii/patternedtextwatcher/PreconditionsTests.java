@@ -34,14 +34,28 @@ public class PreconditionsTests {
   }
 
   @Test(expected = NullPointerException.class)
-  public void shouldThrowIfNullInBuilder() {
+  public void shouldThrowIfNullInBuilderViaConstructor() {
     PatternedTextWatcher patternedTextWatcher = new PatternedTextWatcher.Builder(null)
         .build();
   }
 
+  @Test(expected = NullPointerException.class)
+  public void shouldThrowIfNullInBuilderViaSetter() {
+    PatternedTextWatcher patternedTextWatcher = new PatternedTextWatcher.Builder("Abc")
+        .pattern(null)
+        .build();
+  }
+
   @Test(expected = IllegalArgumentException.class)
-  public void shouldThrowIfEmptyInBuilder() {
+  public void shouldThrowIfEmptyInBuilderViaConstructor() {
     PatternedTextWatcher patternedTextWatcher = new PatternedTextWatcher.Builder("")
+        .build();
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void shouldThrowIfEmptyInBuilderViaSetter() {
+    PatternedTextWatcher patternedTextWatcher = new PatternedTextWatcher.Builder("Abc")
+        .pattern("")
         .build();
   }
 
