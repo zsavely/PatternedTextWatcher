@@ -154,7 +154,9 @@ public class PatternedTextWatcher implements TextWatcher {
             }
           }
           lastText = "";
-          insertCharactersIfNeeded(sb, lastText.length(), sb.length(), true);
+          if (!validatePattern(sb)) {
+            insertCharactersIfNeeded(sb, lastText.length(), sb.length(), true);
+          }
         }
 
         // Determine if a character was added.
