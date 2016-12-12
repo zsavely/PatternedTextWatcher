@@ -1,9 +1,9 @@
 package com.szagurskii.patternedtextwatcher;
 
 import org.junit.runners.model.InitializationError;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RobolectricTestRunner;
 
-public class CustomRobolectricTestRunner extends RobolectricGradleTestRunner {
+public class CustomRobolectricTestRunner extends RobolectricTestRunner {
   public CustomRobolectricTestRunner(Class<?> klass) throws InitializationError {
     super(klass);
     //System.setProperty("user.home", "C:\\Repository");
