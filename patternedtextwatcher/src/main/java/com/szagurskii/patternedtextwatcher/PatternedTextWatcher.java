@@ -533,7 +533,17 @@ public class PatternedTextWatcher implements TextWatcher {
     boolean debug;
 
     /**
-     * Initialize builder with pattern definition. The default {@code specialChar} is '#'.
+     * Initialize a builder with {@code null} pattern definition.
+     * The default {@code specialChar} is '#'.
+     * You can set it via {@link Builder#specialChar(String)}.
+     */
+    public Builder() {
+      this(null);
+    }
+
+    /**
+     * Initialize builder with pattern definition.
+     * The default {@code specialChar} is '#'.
      * You can set it via {@link Builder#specialChar(String)}.
      *
      * @param pattern the pattern to follow. Can't be null.
