@@ -23,6 +23,12 @@ public class PreconditionsTests {
     PatternedTextWatcher patternedTextWatcher = new PatternedTextWatcher((String) null);
   }
 
+  @Test(expected = NullPointerException.class)
+  public void shouldThrowIfBuilderPatternValueIsNull() {
+    PatternedTextWatcher patternedTextWatcher = new PatternedTextWatcher.Builder()
+        .build();
+  }
+
   @Test(expected = IllegalArgumentException.class)
   public void shouldThrowIfEmpty() {
     PatternedTextWatcher patternedTextWatcher = new PatternedTextWatcher("");
