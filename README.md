@@ -1,3 +1,8 @@
+# Deprecated
+Releated projects:
+1. https://github.com/RedMadRobot/input-mask-android
+2. https://github.com/TinkoffCreditSystems/decoro
+
 PatternedTextWatcher
 ========
 [![Build Status](https://travis-ci.org/zsavely/PatternedTextWatcher.svg?branch=master)](https://travis-ci.org/zsavely/PatternedTextWatcher)
